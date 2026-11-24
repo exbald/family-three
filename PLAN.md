@@ -73,7 +73,7 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 
 ## Open checks
 
-1. GLM through the Custom API connector: the auth header, streaming, and three runs at once on the coding plan. Fallback: the key as an env var on the Sprite.
+1. ~~GLM through the Custom API connector.~~ Passed Nov 24.
 2. GitHub connector: create a repo and commit through the gateway; the endpoint allow-list holds.
 3. Ollama connector: one chat call through the gateway; pick a fast model.
 4. ~~Chromium installs on the Sprite.~~ Done.
@@ -89,9 +89,10 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 
 - Home Sprite: `ft-family` (https://ft-family-b4zbc.sprites.app, org-only URL for now). `ft-probe` stays the test box.
 - Done: the server runs there as the `family-three` service on :8080. Ask → three children → breed (one parent) or cross (two) → each child served at `/n/<id>/` with a Chrome thumbnail. A keep-awake hold (`/v1/tasks`) covers each litter.
-- Builders run in stub mode until the Z.ai key is in: `~/.ft/config.json` on the Sprite holds `builder` and `modelBaseUrl`.
+- GLM check passed (Nov 24): the Custom API connector `ft-zai-anthropic` (prefix `ft-`) swaps Claude Code's placeholder auth for the real key, streaming works, three builders at once are accepted. First real family: three working running trackers in 33 s, 7 min and 9 min. `~/.ft/config.json` on the Sprite holds `builder` and `modelBaseUrl`.
+- The laptop family page is now the tree (lime = kept line, orange = cross) with a side panel; phones keep the litter rows.
 - `scripts/deploy.sh` ships the code; `scripts/connect-zai.sh` creates the Z.ai connector (prefix `ft-`) and points the builders at it.
-- Next: GLM check through the gateway, then the first real generation; Ollama breeder; the tree page.
+- Waiting on Nik: GitHub consent click (tab open in his Chrome), Ollama account choice. Next: Ollama breeder + taste.md, a lock on the write buttons before the URL goes public, Adopt.
 
 ## What we already know (test Sprite `ft-probe`)
 
