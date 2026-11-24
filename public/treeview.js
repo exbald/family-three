@@ -12,7 +12,7 @@ function nodeStatus(kid) {
 
 function shot(kid, esc, { big = false } = {}) {
   if (kid.status === 'ready' && kid.thumb) {
-    return `<img src="/thumb/${esc(kid.id)}.png?v=${encodeURIComponent(kid.finishedAt ?? '')}" alt="${big ? `Screenshot of ${esc(kid.label)} ${esc(kid.name)}` : ''}" loading="lazy">`
+    return `<img src="/thumb/${esc(kid.id)}.png?v=${encodeURIComponent(kid.finishedAt ?? '')}" alt="${big ? `Screenshot of ${esc(kid.label)} ${esc(kid.name)}` : ''}">`
   }
   if (BUSY.has(kid.status)) return `<div class="seed${big ? '' : ' small'}" aria-hidden="true"></div>`
   return ''

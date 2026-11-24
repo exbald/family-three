@@ -232,7 +232,7 @@ function kidCard(kid) {
   const ready = kid.status === 'ready'
   const shot = ready
     ? kid.thumb
-      ? `<img src="/thumb/${esc(kid.id)}.png?v=${encodeURIComponent(kid.finishedAt ?? '')}" alt="Screenshot of ${esc(kid.label)} ${esc(kid.name)}" loading="lazy">`
+      ? `<img src="/thumb/${esc(kid.id)}.png?v=${encodeURIComponent(kid.finishedAt ?? '')}" alt="Screenshot of ${esc(kid.label)} ${esc(kid.name)}">`
       : `<div class="growing">No picture yet. Open it to see.</div>`
     : kid.status === 'failed'
       ? `<div class="growing"><span class="pill pill-fail">Didn’t make it</span><span>${esc(kid.summary ?? '')}</span></div>`
