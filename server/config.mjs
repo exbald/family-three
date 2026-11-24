@@ -28,6 +28,8 @@ export const config = Object.freeze({
   modelBaseUrl: pick('FT_MODEL_BASE_URL', 'modelBaseUrl', ''),
   model: pick('FT_MODEL', 'model', ''),
   breederModel: pick('FT_BREEDER_MODEL', 'breederModel', 'glm-4.6'),
+  githubBaseUrl: pick('FT_GITHUB_BASE_URL', 'githubBaseUrl', ''),
+  publicUrl: pick('FT_PUBLIC_URL', 'publicUrl', ''),
   buildTimeoutMs: Number(pick('FT_BUILD_TIMEOUT_MS', 'buildTimeoutMs', 12 * 60 * 1000)),
   chromePath: pick('FT_CHROME', 'chromePath', path.join(home, '.browsers', 'chrome')),
   spriteSocket: '/.sprite/api.sock',

@@ -252,3 +252,18 @@ body:has(.treeview) .top { max-width: 1560px; }
 .tchip.avoid { border: 1px solid var(--line-2); color: var(--muted); text-decoration: line-through; font-weight: 500; }
 .learned { margin: 0; padding: 10px 12px; border-radius: 12px; border: 1px dashed var(--orange); color: #F1DCCB; font-size: 13px; line-height: 1.45; }
 .muted.small { font-size: 12px; }
+
+/* Adopt */
+.adopted { display: flex; flex-direction: column; gap: 10px; padding-top: 4px; border-top: 1px solid var(--line); }
+.adopted .mono-label { margin: 6px 0 0; font-size: 11px; }
+.urlrow .linkish.lime { color: var(--lime); text-decoration: none; font-weight: 600; font-size: 12px; }
+.adopt-links { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.adopt-links a { font-size: 13px; font-weight: 600; text-decoration: none; }
+.familyline { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 12px; background: var(--card); }
+.fl-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font: 13px var(--mono); }
+.fl-req { color: var(--text-3); }
+.fl-sep { color: var(--muted); }
+.fl { color: var(--lime); font-weight: 700; }
+.fl-x { color: var(--orange); font-weight: 700; }
+.fl-me { padding: 2px 8px; border-radius: 999px; background: var(--lime); color: var(--bg); font-weight: 700; }
+.adopting { display: flex; align-items: center; gap: 10px; }

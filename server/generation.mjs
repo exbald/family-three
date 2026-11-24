@@ -1,6 +1,6 @@
 // A litter: the breeder writes three briefs, three builders run at once, then thumbnails.
 import { writeBriefs } from './breeder.mjs'
-import { buildChild } from './builder.mjs'
+import { buildChild, fixChild } from './builder.mjs'
 import { snapThumb } from './thumbs.mjs'
 import { holdAwake } from './awake.mjs'
 import { config } from './config.mjs'
@@ -88,8 +88,24 @@ async function raiseOne({ fid, request, child, kind, parents }) {
     return
   }
   await updateChild(fid, child.id, { status: 'thumbing', finishedAt, steps: result.steps, summary: result.summary })
-  const thumb = await snapThumb({ fid, n: child.n, url: `http://127.0.0.1:${config.port}/n/${child.id}/` })
-  await updateChild(fid, child.id, { status: 'ready', thumb, activity: '' })
+  const url = `http://127.0.0.1:${config.port}/n/${child.id}/`
+  const first = await snapThumb({ fid, n: child.n, url })
+  if (!first.errors.length) {
+    await updateChild(fid, child.id, { status: 'ready', thumb: first.thumb, activity: '', check: { errors: 0 } })
+    return
+  }
+  // The browser found script errors: one repair round, then a fresh look.
+  await updateChild(fid, child.id, { status: 'building', activity: 'Fixing a bug the browser found' })
+  const fix = await fixChild({ fid, child, errors: first.errors, onProgress: report })
+  const second = await snapThumb({ fid, n: child.n, url })
+  await updateChild(fid, child.id, {
+    status: 'ready',
+    thumb: second.thumb,
+    activity: '',
+    finishedAt: new Date().toISOString(),
+    steps: result.steps + fix.steps,
+    check: { errors: first.errors.length, fixed: fix.ok && !second.errors.length, remaining: second.errors },
+  })
 }
 
 const PLACEHOLDERS = [1, 2, 3].map(() => ({ name: '…', brief: '', source: 'pending' }))

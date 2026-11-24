@@ -102,12 +102,13 @@ export function panelHtml(tree, { selected, crossFrom, esc, duration, owner = fa
         <span class="mono-label">What I told its builder</span>
         <p>${esc(kid.brief)}</p>
       </div>
-      ${ready ? `<div class="urlrow"><span class="mono">${esc(url)}</span><a href="/n/${esc(kid.id)}/" target="_blank" rel="noopener">Open</a></div>` : ''}
+      ${ready && !kid.adopted ? `<div class="urlrow"><span class="mono">${esc(url)}</span><a href="/n/${esc(kid.id)}/" target="_blank" rel="noopener">Open</a></div>` : ''}
       ${crossing}
       <div class="panel-actions"${owner ? '' : ' hidden'}>
         <button class="btn btn-lime" type="button" data-breed="${esc(kid.id)}" ${ready ? '' : 'disabled'}>Breed 3 more</button>
         <button class="btn btn-outline-x" type="button" data-cross-from="${esc(kid.id)}" ${ready ? '' : 'disabled'}>Cross with…</button>
       </div>
+      ${adoptionHtml(tree, kid, { owner, esc })}
     </div>`
 }
 
@@ -123,4 +124,42 @@ export function tasteHtml(taste, esc) {
       ${taste.learned ? `<p class="learned">${esc(taste.learned)}</p>` : ''}
       <p class="muted small">Every new family starts from this. Kept on the Sprite’s own disk, in taste.md.</p>
     </section>`
+}
+
+export function familyLineLabels(tree, id) {
+  const out = []
+  const seen = new Set()
+  const walk = (cid) => {
+    const k = tree.children[cid]
+    if (!k || seen.has(cid)) return
+    seen.add(cid)
+    k.parents.forEach(walk)
+    out.push(k)
+  }
+  walk(id)
+  return out
+}
+
+// The Adopt button, its progress, or the adopted card (public link, repo, family line).
+export function adoptionHtml(tree, kid, { owner, esc }) {
+  const a = kid.adoption
+  if (kid.adopted && a?.status === 'done') {
+    const line = familyLineLabels(tree, kid.id)
+      .map((k) => `<span class="${k.id === kid.id ? 'fl-me' : k.parents.length === 2 ? 'fl-x' : 'fl'}">${esc(k.label)}</span>`)
+      .join('<span class="fl-sep">›</span>')
+    return `
+      <div class="adopted">
+        <span class="mono-label">Adopted · its own public link</span>
+        <div class="urlrow"><span class="mono">${esc(a.sprite)}</span><button class="linkish lime" type="button" data-copy="${esc(a.sprite)}">Copy</button><a href="${esc(a.sprite)}" target="_blank" rel="noopener">Open</a></div>
+        <div class="adopt-links">
+          <a href="${esc(a.repo)}" target="_blank" rel="noopener">GitHub repo · ${a.commits} commits ›</a>
+          ${a.pages ? `<a href="${esc(a.pages)}" target="_blank" rel="noopener">GitHub Pages ›</a>` : ''}
+        </div>
+        <div class="familyline"><span class="mono-label">Family line</span><div class="fl-row"><span class="fl-req">request</span><span class="fl-sep">›</span>${line}</div></div>
+      </div>`
+  }
+  if (a?.status === 'working') return `<p class="muted adopting"><span class="seed small" aria-hidden="true"></span>${esc(a.step ?? 'Adopting')}…</p>`
+  if (!owner || kid.status !== 'ready') return ''
+  const failed = a?.status === 'failed' ? `<p class="error">Adopt failed: ${esc(a.error)}. Try again.</p>` : ''
+  return `${failed}<button class="btn btn-ghost" type="button" data-adopt="${esc(kid.id)}">Adopt: give it a public link and a repo</button>`
 }

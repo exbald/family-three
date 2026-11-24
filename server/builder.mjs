@@ -47,8 +47,9 @@ function describeTool(block) {
   return short ? `${block.name} ${short}` : block.name
 }
 
-function claudeArgs(prompt, extraDirs) {
+function claudeArgs(prompt, extraDirs, { continueSession = false } = {}) {
   const args = [
+    ...(continueSession ? ['--continue'] : []),
     '-p', prompt,
     '--output-format', 'stream-json',
     '--verbose',
@@ -73,9 +74,9 @@ function claudeEnv() {
   return env
 }
 
-function runClaude({ dir, prompt, extraDirs, log, onProgress }) {
+function runClaude({ dir, prompt, extraDirs, log, onProgress, continueSession = false }) {
   return new Promise((resolve) => {
-    const proc = spawn(config.claudeBin, claudeArgs(prompt, extraDirs), { cwd: dir, env: claudeEnv(), stdio: ['ignore', 'pipe', 'pipe'] })
+    const proc = spawn(config.claudeBin, claudeArgs(prompt, extraDirs, { continueSession }), { cwd: dir, env: claudeEnv(), stdio: ['ignore', 'pipe', 'pipe'] })
     let buffer = ''
     let steps = 0
     let summary = ''
@@ -159,5 +160,26 @@ export async function buildChild({ fid, request, child, kind, parents, onProgres
   } catch (err) {
     console.error(`builder ${fid}-${child.n} failed:`, err)
     return { ok: false, steps: 0, summary: `Builder crashed: ${err.message}` }
+  }
+}
+
+// One repair round: the same builder session gets the errors a real browser reported. Never throws.
+export async function fixChild({ fid, child, errors, onProgress }) {
+  if (config.builder === 'stub') return { ok: true, steps: 0, summary: '' }
+  try {
+    const dir = kidDir(fid, child.n)
+    const prompt = [
+      'I opened your app in a real browser (headless Chrome) and it reported these script errors:',
+      ...errors.map((e) => `- ${e}`),
+      'Fix them so the whole app works, without changing its design or features. Check the code path that runs on first load with no saved data, and with the sample data.',
+      'When done, reply with one plain sentence saying what you fixed.',
+    ].join('\n')
+    const log = createWriteStream(logPath(fid, child.n), { flags: 'a' })
+    const result = await runClaude({ dir, prompt, extraDirs: [], log, onProgress, continueSession: true })
+    log.end()
+    return result
+  } catch (err) {
+    console.error(`fixer ${fid}-${child.n} failed:`, err)
+    return { ok: false, steps: 0, summary: `Fixer crashed: ${err.message}` }
   }
 }

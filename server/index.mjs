@@ -8,6 +8,7 @@ import { FAMILY_ID, kidDir, listFamilies, newFamilyId, parseChildId, readTree, u
 import { startFamily, startLitter } from './generation.mjs'
 import { readTaste } from './taste.mjs'
 import { loadOwnerKey, isOwner, handleUnlock } from './owner.mjs'
+import { adoptChild, readAdopted, SLUG } from './adopt.mjs'
 
 const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public')
 const UNFINISHED = new Set(['briefing', 'queued', 'building', 'thumbing'])
@@ -24,6 +25,13 @@ async function findChild(cid) {
   const tree = await readTree(ids.fid)
   const child = tree?.children[cid]
   return child ? { tree, child, ...ids } : null
+}
+
+function baseUrl(req) {
+  if (config.publicUrl) return config.publicUrl.replace(/\/$/, '')
+  const host = String(req.headers['x-forwarded-host'] ?? req.headers.host ?? 'localhost').split(',')[0].trim()
+  const proto = String(req.headers['x-forwarded-proto'] ?? 'https').split(',')[0].trim()
+  return `${proto}://${host}`
 }
 
 const api = {
@@ -55,6 +63,16 @@ const api = {
     if (found.child.status !== 'ready') return sendError(res, 409, 'That child is not ready yet.')
     const kids = await startLitter({ fid: found.fid, kind: 'breed', parentIds: [found.child.id], note })
     sendJson(res, 201, { success: true, data: { children: kids.map((k) => k.id) } })
+  },
+
+  async adopt(req, res) {
+    const body = await readJson(req)
+    const found = await findChild(body.child)
+    if (!found) return sendError(res, 404, 'No child with that id.')
+    if (found.child.status !== 'ready') return sendError(res, 409, 'Only a finished child can be adopted.')
+    if (found.child.adopted || found.child.adoption?.status === 'working') return sendError(res, 409, 'That child is already adopted.')
+    adoptChild({ fid: found.fid, cid: found.child.id, baseUrl: baseUrl(req) })
+    sendJson(res, 202, { success: true, data: { child: found.child.id } })
   },
 
   async cross(req, res) {
@@ -93,6 +111,7 @@ async function route(req, res) {
   if (method === 'POST' && p === '/api/families') return api.createFamily(req, res)
   if (method === 'POST' && p === '/api/breed') return api.breed(req, res)
   if (method === 'POST' && p === '/api/cross') return api.cross(req, res)
+  if (method === 'POST' && p === '/api/adopt') return api.adopt(req, res)
   if (method === 'GET' && p === '/api/taste') return sendJson(res, 200, { success: true, data: await readTaste() })
   const fam = /^\/api\/families\/([^/]+)$/.exec(p)
   if (method === 'GET' && fam && FAMILY_ID.test(fam[1])) return api.getFamily(req, res, fam[1])
@@ -102,6 +121,16 @@ async function route(req, res) {
 
   const kid = /^\/n\/([^/]+)(?:\/(.*))?$/.exec(p)
   if (kid && (await serveChild(req, res, kid[1], kid[2]))) return
+  const adopted = /^\/a\/([^/]+)(?:\/(.*))?$/.exec(p)
+  if (adopted && SLUG.test(adopted[1])) {
+    const cid = (await readAdopted())[adopted[1]]
+    if (cid && adopted[2] === undefined) {
+      res.writeHead(301, { location: `/a/${adopted[1]}/` })
+      return res.end()
+    }
+    const ids = cid && parseChildId(cid)
+    if (ids && (await sendFile(res, kidDir(ids.fid, ids.n), adopted[2] || ''))) return
+  }
   const thumb = /^\/thumb\/([^/]+)\.png$/.exec(p)
   if (thumb) {
     const ids = parseChildId(thumb[1])

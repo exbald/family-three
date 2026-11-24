@@ -149,7 +149,7 @@ async function refreshFamily() {
     view.innerHTML = `<p class="empty">${esc(err.message)} <a href="/" data-link>Start a family</a></p>`
     return
   }
-  const busy = Object.values(state.tree.children).some((c) => BUSY.has(c.status))
+  const busy = Object.values(state.tree.children).some((c) => BUSY.has(c.status) || c.adoption?.status === 'working')
   state.pollTimer = setTimeout(refreshFamily, busy ? 2000 : 10000)
 }
 
@@ -201,10 +201,27 @@ function drawTreeView() {
     state = { ...state, crossFrom: e.currentTarget.dataset.crossFrom, picked: [] }
     drawFamily()
   })
+  view.querySelector('[data-adopt]')?.addEventListener('click', (e) => onAdopt(e.currentTarget))
+  view.querySelector('[data-copy]')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget
+    navigator.clipboard?.writeText(btn.dataset.copy).then(() => { btn.textContent = 'Copied' }, () => {})
+  })
   view.querySelector('[data-cancel-cross]')?.addEventListener('click', () => {
     state = { ...state, crossFrom: null }
     drawFamily()
   })
+}
+
+async function onAdopt(button) {
+  button.disabled = true
+  button.textContent = 'Adopting…'
+  try {
+    await api('/api/adopt', { method: 'POST', body: JSON.stringify({ child: button.dataset.adopt }) })
+    await refreshFamily()
+  } catch (err) {
+    button.disabled = false
+    button.textContent = err.message
+  }
 }
 
 function onSelect(id) {
@@ -260,7 +277,7 @@ function kidCard(kid) {
       </div>
       <p class="brief">${esc(kid.brief)}</p>
       <div class="kid-foot">
-        ${ready ? `<a href="/n/${esc(kid.id)}/" target="_blank" rel="noopener">Open the live app ›</a>` : '<span></span>'}
+        ${ready ? `<a href="${esc(kid.adopted ? kid.adoption.sprite : `/n/${kid.id}/`)}" target="_blank" rel="noopener">${kid.adopted ? 'Adopted · open ›' : 'Open the live app ›'}</a>` : '<span></span>'}
         <span class="meta">${meta}</span>
       </div>
     </article>`
