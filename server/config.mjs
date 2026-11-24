@@ -27,7 +27,7 @@ export const config = Object.freeze({
   // Gateway URL of the Custom API connector for Z.ai's Anthropic endpoint.
   modelBaseUrl: pick('FT_MODEL_BASE_URL', 'modelBaseUrl', ''),
   model: pick('FT_MODEL', 'model', ''),
-  breederModel: pick('FT_BREEDER_MODEL', 'breederModel', 'glm-4.6'),
+  breederModel: pick('FT_BREEDER_MODEL', 'breederModel', ''),
   githubBaseUrl: pick('FT_GITHUB_BASE_URL', 'githubBaseUrl', ''),
   publicUrl: pick('FT_PUBLIC_URL', 'publicUrl', ''),
   buildTimeoutMs: Number(pick('FT_BUILD_TIMEOUT_MS', 'buildTimeoutMs', 12 * 60 * 1000)),

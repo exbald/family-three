@@ -1,5 +1,5 @@
 // One-shot JSON answers from GLM. The call runs through Claude Code (a tool the Z.ai coding plan
-// supports) with no tools enabled, pointed at the Z.ai connector like the builders.
+// supports) with no tools enabled, using the same model setup as the builders.
 import { spawn } from 'node:child_process'
 import os from 'node:os'
 import { config } from './config.mjs'
@@ -17,8 +17,8 @@ function extractJson(text) {
 }
 
 export function askJson({ system, user }) {
-  if (!config.modelBaseUrl) return Promise.reject(new Error('No model connector is configured.'))
-  const args = ['-p', user, '--system-prompt', system, '--tools', '', '--output-format', 'json', '--model', config.breederModel]
+  const model = config.breederModel || config.model
+  const args = ['-p', user, '--system-prompt', system, '--tools', '', '--output-format', 'json', ...(model ? ['--model', model] : [])]
   return new Promise((resolve, reject) => {
     const proc = spawn(config.claudeBin, args, { cwd: os.tmpdir(), env: claudeEnv(), stdio: ['ignore', 'pipe', 'pipe'] })
     let out = ''
