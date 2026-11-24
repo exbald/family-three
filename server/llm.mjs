@@ -1,7 +1,11 @@
-// One-shot JSON calls to GLM through the Z.ai connector (Anthropic Messages API, key added by the gateway).
+// One-shot JSON answers from GLM. The call runs through Claude Code (a tool the Z.ai coding plan
+// supports) with no tools enabled, pointed at the Z.ai connector like the builders.
+import { spawn } from 'node:child_process'
+import os from 'node:os'
 import { config } from './config.mjs'
+import { claudeEnv } from './builder.mjs'
 
-const TIMEOUT_MS = 90_000
+const TIMEOUT_MS = 120_000
 
 function extractJson(text) {
   const fenced = /```(?:json)?\s*([\s\S]*?)```/.exec(text)
@@ -12,25 +16,29 @@ function extractJson(text) {
   return JSON.parse(body.slice(start, end + 1))
 }
 
-export async function askJson({ system, user, maxTokens = 2000 }) {
-  if (!config.modelBaseUrl) throw new Error('No model connector is configured.')
-  const res = await fetch(`${config.modelBaseUrl}/v1/messages`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({
-      model: config.breederModel,
-      max_tokens: maxTokens,
-      thinking: { type: 'disabled' },
-      system,
-      messages: [{ role: 'user', content: user }],
-    }),
-    signal: AbortSignal.timeout(TIMEOUT_MS),
+export function askJson({ system, user }) {
+  if (!config.modelBaseUrl) return Promise.reject(new Error('No model connector is configured.'))
+  const args = ['-p', user, '--system-prompt', system, '--tools', '', '--output-format', 'json', '--model', config.breederModel]
+  return new Promise((resolve, reject) => {
+    const proc = spawn(config.claudeBin, args, { cwd: os.tmpdir(), env: claudeEnv(), stdio: ['ignore', 'pipe', 'pipe'] })
+    let out = ''
+    let err = ''
+    proc.stdout.on('data', (c) => (out += c))
+    proc.stderr.on('data', (c) => (err += c))
+    const timer = setTimeout(() => proc.kill('SIGTERM'), TIMEOUT_MS)
+    proc.on('error', (e) => {
+      clearTimeout(timer)
+      reject(e)
+    })
+    proc.on('close', (code) => {
+      clearTimeout(timer)
+      try {
+        const reply = JSON.parse(out)
+        if (reply.is_error) throw new Error(`Model call failed: ${String(reply.result).slice(0, 200)}`)
+        resolve(extractJson(String(reply.result ?? '')))
+      } catch (e) {
+        reject(new Error(code === 0 ? e.message : `Claude Code exited ${code}: ${err.slice(0, 200)}`))
+      }
+    })
   })
-  if (!res.ok) throw new Error(`Model call failed with HTTP ${res.status}.`)
-  const reply = await res.json()
-  const text = (reply.content ?? [])
-    .filter((block) => block.type === 'text')
-    .map((block) => block.text)
-    .join('\n')
-  return extractJson(text)
 }

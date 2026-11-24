@@ -61,7 +61,7 @@ function claudeArgs(prompt, extraDirs, { continueSession = false } = {}) {
   return args
 }
 
-function claudeEnv() {
+export function claudeEnv() {
   const env = {
     ...process.env,
     CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: '1',
