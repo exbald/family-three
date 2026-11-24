@@ -92,7 +92,8 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 - GLM check passed (Nov 24): the Custom API connector `ft-zai-anthropic` (prefix `ft-`) swaps Claude Code's placeholder auth for the real key, streaming works, three builders at once are accepted. First real family: three working running trackers in 33 s, 7 min and 9 min. `~/.ft/config.json` on the Sprite holds `builder` and `modelBaseUrl`.
 - The laptop family page is now the tree (lime = kept line, orange = cross) with a side panel; phones keep the litter rows.
 - `scripts/deploy.sh` ships the code; `scripts/connect-zai.sh` creates the Z.ai connector (prefix `ft-`) and points the builders at it.
-- Waiting on Nik: GitHub consent click (tab open in his Chrome), Ollama account choice. Next: Ollama breeder + taste.md, a lock on the write buttons before the URL goes public, Adopt.
+- Connectors (Nov 24): GitHub `0Jz4SkLP6tNY7lzgA1LY5w` (account exbald, scope public_repo, prefix `ft-`, allowed `/user/repos` and `/repos/exbald/family-three-*`; checked: the main repo, `/user` and other repos get 403). Ollama `dHT9xYZmRLUHQrXnAAb1Bw` (prefix `ft-`): model list works, chat answers 402 until the account has credits or a plan.
+- Waiting on Nik: Ollama credits or plan, or the breeder falls back to GLM. Next: Ollama breeder + taste.md, a lock on the write buttons before the URL goes public, Adopt.
 
 ## What we already know (test Sprite `ft-probe`)
 
