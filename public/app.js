@@ -1,14 +1,14 @@
 // Family Three front end: the ask page and a family (tree on laptops, litters on phones). Plain JS, no build step.
-import { treeHtml, panelHtml } from './treeview.js'
+import { treeHtml, panelHtml, tasteHtml } from './treeview.js'
 const view = document.getElementById('view')
 const familyHead = document.getElementById('family-head')
 const newFamily = document.getElementById('new-family')
 const actionbar = document.getElementById('actionbar')
 
 const SUGGESTIONS = ['A tracker for my running', 'Where my money leaks', 'Thanksgiving dinner for 8', 'A page for my dog-walking gig']
-const BUSY = new Set(['queued', 'building', 'thumbing'])
+const BUSY = new Set(['briefing', 'queued', 'building', 'thumbing'])
 
-let state = { fid: null, tree: null, picked: [], selected: null, crossFrom: null, pollTimer: null, sending: false }
+let state = { fid: null, tree: null, taste: null, picked: [], selected: null, crossFrom: null, pollTimer: null, sending: false }
 const wide = window.matchMedia('(min-width: 1000px)')
 
 const esc = (value) =>
@@ -129,9 +129,9 @@ async function refreshFamily() {
   clearTimeout(state.pollTimer)
   const fid = state.fid
   try {
-    const tree = await api(`/api/families/${encodeURIComponent(fid)}`)
+    const [tree, taste] = await Promise.all([api(`/api/families/${encodeURIComponent(fid)}`), api('/api/taste').catch(() => null)])
     if (state.fid !== fid) return
-    state = { ...state, tree, picked: state.picked.filter((id) => tree.children[id]?.status === 'ready') }
+    state = { ...state, tree, taste, picked: state.picked.filter((id) => tree.children[id]?.status === 'ready') }
     drawFamily()
   } catch (err) {
     view.innerHTML = `<p class="empty">${esc(err.message)} <a href="/" data-link>Start a family</a></p>`
@@ -153,7 +153,7 @@ function drawFamily() {
 
   if (wide.matches) drawTreeView()
   else {
-    view.innerHTML = tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('')
+    view.innerHTML = tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('') + tasteHtml(state.taste, esc)
     view.querySelectorAll('[data-pick]').forEach((btn) => btn.addEventListener('click', () => togglePick(btn.dataset.pick)))
   }
   drawActionbar()
@@ -179,7 +179,7 @@ function drawTreeView() {
         </div>
         ${treeHtml(tree, { selected, picked: state.picked, esc })}
       </section>
-      <aside class="side">${panelHtml(tree, { selected, crossFrom: state.crossFrom, esc, duration })}</aside>
+      <aside class="side">${panelHtml(tree, { selected, crossFrom: state.crossFrom, esc, duration })}${tasteHtml(state.taste, esc)}</aside>
     </div>`
   const next = view.querySelector('.tree-scroll')
   if (scroll && next) next.scrollTo(scroll.left, scroll.top)
@@ -236,7 +236,7 @@ function kidCard(kid) {
       : `<div class="growing">No picture yet. Open it to see.</div>`
     : kid.status === 'failed'
       ? `<div class="growing"><span class="pill pill-fail">Didn’t make it</span><span>${esc(kid.summary ?? '')}</span></div>`
-      : `<div class="growing"><div class="seed" aria-hidden="true"></div><span>${kid.status === 'thumbing' ? 'Taking its picture' : kid.status === 'queued' ? 'Waiting for a builder' : `Growing · ${kid.steps ?? 0} steps · ${duration(kid.startedAt)}`}</span><span class="act">${esc(kid.activity ?? '')}</span></div>`
+      : `<div class="growing"><div class="seed" aria-hidden="true"></div><span>${kid.status === 'briefing' ? 'The breeder is writing its brief' : kid.status === 'thumbing' ? 'Taking its picture' : kid.status === 'queued' ? 'Waiting for a builder' : `Growing · ${kid.steps ?? 0} steps · ${duration(kid.startedAt)}`}</span><span class="act">${esc(kid.activity ?? '')}</span></div>`
   const meta = ready ? `born in ${duration(kid.startedAt, kid.finishedAt)}` : ''
   return `
     <article class="${classes}">

@@ -6,9 +6,10 @@ import { config } from './config.mjs'
 import { sendJson, sendError, readJson, sendFile } from './http.mjs'
 import { FAMILY_ID, kidDir, listFamilies, newFamilyId, parseChildId, readTree, updateTree } from './store.mjs'
 import { startFamily, startLitter } from './generation.mjs'
+import { readTaste } from './taste.mjs'
 
 const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public')
-const UNFINISHED = new Set(['queued', 'building', 'thumbing'])
+const UNFINISHED = new Set(['briefing', 'queued', 'building', 'thumbing'])
 
 function cleanText(value, { min = 0, max }) {
   const text = typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : ''
@@ -88,6 +89,7 @@ async function route(req, res) {
   if (method === 'POST' && p === '/api/families') return api.createFamily(req, res)
   if (method === 'POST' && p === '/api/breed') return api.breed(req, res)
   if (method === 'POST' && p === '/api/cross') return api.cross(req, res)
+  if (method === 'GET' && p === '/api/taste') return sendJson(res, 200, { success: true, data: await readTaste() })
   const fam = /^\/api\/families\/([^/]+)$/.exec(p)
   if (method === 'GET' && fam && FAMILY_ID.test(fam[1])) return api.getFamily(req, res, fam[1])
   if (p.startsWith('/api/')) return sendError(res, 404, 'Unknown API route.')

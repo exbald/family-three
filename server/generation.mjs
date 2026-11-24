@@ -92,17 +92,36 @@ async function raiseOne({ fid, request, child, kind, parents }) {
   await updateChild(fid, child.id, { status: 'ready', thumb, activity: '' })
 }
 
-// Starts a litter in the background. Resolves once the children are on the tree.
+const PLACEHOLDERS = [1, 2, 3].map(() => ({ name: '…', brief: '', source: 'pending' }))
+
+async function fillBriefs(fid, children, briefs) {
+  await updateTree(fid, (tree) => ({
+    ...tree,
+    children: {
+      ...tree.children,
+      ...Object.fromEntries(
+        children.map((c, i) => [c.id, { ...tree.children[c.id], name: briefs[i].name, brief: briefs[i].brief, briefSource: briefs[i].source, activity: '' }]),
+      ),
+    },
+  }))
+  return children.map((c, i) => ({ ...c, name: briefs[i].name, brief: briefs[i].brief }))
+}
+
+// Starts a litter in the background. Resolves once the three (still unnamed) children are on the tree.
 export async function startLitter({ fid, kind, parentIds = [], note = '' }) {
   const tree = await readTree(fid)
   const parents = parentIds.map((id) => tree.children[id])
-  const briefs = await writeBriefs({ tree, kind, parents, note })
-  const children = await addLitter(fid, { kind, parentIds, note, briefs })
-  const release = holdAwake(`litter-${fid}-${children[0].litter}`)
-  Promise.all(children.map((child) => raiseOne({ fid, request: tree.request, child, kind, parents })))
+  const placeholders = await addLitter(fid, { kind, parentIds, note, briefs: PLACEHOLDERS })
+  await Promise.all(placeholders.map((c) => updateChild(fid, c.id, { status: 'briefing', activity: 'The breeder is writing its brief' })))
+  const release = holdAwake(`litter-${fid}-${placeholders[0].litter}`)
+  ;(async () => {
+    const briefs = await writeBriefs({ tree, kind, parents, note })
+    const children = await fillBriefs(fid, placeholders, briefs)
+    await Promise.all(children.map((child) => raiseOne({ fid, request: tree.request, child, kind, parents })))
+  })()
     .catch((err) => console.error(`litter in ${fid} failed:`, err))
     .finally(release)
-  return children
+  return placeholders
 }
 
 export async function startFamily({ fid, request }) {

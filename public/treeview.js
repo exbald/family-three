@@ -1,7 +1,7 @@
 // The laptop view of a family: the tree on the left, the selected child on the right.
 import { layoutTree, lineage, treeLines, NODE_W, NODE_H, TOP, ROW_H, REQUEST_TOP } from './tree.js'
 
-const BUSY = new Set(['queued', 'building', 'thumbing'])
+const BUSY = new Set(['briefing', 'queued', 'building', 'thumbing'])
 
 function nodeStatus(kid) {
   if (kid.adopted) return { text: 'Adopted', cls: 'pill-live' }
@@ -109,4 +109,18 @@ export function panelHtml(tree, { selected, crossFrom, esc, duration }) {
         <button class="btn btn-outline-x" type="button" data-cross-from="${esc(kid.id)}" ${ready ? '' : 'disabled'}>Cross with…</button>
       </div>
     </div>`
+}
+
+// "What I've learned about you": likes in lime, things you passed over struck through.
+export function tasteHtml(taste, esc) {
+  if (!taste || (!taste.picks && !taste.likes.length)) return ''
+  const chips = (list, cls) => list.map((t) => `<span class="tchip ${cls}">${esc(t)}</span>`).join('')
+  return `
+    <section class="panel taste" aria-label="What I've learned about you">
+      <div class="panel-top"><h2 class="taste-title">What I’ve learned about you</h2><span class="muted">from ${taste.picks} pick${taste.picks === 1 ? '' : 's'}</span></div>
+      ${taste.likes.length ? `<div class="tchips">${chips(taste.likes, 'like')}</div>` : ''}
+      ${taste.avoid.length ? `<div class="tchips">${chips(taste.avoid, 'avoid')}</div>` : ''}
+      ${taste.learned ? `<p class="learned">${esc(taste.learned)}</p>` : ''}
+      <p class="muted small">Every new family starts from this. Kept on the Sprite’s own disk, in taste.md.</p>
+    </section>`
 }

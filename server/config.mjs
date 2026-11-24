@@ -27,9 +27,8 @@ export const config = Object.freeze({
   // Gateway URL of the Custom API connector for Z.ai's Anthropic endpoint.
   modelBaseUrl: pick('FT_MODEL_BASE_URL', 'modelBaseUrl', ''),
   model: pick('FT_MODEL', 'model', ''),
+  breederModel: pick('FT_BREEDER_MODEL', 'breederModel', 'glm-4.6'),
   buildTimeoutMs: Number(pick('FT_BUILD_TIMEOUT_MS', 'buildTimeoutMs', 12 * 60 * 1000)),
   chromePath: pick('FT_CHROME', 'chromePath', path.join(home, '.browsers', 'chrome')),
-  ollamaBaseUrl: pick('FT_OLLAMA_BASE_URL', 'ollamaBaseUrl', ''),
-  ollamaModel: pick('FT_OLLAMA_MODEL', 'ollamaModel', ''),
   spriteSocket: '/.sprite/api.sock',
 })

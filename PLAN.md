@@ -26,7 +26,7 @@ Mockups: https://claude.ai/artifact/LJd9aN82M187JzhnH61Lix (the tree on a laptop
 |---|---|---|
 | Custom API → Z.ai (GLM coding plan) | The builders (Claude Code) write the apps: `ANTHROPIC_BASE_URL` = the gateway URL for `https://api.z.ai/api/anthropic` | Core |
 | GitHub | Adopt: create `family-three-<name>`, one commit per ancestor (message = that builder's brief), optional GitHub Pages link | Core |
-| Ollama Cloud | The breeder: one call per generation that writes the three briefs and updates `taste.md`. A nod to a judge (Ollama). | Core, small |
+| ~~Ollama Cloud~~ | Dropped Nov 24: needs a paid plan. The breeder runs on GLM instead. | — |
 | Pushover | "Your three kids are ready" | Optional |
 
 Every connector is limited to Sprites named `ft-*`. GitHub also gets an endpoint allow-list: create a repo, and write only to `/repos/<user>/family-three-*`. The agent can't touch anything else in the account, and the write-up says so.
@@ -51,7 +51,7 @@ Sprite URL ──► Node server :8080
                 └─ ~/taste.md                  what you picked and why
 ```
 
-- **Breeder** (Ollama): reads the parent(s), your pick and comment, and `taste.md`; writes three briefs that differ on purpose (layout / mood / one feature); updates `taste.md`.
+- **Breeder** (GLM via the Z.ai connector): reads the parent(s), your pick and comment, and `taste.md`; writes three briefs that differ on purpose (layout / mood / one feature); updates `taste.md`.
 - **Builders** (Claude Code ×3 at once, headless, Task subagents off): each gets its parent folder(s) plus one brief, writes plain HTML/CSS/JS into its own folder. No build step, no servers per child.
 - **Thumbnails**: headless Chromium screenshots each child once it's built.
 - **Checkpoints**: one per generation. The video ends with "I wrecked it, restore".
@@ -93,7 +93,7 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 - The laptop family page is now the tree (lime = kept line, orange = cross) with a side panel; phones keep the litter rows.
 - `scripts/deploy.sh` ships the code; `scripts/connect-zai.sh` creates the Z.ai connector (prefix `ft-`) and points the builders at it.
 - Connectors (Nov 24): GitHub `0Jz4SkLP6tNY7lzgA1LY5w` (account exbald, scope public_repo, prefix `ft-`, allowed `/user/repos` and `/repos/exbald/family-three-*`; checked: the main repo, `/user` and other repos get 403). Ollama `dHT9xYZmRLUHQrXnAAb1Bw` (prefix `ft-`): model list works, chat answers 402 until the account has credits or a plan.
-- Waiting on Nik: Ollama credits or plan, or the breeder falls back to GLM. Next: Ollama breeder + taste.md, a lock on the write buttons before the URL goes public, Adopt.
+- Decided (Nov 24): the breeder runs on GLM through the Z.ai connector, not Ollama (no paid Ollama plan). Ollama stays connected but unused, and the write-up won't claim it. Breeder = one call per litter: three named briefs (layout / mood / feature) + taste.md update (likes, avoid, last thing learned). Children show at once as "briefing", then build. Next: Ollama breeder + taste.md, a lock on the write buttons before the URL goes public, Adopt.
 
 ## What we already know (test Sprite `ft-probe`)
 

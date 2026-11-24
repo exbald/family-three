@@ -240,3 +240,15 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
 .linkish { background: none; border: 0; padding: 0; color: var(--orange); text-decoration: underline; font-size: 13px; }
 .view:has(.treeview) { max-width: 1560px; }
 body:has(.treeview) .top { max-width: 1560px; }
+
+/* Taste card */
+.side { display: flex; flex-direction: column; gap: 16px; }
+.taste { gap: 12px; }
+.view > .taste { margin-top: 28px; }
+.taste-title { margin: 0; font: 700 17px var(--display); }
+.tchips { display: flex; flex-wrap: wrap; gap: 6px; }
+.tchip { padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.tchip.like { border: 1px solid var(--lime); color: var(--lime); }
+.tchip.avoid { border: 1px solid var(--line-2); color: var(--muted); text-decoration: line-through; font-weight: 500; }
+.learned { margin: 0; padding: 10px 12px; border-radius: 12px; border: 1px dashed var(--orange); color: #F1DCCB; font-size: 13px; line-height: 1.45; }
+.muted.small { font-size: 12px; }

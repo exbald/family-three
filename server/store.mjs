@@ -85,7 +85,7 @@ export async function listFamilies() {
 
 function summarize(tree) {
   const kids = Object.values(tree.children)
-  const building = kids.filter((k) => k.status === 'building' || k.status === 'queued').length
+  const building = kids.filter((k) => ['briefing', 'queued', 'building', 'thumbing'].includes(k.status)).length
   return {
     id: tree.id,
     request: tree.request,
