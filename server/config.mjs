@@ -1,0 +1,35 @@
+// Settings come from env vars, then ~/.ft/config.json (non-secret ids only).
+import { readFileSync } from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+
+const home = process.env.FT_HOME ?? os.homedir()
+
+function readFileConfig() {
+  try {
+    return JSON.parse(readFileSync(path.join(home, '.ft', 'config.json'), 'utf8'))
+  } catch {
+    return {}
+  }
+}
+
+const file = readFileConfig()
+const pick = (envName, key, fallback) => process.env[envName] ?? file[key] ?? fallback
+
+export const config = Object.freeze({
+  port: Number(pick('PORT', 'port', 8080)),
+  home,
+  familiesDir: path.join(home, 'families'),
+  tastePath: path.join(home, 'taste.md'),
+  // "claude" runs Claude Code; "stub" writes a placeholder app (for local work).
+  builder: pick('FT_BUILDER', 'builder', 'claude'),
+  claudeBin: pick('FT_CLAUDE_BIN', 'claudeBin', 'claude'),
+  // Gateway URL of the Custom API connector for Z.ai's Anthropic endpoint.
+  modelBaseUrl: pick('FT_MODEL_BASE_URL', 'modelBaseUrl', ''),
+  model: pick('FT_MODEL', 'model', ''),
+  buildTimeoutMs: Number(pick('FT_BUILD_TIMEOUT_MS', 'buildTimeoutMs', 12 * 60 * 1000)),
+  chromePath: pick('FT_CHROME', 'chromePath', path.join(home, '.browsers', 'chrome')),
+  ollamaBaseUrl: pick('FT_OLLAMA_BASE_URL', 'ollamaBaseUrl', ''),
+  ollamaModel: pick('FT_OLLAMA_MODEL', 'ollamaModel', ''),
+  spriteSocket: '/.sprite/api.sock',
+})

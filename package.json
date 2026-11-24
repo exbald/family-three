@@ -1,0 +1,12 @@
+{
+  "name": "family-three",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Apps you raise, not prompt. Runs on a Sprite.",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.mjs",
+    "dev": "FT_HOME=./.dev FT_BUILDER=stub node --watch server/index.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
