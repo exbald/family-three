@@ -73,13 +73,34 @@ async function renderHome() {
   renderFamilyList()
 }
 
+const INSTALL = 'curl -fsSL https://raw.githubusercontent.com/exbald/family-three/main/scripts/install.sh | bash'
+
+function installBox() {
+  return `
+    <div class="install">
+      <p class="mono-label">Raise your own, on your own Sprite</p>
+      <div class="install-row"><code>${esc(INSTALL)}</code><button class="btn btn-lime" type="button" data-copy-install>Copy</button></div>
+      <p class="muted">Run it inside a <a href="https://fly.io/sprites" target="_blank" rel="noopener">Fly.io Sprite</a> where Claude Code works. Your apps, your model, your computer. <a href="https://github.com/exbald/family-three" target="_blank" rel="noopener">The code</a></p>
+    </div>`
+}
+
+function wireInstallCopy(root) {
+  root.querySelector('[data-copy-install]')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget
+    navigator.clipboard?.writeText(INSTALL).then(() => { btn.textContent = 'Copied' }, () => {})
+  })
+}
+
 function renderVisitorHome() {
   view.innerHTML = `
     <section class="ask">
       <h1>Apps you raise, not prompt.</h1>
-      <p class="muted">Someone asked for an app here, and three children were born: three working apps. They picked one to breed from, crossed two, and kept going. Every app on these trees is live. Open any family to look around.</p>
+      <p class="lede">Ask for an app and three children are born: three working apps, each with its own link. Pick one and it breeds three more, or cross two. Keep the one you love and it gets a public link and a GitHub repo whose history is its family line.</p>
+      <p class="muted">These families live on one person's Sprite, so you can look around but not raise here. Every app on the trees is live: open any of them.</p>
       <div id="families"></div>
+      ${installBox()}
     </section>`
+  wireInstallCopy(view)
   renderFamilyList()
 }
 
@@ -109,7 +130,7 @@ async function renderFamilyList() {
     const families = await api('/api/families')
     if (!families.length) return
     box.innerHTML = `
-      <p class="mono-label">Your families</p>
+      <p class="mono-label">${owner ? 'Your families' : 'Families on this Sprite'}</p>
       <div class="families">${families.map(familyRow).join('')}</div>`
   } catch (err) {
     box.innerHTML = `<p class="error">${esc(err.message)}</p>`
@@ -160,6 +181,10 @@ async function refreshFamily() {
   state.pollTimer = setTimeout(refreshFamily, busy ? 2000 : 10000)
 }
 
+function visitorBanner() {
+  return owner ? '' : `<p class="visitor-note">You’re looking at someone’s family. Every app is live. <a href="/" data-link>Raise your own in one command ›</a></p>`
+}
+
 function drawFamily() {
   const { tree } = state
   const kids = Object.values(tree.children)
@@ -172,7 +197,7 @@ function drawFamily() {
 
   if (wide.matches) drawTreeView()
   else {
-    view.innerHTML = tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('') + tasteHtml(state.taste, esc)
+    view.innerHTML = visitorBanner() + tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('') + tasteHtml(state.taste, esc)
     view.querySelectorAll('[data-pick]').forEach((btn) => btn.addEventListener('click', () => togglePick(btn.dataset.pick)))
   }
   drawActionbar()
@@ -189,7 +214,7 @@ function drawTreeView() {
   state = { ...state, selected }
   const scroller = view.querySelector('.tree-scroll')
   const scroll = scroller ? { left: scroller.scrollLeft, top: scroller.scrollTop } : null
-  view.innerHTML = `
+  view.innerHTML = `${visitorBanner()}
     <div class="treeview">
       <section class="tree-card" aria-label="Family tree">
         <div class="tree-legend">
