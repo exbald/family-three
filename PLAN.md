@@ -76,7 +76,7 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 1. GLM through the Custom API connector: the auth header, streaming, and three runs at once on the coding plan. Fallback: the key as an env var on the Sprite.
 2. GitHub connector: create a repo and commit through the gateway; the endpoint allow-list holds.
 3. Ollama connector: one chat call through the gateway; pick a fast model.
-4. Chromium installs on the Sprite.
+4. ~~Chromium installs on the Sprite.~~ Done.
 
 ## Setup only Nik can do
 
@@ -85,10 +85,19 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 - [ ] Ollama: make a key at ollama.com/settings/keys, then Fly dashboard → Connectors → Add → **Ollama**, paste it.
 - [ ] Decide the repo name and make it public (needed for the submission).
 
+## Status (Tue Nov 24, evening)
+
+- Home Sprite: `ft-family` (https://ft-family-b4zbc.sprites.app, org-only URL for now). `ft-probe` stays the test box.
+- Done: the server runs there as the `family-three` service on :8080. Ask → three children → breed (one parent) or cross (two) → each child served at `/n/<id>/` with a Chrome thumbnail. A keep-awake hold (`/v1/tasks`) covers each litter.
+- Builders run in stub mode until the Z.ai key is in: `~/.ft/config.json` on the Sprite holds `builder` and `modelBaseUrl`.
+- `scripts/deploy.sh` ships the code; `scripts/connect-zai.sh` creates the Z.ai connector (prefix `ft-`) and points the builders at it.
+- Next: GLM check through the gateway, then the first real generation; Ollama breeder; the tree page.
+
 ## What we already know (test Sprite `ft-probe`)
 
-- 8 CPUs, 15 GB memory, Claude Code 2.1.319, Node 24. No Chromium.
+- 8 CPUs, 15 GB memory, Claude Code 2.1.319, Node 24, Ubuntu 26.04, passwordless sudo. Chromium: `chrome-headless-shell` from `@puppeteer/browsers` in `~/.browsers/chrome` plus its apt libraries (done on `ft-family`).
 - A Sprite calls a connector at `https://api.sprites.dev/v1/gateway/<provider>/<id>/<path>` with no key; the gateway attaches it.
 - A Custom API connector can be created with the API (`POST /v1/oauth/connections/custom_api`), access policy by name prefix.
 - A checkpoint restore ends every process on the Sprite.
-- A Sprite counts as idle unless a request, a connection, command output or `sprite-env tasks create` keeps it awake: start a task for each generation.
+- A Sprite pauses when idle. Hold it with the Tasks API: `PUT /v1/tasks/<name> {"expire":"5m"}` on `/.sprite/api.sock`, refreshed every minute, deleted when done (max 1 h per hold).
+- Connector policy fields: `access_policy: { name_prefix, sprite_labels, allow_all, allowed_endpoints, blocked_endpoints }`.

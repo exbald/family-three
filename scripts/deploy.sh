@@ -6,7 +6,7 @@ SPRITE="${1:-ft-family}"
 case "$SPRITE" in ft-*) ;; *) echo "Only ft-* Sprites" >&2; exit 1 ;; esac
 cd "$(dirname "$0")/.."
 
-tar czf - package.json server public 2>/dev/null | \
+COPYFILE_DISABLE=1 tar --no-xattrs -czf - package.json server public 2>/dev/null | \
   sprite exec -s "$SPRITE" -- bash -c 'mkdir -p ~/app && rm -rf ~/app/server ~/app/public && tar xzf - -C ~/app'
 
 sprite exec --no-stdin -s "$SPRITE" -- bash -c '
