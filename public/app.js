@@ -1,5 +1,6 @@
 // Family Three front end: the ask page and a family (tree on laptops, litters on phones). Plain JS, no build step.
 import { treeHtml, panelHtml, tasteHtml } from './treeview.js'
+import { drawCheckpoints, hideCheckpoints } from './checkpoints.js'
 const view = document.getElementById('view')
 const familyHead = document.getElementById('family-head')
 const newFamily = document.getElementById('new-family')
@@ -39,6 +40,7 @@ async function renderHome() {
   familyHead.hidden = true
   newFamily.hidden = true
   actionbar.hidden = true
+  hideCheckpoints()
   if (!owner) return renderVisitorHome()
   view.innerHTML = `
     <section class="ask">
@@ -141,8 +143,13 @@ async function refreshFamily() {
   clearTimeout(state.pollTimer)
   const fid = state.fid
   try {
-    const [tree, taste] = await Promise.all([api(`/api/families/${encodeURIComponent(fid)}`), api('/api/taste').catch(() => null)])
+    const [tree, taste, checkpoints] = await Promise.all([
+      api(`/api/families/${encodeURIComponent(fid)}`),
+      api('/api/taste').catch(() => null),
+      owner ? api(`/api/checkpoints?family=${encodeURIComponent(fid)}`).catch(() => []) : [],
+    ])
     if (state.fid !== fid) return
+    drawCheckpoints({ list: checkpoints, owner, esc, api })
     state = { ...state, tree, taste, picked: state.picked.filter((id) => tree.children[id]?.status === 'ready') }
     drawFamily()
   } catch (err) {

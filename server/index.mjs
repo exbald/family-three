@@ -9,6 +9,7 @@ import { startFamily, startLitter } from './generation.mjs'
 import { readTaste } from './taste.mjs'
 import { loadOwnerKey, isOwner, handleUnlock } from './owner.mjs'
 import { adoptChild, readAdopted, SLUG } from './adopt.mjs'
+import { listCheckpoints, restoreCheckpoint } from './checkpoints.mjs'
 
 const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public')
 const UNFINISHED = new Set(['briefing', 'queued', 'building', 'thumbing'])
@@ -75,6 +76,23 @@ const api = {
     sendJson(res, 202, { success: true, data: { child: found.child.id } })
   },
 
+  async checkpoints(req, res, url) {
+    const fid = url.searchParams.get('family')
+    if (fid && !FAMILY_ID.test(fid)) return sendError(res, 400, 'Bad family id.')
+    const list = await listCheckpoints(fid).catch(() => [])
+    sendJson(res, 200, { success: true, data: list })
+  },
+
+  async restore(req, res) {
+    const body = await readJson(req)
+    const id = String(body.id ?? '')
+    const list = await listCheckpoints().catch(() => [])
+    if (!list.some((c) => c.id === id)) return sendError(res, 404, 'No Family Three checkpoint with that id.')
+    sendJson(res, 202, { success: true, data: { id } })
+    // Answer first: the restore ends this process.
+    setTimeout(() => restoreCheckpoint(id).catch((err) => console.error('restore failed:', err.message)), 300)
+  },
+
   async cross(req, res) {
     const body = await readJson(req)
     const note = cleanText(body.note ?? '', { max: 300 })
@@ -112,6 +130,8 @@ async function route(req, res) {
   if (method === 'POST' && p === '/api/breed') return api.breed(req, res)
   if (method === 'POST' && p === '/api/cross') return api.cross(req, res)
   if (method === 'POST' && p === '/api/adopt') return api.adopt(req, res)
+  if (method === 'POST' && p === '/api/restore') return api.restore(req, res)
+  if (method === 'GET' && p === '/api/checkpoints') return api.checkpoints(req, res, url)
   if (method === 'GET' && p === '/api/taste') return sendJson(res, 200, { success: true, data: await readTaste() })
   const fam = /^\/api\/families\/([^/]+)$/.exec(p)
   if (method === 'GET' && fam && FAMILY_ID.test(fam[1])) return api.getFamily(req, res, fam[1])

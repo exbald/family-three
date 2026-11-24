@@ -3,6 +3,7 @@ import { writeBriefs } from './breeder.mjs'
 import { buildChild, fixChild } from './builder.mjs'
 import { snapThumb } from './thumbs.mjs'
 import { holdAwake } from './awake.mjs'
+import { saveCheckpoint } from './checkpoints.mjs'
 import { config } from './config.mjs'
 import { readTree, updateTree, updateChild } from './store.mjs'
 
@@ -134,6 +135,9 @@ export async function startLitter({ fid, kind, parentIds = [], note = '' }) {
     const briefs = await writeBriefs({ tree, kind, parents, note })
     const children = await fillBriefs(fid, placeholders, briefs)
     await Promise.all(children.map((child) => raiseOne({ fid, request: tree.request, child, kind, parents })))
+    const done = await readTree(fid)
+    const kids = children.map((c) => done.children[c.id])
+    await saveCheckpoint({ fid, gen: kids[0].gen, what: `Generation ${kids[0].gen}: ${kids.map((k) => `${k.label} ${k.name}`).join(', ')}` })
   })()
     .catch((err) => console.error(`litter in ${fid} failed:`, err))
     .finally(release)

@@ -6,6 +6,7 @@ import path from 'node:path'
 import { config } from './config.mjs'
 import { gh, createRepo } from './github.mjs'
 import { kidDir, readTree, updateChild } from './store.mjs'
+import { saveCheckpoint } from './checkpoints.mjs'
 
 const ADOPTED_PATH = path.join(config.home, 'adopted.json')
 const SKIP = new Set(['thumb.png', 'node_modules'])
@@ -161,6 +162,7 @@ export async function adoptChild({ fid, cid, baseUrl }) {
     await saveAdopted(slug, cid)
     const adoption = { status: 'done', slug, sprite, repo: repoInfo.html_url, pages, commits, at: new Date().toISOString() }
     await updateChild(fid, cid, { adopted: true, adoption })
+    await saveCheckpoint({ fid, gen: kid.gen, what: `Adopted ${kid.label} ${kid.name}` })
     return adoption
   } catch (err) {
     console.error(`adopt ${cid} failed:`, err)
