@@ -1,4 +1,5 @@
-// Family Three front end: the ask page and a family's litters. Plain JS, no build step.
+// Family Three front end: the ask page and a family (tree on laptops, litters on phones). Plain JS, no build step.
+import { treeHtml, panelHtml } from './treeview.js'
 const view = document.getElementById('view')
 const familyHead = document.getElementById('family-head')
 const newFamily = document.getElementById('new-family')
@@ -7,7 +8,8 @@ const actionbar = document.getElementById('actionbar')
 const SUGGESTIONS = ['A tracker for my running', 'Where my money leaks', 'Thanksgiving dinner for 8', 'A page for my dog-walking gig']
 const BUSY = new Set(['queued', 'building', 'thumbing'])
 
-let state = { fid: null, tree: null, picked: [], pollTimer: null, sending: false }
+let state = { fid: null, tree: null, picked: [], selected: null, crossFrom: null, pollTimer: null, sending: false }
+const wide = window.matchMedia('(min-width: 1000px)')
 
 const esc = (value) =>
   String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
@@ -117,7 +119,7 @@ function familyRow(f) {
 /* ---------- Family: litters of three ---------- */
 
 async function renderFamily(fid) {
-  if (state.fid !== fid) state = { ...state, fid, tree: null, picked: [] }
+  if (state.fid !== fid) state = { ...state, fid, tree: null, picked: [], selected: null, crossFrom: null }
   newFamily.hidden = false
   if (!state.tree) view.innerHTML = '<p class="empty">Waking the family…</p>'
   await refreshFamily()
@@ -149,9 +151,63 @@ function drawFamily() {
   familyHead.hidden = false
   familyHead.innerHTML = `<strong>${esc(tree.title)}</strong><span>Generation ${gens} · ${ready} apps${growing ? ` · ${growing} growing` : ''}</span>`
 
-  view.innerHTML = tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('')
-  view.querySelectorAll('[data-pick]').forEach((btn) => btn.addEventListener('click', () => togglePick(btn.dataset.pick)))
+  if (wide.matches) drawTreeView()
+  else {
+    view.innerHTML = tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('')
+    view.querySelectorAll('[data-pick]').forEach((btn) => btn.addEventListener('click', () => togglePick(btn.dataset.pick)))
+  }
   drawActionbar()
+}
+
+function defaultSelection(tree) {
+  const kids = Object.values(tree.children).sort((a, b) => b.n - a.n)
+  return (kids.find((k) => k.status === 'ready') ?? kids[0])?.id ?? null
+}
+
+function drawTreeView() {
+  const { tree } = state
+  const selected = tree.children[state.selected] ? state.selected : defaultSelection(tree)
+  state = { ...state, selected }
+  const scroller = view.querySelector('.tree-scroll')
+  const scroll = scroller ? { left: scroller.scrollLeft, top: scroller.scrollTop } : null
+  view.innerHTML = `
+    <div class="treeview">
+      <section class="tree-card" aria-label="Family tree">
+        <div class="tree-legend">
+          <span>Tap a child to see it. Breed from one, or cross two.</span>
+          <span class="keys"><span><i class="k-kept"></i>the line you kept</span><span><i class="k-cross"></i>a cross</span></span>
+        </div>
+        ${treeHtml(tree, { selected, picked: state.picked, esc })}
+      </section>
+      <aside class="side">${panelHtml(tree, { selected, crossFrom: state.crossFrom, esc, duration })}</aside>
+    </div>`
+  const next = view.querySelector('.tree-scroll')
+  if (scroll && next) next.scrollTo(scroll.left, scroll.top)
+  view.querySelectorAll('[data-select]').forEach((b) => b.addEventListener('click', () => onSelect(b.dataset.select)))
+  view.querySelector('[data-breed]')?.addEventListener('click', (e) => setPicks([e.currentTarget.dataset.breed]))
+  view.querySelector('[data-cross-from]')?.addEventListener('click', (e) => {
+    state = { ...state, crossFrom: e.currentTarget.dataset.crossFrom, picked: [] }
+    drawFamily()
+  })
+  view.querySelector('[data-cancel-cross]')?.addEventListener('click', () => {
+    state = { ...state, crossFrom: null }
+    drawFamily()
+  })
+}
+
+function onSelect(id) {
+  const { crossFrom, tree } = state
+  if (crossFrom && id !== crossFrom && tree.children[id]?.status === 'ready') {
+    state = { ...state, selected: id, crossFrom: null, picked: [crossFrom, id] }
+  } else {
+    state = { ...state, selected: id, picked: [] }
+  }
+  drawFamily()
+}
+
+function setPicks(picked) {
+  state = { ...state, picked, crossFrom: null }
+  drawFamily()
 }
 
 function litterSection(litter, tree) {
@@ -236,8 +292,8 @@ async function onBreedOrCross() {
   go.disabled = true
   try {
     const body = b ? { a, b, note } : { parent: a, note }
-    await api(b ? '/api/cross' : '/api/breed', { method: 'POST', body: JSON.stringify(body) })
-    state = { ...state, picked: [], sending: false }
+    const { children } = await api(b ? '/api/cross' : '/api/breed', { method: 'POST', body: JSON.stringify(body) })
+    state = { ...state, picked: [], sending: false, selected: children[0] ?? state.selected }
     actionbar.hidden = true
     await refreshFamily()
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -272,4 +328,5 @@ document.addEventListener('click', (e) => {
   navigate(link.getAttribute('href'))
 })
 window.addEventListener('popstate', route)
+wide.addEventListener('change', () => state.tree && drawFamily())
 route()
