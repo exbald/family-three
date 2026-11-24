@@ -10,6 +10,7 @@ const BUSY = new Set(['briefing', 'queued', 'building', 'thumbing'])
 
 let state = { fid: null, tree: null, taste: null, picked: [], selected: null, crossFrom: null, pollTimer: null, sending: false }
 const wide = window.matchMedia('(min-width: 1000px)')
+let owner = false
 
 const esc = (value) =>
   String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
@@ -38,6 +39,7 @@ async function renderHome() {
   familyHead.hidden = true
   newFamily.hidden = true
   actionbar.hidden = true
+  if (!owner) return renderVisitorHome()
   view.innerHTML = `
     <section class="ask">
       <h1>What should I raise?</h1>
@@ -66,6 +68,16 @@ async function renderHome() {
   textarea.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) form.requestSubmit()
   })
+  renderFamilyList()
+}
+
+function renderVisitorHome() {
+  view.innerHTML = `
+    <section class="ask">
+      <h1>Apps you raise, not prompt.</h1>
+      <p class="muted">Someone asked for an app here, and three children were born: three working apps. They picked one to breed from, crossed two, and kept going. Every app on these trees is live. Open any family to look around.</p>
+      <div id="families"></div>
+    </section>`
   renderFamilyList()
 }
 
@@ -120,7 +132,7 @@ function familyRow(f) {
 
 async function renderFamily(fid) {
   if (state.fid !== fid) state = { ...state, fid, tree: null, picked: [], selected: null, crossFrom: null }
-  newFamily.hidden = false
+  newFamily.hidden = !owner
   if (!state.tree) view.innerHTML = '<p class="empty">Waking the family…</p>'
   await refreshFamily()
 }
@@ -179,7 +191,7 @@ function drawTreeView() {
         </div>
         ${treeHtml(tree, { selected, picked: state.picked, esc })}
       </section>
-      <aside class="side">${panelHtml(tree, { selected, crossFrom: state.crossFrom, esc, duration })}${tasteHtml(state.taste, esc)}</aside>
+      <aside class="side">${panelHtml(tree, { selected, crossFrom: state.crossFrom, esc, duration, owner })}${tasteHtml(state.taste, esc)}</aside>
     </div>`
   const next = view.querySelector('.tree-scroll')
   if (scroll && next) next.scrollTo(scroll.left, scroll.top)
@@ -240,7 +252,7 @@ function kidCard(kid) {
   const meta = ready ? `born in ${duration(kid.startedAt, kid.finishedAt)}` : ''
   return `
     <article class="${classes}">
-      <button class="kid-pick" type="button" data-pick="${esc(kid.id)}" aria-pressed="${pickIndex >= 0}" aria-label="Pick ${esc(kid.label)} ${esc(kid.name)}" ${ready ? '' : 'disabled'}></button>
+      <button class="kid-pick" type="button" data-pick="${esc(kid.id)}" aria-pressed="${pickIndex >= 0}" aria-label="Pick ${esc(kid.label)} ${esc(kid.name)}" ${ready && owner ? '' : 'disabled'}></button>
       <div class="shot">${shot}</div>
       <div class="kid-row">
         <span class="kid-name"><b>${esc(kid.label)}</b><span>${esc(kid.name)}</span></span>
@@ -263,7 +275,7 @@ function togglePick(id) {
 
 function drawActionbar() {
   const { picked, tree } = state
-  if (!picked.length) {
+  if (!picked.length || !owner) {
     actionbar.hidden = true
     actionbar.dataset.key = ''
     return
@@ -328,5 +340,6 @@ document.addEventListener('click', (e) => {
   navigate(link.getAttribute('href'))
 })
 window.addEventListener('popstate', route)
+owner = await api('/api/me').then((me) => me.owner, () => false)
 wide.addEventListener('change', () => state.tree && drawFamily())
 route()

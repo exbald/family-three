@@ -7,6 +7,7 @@ import { sendJson, sendError, readJson, sendFile } from './http.mjs'
 import { FAMILY_ID, kidDir, listFamilies, newFamilyId, parseChildId, readTree, updateTree } from './store.mjs'
 import { startFamily, startLitter } from './generation.mjs'
 import { readTaste } from './taste.mjs'
+import { loadOwnerKey, isOwner, handleUnlock } from './owner.mjs'
 
 const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public')
 const UNFINISHED = new Set(['briefing', 'queued', 'building', 'thumbing'])
@@ -85,6 +86,9 @@ async function route(req, res) {
   const p = url.pathname
   const method = req.method
 
+  if (p === '/' && handleUnlock(req, res, url)) return
+  if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req) } })
+  if (method === 'POST' && p.startsWith('/api/') && !isOwner(req)) return sendError(res, 403, 'Only the owner can raise apps here. You can still look around.')
   if (method === 'GET' && p === '/api/families') return api.listFamilies(req, res)
   if (method === 'POST' && p === '/api/families') return api.createFamily(req, res)
   if (method === 'POST' && p === '/api/breed') return api.breed(req, res)
@@ -135,6 +139,7 @@ const server = http.createServer((req, res) => {
   })
 })
 
+await loadOwnerKey()
 await markInterrupted()
 server.listen(config.port, () => {
   console.log(`Family Three on :${config.port} (builder: ${config.builder}, home: ${config.home})`)

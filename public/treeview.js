@@ -75,7 +75,7 @@ function parentsText(tree, kid) {
   return kid.parents.map((id) => tree.children[id]?.label ?? '?').join(' × ')
 }
 
-export function panelHtml(tree, { selected, crossFrom, esc, duration }) {
+export function panelHtml(tree, { selected, crossFrom, esc, duration, owner = false }) {
   const kid = tree.children[selected]
   if (!kid) return `<div class="panel"><p class="muted">Tap a child to see it. Breed from one, or cross two.</p></div>`
   const status = nodeStatus(kid)
@@ -104,7 +104,7 @@ export function panelHtml(tree, { selected, crossFrom, esc, duration }) {
       </div>
       ${ready ? `<div class="urlrow"><span class="mono">${esc(url)}</span><a href="/n/${esc(kid.id)}/" target="_blank" rel="noopener">Open</a></div>` : ''}
       ${crossing}
-      <div class="panel-actions">
+      <div class="panel-actions"${owner ? '' : ' hidden'}>
         <button class="btn btn-lime" type="button" data-breed="${esc(kid.id)}" ${ready ? '' : 'disabled'}>Breed 3 more</button>
         <button class="btn btn-outline-x" type="button" data-cross-from="${esc(kid.id)}" ${ready ? '' : 'disabled'}>Cross with…</button>
       </div>
