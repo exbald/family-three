@@ -7,6 +7,8 @@ import { config } from './config.mjs'
 import { bus, emitSafe } from './events.mjs'
 import { familyDir, listFamilies, readTree, updateTree } from './store.mjs'
 import { startLitter } from './generation.mjs'
+import { askJson } from './llm.mjs'
+import { readTaste, tasteText, crowdTastePath } from './taste.mjs'
 
 const MIN_THRESHOLD = 5
 const MAX_THRESHOLD = 50
@@ -118,6 +120,7 @@ async function openRound(fid, litterId, { restingUntil = null } = {}) {
         lastWinner: t.vote?.lastWinner ?? null,
         openedAt: new Date().toISOString(),
         closesAt: null,
+        autopilotAt: config.autopilotMinutes > 0 ? new Date(Date.now() + config.autopilotMinutes * 60000).toISOString() : null,
       },
     }
   })
@@ -140,7 +143,7 @@ function winnerOf(vote) {
   return top.count >= vote.threshold && lead >= LEAD ? top : null
 }
 
-async function closeAndBreed(fid, winner) {
+async function closeAndBreed(fid, winner, { autopilot = null } = {}) {
   const tree = await readTree(fid)
   const vote = tree.vote
   const singles = ranked(vote).filter((o) => o.kind === 'breed')
@@ -150,11 +153,13 @@ async function closeAndBreed(fid, winner) {
   if (!parentIds.every((id) => tree.children[id]?.status === 'ready')) return null
   await updateTree(fid, (t) => ({
     ...t,
-    vote: { ...t.vote, status: 'breeding', lastTotal: t.vote.total, lastWinner: winner.key, closedAt: new Date().toISOString() },
+    vote: { ...t.vote, status: 'breeding', lastTotal: t.vote.total, lastWinner: winner.key, closedAt: new Date().toISOString(), autopilot },
   }))
   const names = parentIds.map((id) => tree.children[id].label).join(' × ')
-  const note = `Chosen by ${vote.total} vote${vote.total === 1 ? '' : 's'}.`
-  emitSafe('vote-closed', { fid, winner, parents: parentIds, counts: vote.counts, total: vote.total, names })
+  const note = autopilot
+    ? `Nobody voted, so the agent picked: ${autopilot.reason}`
+    : `Chosen by ${vote.total} vote${vote.total === 1 ? '' : 's'}.`
+  emitSafe('vote-closed', { fid, winner, parents: parentIds, counts: vote.counts, total: vote.total, names, autopilot })
   await startLitter({ fid, kind: parentIds.length === 2 ? 'cross' : 'breed', parentIds, note })
   return winner
 }
@@ -244,15 +249,48 @@ bus.on('kid-ready', async ({ fid, kid }) => {
   emitSafe('vote-counted', { fid })
 })
 
-// Every 15 s: a round whose clock has run out goes to its leader (ties go to the earlier option).
+// Autopilot: nobody voted, so the agent picks with the crowd's taste and says why.
+async function autopilotPick(tree) {
+  const vote = tree.vote
+  const options = vote.options.map((o) => {
+    const kid = tree.children[o.key]
+    return o.kind === 'cross' ? `${o.key}: cross the two first kids` : `${o.key}: ${o.label} "${o.name}". Brief: ${kid?.brief ?? ''} Builder: ${kid?.summary ?? ''}`
+  })
+  const fallback = () => {
+    const singles = vote.options.filter((o) => o.kind === 'breed')
+    const pick = singles[Math.floor(Math.random() * singles.length)]
+    return { winner: pick, reason: `${pick.label} ${pick.name}, at random (the agent couldn't decide).` }
+  }
+  if (config.builder === 'stub') return fallback()
+  try {
+    const taste = await readTaste(crowdTastePath())
+    const reply = await askJson({
+      system: 'You pick which child app breeds next in a family that strangers raise by voting. Nobody voted this round, so you pick for them. Follow the crowd\'s taste so far. Reply with JSON only.',
+      user: [`The family's request: "${tree.request}"`, `The crowd's taste: ${tasteText(taste)}`, 'Options:', ...options, 'Reply as {"key":"<one option key>","reason":"<one short sentence for the public, naming the kid>"}'].join('\n'),
+    })
+    const winner = vote.options.find((o) => o.key === reply.key)
+    return winner ? { winner, reason: String(reply.reason ?? '').slice(0, 200) || `${winner.label} ${winner.name}.` } : fallback()
+  } catch {
+    return fallback()
+  }
+}
+
+// Every 15 s: a round whose clock has run out goes to its leader (ties go to the earlier option);
+// a round nobody voted on goes to the agent's pick once its autopilot time comes.
 setInterval(async () => {
   try {
     for (const fam of await listFamilies()) {
       if (!fam.crowd) continue
       const tree = await readTree(fam.id)
       const vote = tree?.vote
-      if (!vote || vote.status !== 'open' || vote.paused || !vote.closesAt || !vote.total) continue
-      if (Date.parse(vote.closesAt) > Date.now()) continue
+      if (!vote || vote.status !== 'open' || vote.paused) continue
+      if (vote.restingUntil && Date.parse(vote.restingUntil) > Date.now()) continue
+      if (!vote.total && vote.autopilotAt && Date.parse(vote.autopilotAt) <= Date.now()) {
+        const { winner, reason } = await autopilotPick(tree)
+        await closeAndBreed(fam.id, winner, { autopilot: { reason } })
+        continue
+      }
+      if (!vote.closesAt || !vote.total || Date.parse(vote.closesAt) > Date.now()) continue
       const [leader] = ranked(vote)
       if (leader?.count) await closeAndBreed(fam.id, leader)
     }
@@ -268,6 +306,9 @@ export async function resumeCrowdRounds() {
     if (!tree?.crowd || !tree.litters.length) continue
     const busy = Object.values(tree.children).some((k) => ['briefing', 'queued', 'building', 'thumbing'].includes(k.status))
     if (!busy && (!tree.vote || tree.vote.status === 'breeding')) await openRound(fam.id, tree.litters.at(-1).id)
+    else if (tree.vote?.status === 'open' && !tree.vote.total && !tree.vote.autopilotAt && config.autopilotMinutes > 0) {
+      await updateTree(fam.id, (t) => ({ ...t, vote: { ...t.vote, autopilotAt: new Date(Date.now() + config.autopilotMinutes * 60000).toISOString() } }))
+    }
     else if (tree.vote?.status === 'open' && tree.vote.total && !tree.vote.closesAt) {
       await updateTree(fam.id, (t) => ({ ...t, vote: { ...t.vote, closesAt: new Date(Date.now() + ROUND_MS()).toISOString() } }))
     }

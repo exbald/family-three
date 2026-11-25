@@ -4,11 +4,15 @@ function statusLine(vote) {
   if (!vote) return 'Voting opens when the first kids are born.'
   if (vote.paused) return 'Voting is paused for a moment.'
   if (vote.restingUntil && Date.parse(vote.restingUntil) > Date.now()) return 'The greenhouse is resting. Voting reopens within the hour.'
-  if (vote.status === 'breeding') return 'The crowd picked. New kids are being born; voting reopens when they arrive.'
+  if (vote.status === 'breeding') return vote.autopilot ? `Nobody voted, so the agent picked: ${vote.autopilot.reason} New kids are being born.` : 'The crowd picked. New kids are being born; voting reopens when they arrive.'
   const ranked = vote.options.map((o) => ({ ...o, n: vote.counts[o.key] ?? 0 })).sort((a, b) => b.n - a.n)
   const [top, second] = ranked
   const lead = top ? top.n - (second?.n ?? 0) : 0
-  if (!vote.total) return 'The first vote starts a 15-minute clock. When it runs out, the leader breeds.'
+  if (!vote.total) {
+    const left = vote.autopilotAt ? Math.max(0, Date.parse(vote.autopilotAt) - Date.now()) : 0
+    const auto = left ? ` If nobody votes, the agent picks in ${Math.floor(left / 3600000)}h ${String(Math.floor((left % 3600000) / 60000)).padStart(2, '0')}m.` : ''
+    return `The first vote starts a 15-minute clock; when it runs out, the leader breeds.${auto}`
+  }
   const leader = top.label === '×' ? 'Cross' : top.label
   const left = vote.closesAt ? Math.max(0, Date.parse(vote.closesAt) - Date.now()) : 0
   const clock = left ? `Closes in ${Math.floor(left / 60000)}:${String(Math.floor((left % 60000) / 1000)).padStart(2, '0')}` : 'Closing now'

@@ -36,6 +36,8 @@ export const config = Object.freeze({
   telegramOwner: pick('FT_TELEGRAM_OWNER', 'telegramOwner', ''),
   // A crowd round closes this many minutes after its first vote; the leader breeds.
   roundMinutes: Number(pick('FT_ROUND_MINUTES', 'roundMinutes', 15)),
+  // With no votes at all, the agent picks by itself after this many minutes (0 = never).
+  autopilotMinutes: Number(pick('FT_AUTOPILOT_MINUTES', 'autopilotMinutes', 120)),
   // Telegram stays off until the site is public (the channel would show private links otherwise).
   telegramLive: ['1', 'true', true].includes(pick('FT_TELEGRAM_LIVE', 'telegramLive', false)),
   buildTimeoutMs: Number(pick('FT_BUILD_TIMEOUT_MS', 'buildTimeoutMs', 12 * 60 * 1000)),

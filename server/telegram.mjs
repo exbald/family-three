@@ -99,13 +99,16 @@ async function refreshButtons({ fid }) {
   })
 }
 
-async function announceWinner({ fid, winner, total, names }) {
+async function announceWinner({ fid, winner, total, names, autopilot }) {
   const tree = await readTree(fid)
   await refreshButtons({ fid })
   const what = winner.kind === 'cross' ? `Crossing ${names}` : `${winner.label} ${winner.name} wins`
+  const text = autopilot
+    ? `🤖 Nobody voted for two hours, so I picked. ${autopilot.reason} Three new kids are being born now; vote on them when they arrive.`
+    : `🗳 ${what} with ${total} vote${total === 1 ? '' : 's'} this round. Three new kids are being born now; the next vote opens when they arrive.`
   await tg('sendMessage', {
     chat_id: config.telegramChannel,
-    text: `🗳 ${what} with ${total} vote${total === 1 ? '' : 's'} this round. Three new kids are being born now; the next vote opens when they arrive.`,
+    text,
     reply_markup: { inline_keyboard: [[{ text: 'Watch them grow', url: pageUrl(tree.id) }]] },
   })
 }
