@@ -18,7 +18,8 @@ function extractJson(text) {
 
 export function askJson({ system, user }) {
   const model = config.breederModel || config.model
-  const args = ['-p', user, '--system-prompt', system, '--tools', '', '--output-format', 'json', ...(model ? ['--model', model] : [])]
+  const fallback = config.fallbackModel && config.fallbackModel !== model ? ['--fallback-model', config.fallbackModel] : []
+  const args = ['-p', user, '--system-prompt', system, '--tools', '', '--output-format', 'json', ...(model ? ['--model', model] : []), ...fallback]
   return new Promise((resolve, reject) => {
     const proc = spawn(config.claudeBin, args, { cwd: os.tmpdir(), env: claudeEnv(), stdio: ['ignore', 'pipe', 'pipe'] })
     let out = ''

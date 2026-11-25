@@ -58,6 +58,7 @@ function claudeArgs(prompt, extraDirs, { continueSession = false } = {}) {
   ]
   for (const d of extraDirs) args.push('--add-dir', d)
   if (config.model) args.push('--model', config.model)
+  if (config.fallbackModel && config.fallbackModel !== config.model) args.push('--fallback-model', config.fallbackModel)
   return args
 }
 
@@ -74,7 +75,7 @@ export function claudeEnv() {
   return env
 }
 
-function runClaude({ dir, prompt, extraDirs, log, onProgress, continueSession = false }) {
+function runClaudeOnce({ dir, prompt, extraDirs, log, onProgress, continueSession = false }) {
   return new Promise((resolve) => {
     const proc = spawn(config.claudeBin, claudeArgs(prompt, extraDirs, { continueSession }), { cwd: dir, env: claudeEnv(), stdio: ['ignore', 'pipe', 'pipe'] })
     let buffer = ''
@@ -122,6 +123,26 @@ function runClaude({ dir, prompt, extraDirs, log, onProgress, continueSession = 
       resolve({ ok: code === 0 && !isError, steps, summary })
     })
   })
+}
+
+const OVERLOADED = /\b(529|429)\b|overloaded|rate.?limit|temporarily unavailable/i
+const RETRY_WAIT_MS = [20_000, 60_000]
+
+// A model that is overloaded gets two more tries, each resuming the same session.
+async function runClaude(opts) {
+  let result = await runClaudeOnce(opts)
+  for (const wait of RETRY_WAIT_MS) {
+    if (result.ok || !OVERLOADED.test(result.summary ?? '')) return result
+    opts.log.write(`\n[family-three] model overloaded, retrying in ${wait / 1000}s\n`)
+    opts.onProgress?.({ activity: 'The model is busy; trying again shortly' })
+    await new Promise((r) => setTimeout(r, wait))
+    const resume = result.steps > 0 || opts.continueSession
+    const next = await runClaudeOnce(resume
+      ? { ...opts, continueSession: true, prompt: 'The model was overloaded and your last run stopped. Carry on from where you were and finish the task.' }
+      : opts)
+    result = { ...next, steps: result.steps + next.steps }
+  }
+  return result
 }
 
 async function runStub({ dir, child, request }) {
