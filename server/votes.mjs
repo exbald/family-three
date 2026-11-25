@@ -13,8 +13,7 @@ const MAX_THRESHOLD = 50
 const LEAD = 2
 const PER_IP = 3
 const IP_GAP_MS = 2000
-const FALLBACK_AFTER_MS = 6 * 3600 * 1000
-const FALLBACK_QUORUM = 3
+const ROUND_MS = () => Math.max(1, Number(config.roundMinutes ?? 15)) * 60 * 1000
 const REST_MS = 3600 * 1000
 const OVERLOADED = /\b(529|429)\b|overloaded|rate.?limit|quota|temporarily unavailable/i
 const CROSS = 'cross'
@@ -118,6 +117,7 @@ async function openRound(fid, litterId, { restingUntil = null } = {}) {
         lastTotal: t.vote?.lastTotal ?? 0,
         lastWinner: t.vote?.lastWinner ?? null,
         openedAt: new Date().toISOString(),
+        closesAt: null,
       },
     }
   })
@@ -132,13 +132,12 @@ function ranked(vote) {
     .sort((a, b) => b.count - a.count || a.order - b.order)
 }
 
-function winnerOf(vote, { fallback = false } = {}) {
+// Early win: enough votes and a clear lead. Otherwise the round's clock decides (see the timer below).
+function winnerOf(vote) {
   const [top, second] = ranked(vote)
   if (!top || !top.count) return null
   const lead = top.count - (second?.count ?? 0)
-  if (top.count >= vote.threshold && lead >= LEAD) return top
-  if (fallback && vote.total >= FALLBACK_QUORUM && lead > 0) return top
-  return null
+  return top.count >= vote.threshold && lead >= LEAD ? top : null
 }
 
 async function closeAndBreed(fid, winner) {
@@ -189,7 +188,8 @@ export async function castVote({ fid, option, voterKey, ipHash }) {
     })
     const updated = await updateTree(fid, (t) => {
       if (t.vote?.round !== vote.round || t.vote.status !== 'open') return t
-      return { ...t, vote: { ...t.vote, counts: { ...t.vote.counts, [option]: (t.vote.counts[option] ?? 0) + 1 }, total: t.vote.total + 1 } }
+      const closesAt = t.vote.closesAt ?? new Date(Date.now() + ROUND_MS()).toISOString()
+      return { ...t, vote: { ...t.vote, closesAt, counts: { ...t.vote.counts, [option]: (t.vote.counts[option] ?? 0) + 1 }, total: t.vote.total + 1 } }
     })
     return updated.vote
   })
@@ -244,21 +244,22 @@ bus.on('kid-ready', async ({ fid, kid }) => {
   emitSafe('vote-counted', { fid })
 })
 
-// Every few minutes: a round open for 6 hours with a few votes goes to its leader.
+// Every 15 s: a round whose clock has run out goes to its leader (ties go to the earlier option).
 setInterval(async () => {
   try {
     for (const fam of await listFamilies()) {
+      if (!fam.crowd) continue
       const tree = await readTree(fam.id)
-      const vote = tree?.crowd ? tree.vote : null
-      if (!vote || vote.status !== 'open' || vote.paused) continue
-      if (Date.now() - Date.parse(vote.openedAt) < FALLBACK_AFTER_MS) continue
-      const winner = winnerOf(vote, { fallback: true })
-      if (winner) await closeAndBreed(fam.id, winner)
+      const vote = tree?.vote
+      if (!vote || vote.status !== 'open' || vote.paused || !vote.closesAt || !vote.total) continue
+      if (Date.parse(vote.closesAt) > Date.now()) continue
+      const [leader] = ranked(vote)
+      if (leader?.count) await closeAndBreed(fam.id, leader)
     }
   } catch (err) {
-    console.error('vote fallback check failed:', err.message)
+    console.error('round clock check failed:', err.message)
   }
-}, 5 * 60 * 1000).unref()
+}, 15 * 1000).unref()
 
 // A crowd family's first round opens when generation 1 is born; restarts reopen a round that was mid-breed.
 export async function resumeCrowdRounds() {
@@ -267,5 +268,8 @@ export async function resumeCrowdRounds() {
     if (!tree?.crowd || !tree.litters.length) continue
     const busy = Object.values(tree.children).some((k) => ['briefing', 'queued', 'building', 'thumbing'].includes(k.status))
     if (!busy && (!tree.vote || tree.vote.status === 'breeding')) await openRound(fam.id, tree.litters.at(-1).id)
+    else if (tree.vote?.status === 'open' && tree.vote.total && !tree.vote.closesAt) {
+      await updateTree(fam.id, (t) => ({ ...t, vote: { ...t.vote, closesAt: new Date(Date.now() + ROUND_MS()).toISOString() } }))
+    }
   }
 }

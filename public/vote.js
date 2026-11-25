@@ -8,9 +8,11 @@ function statusLine(vote) {
   const ranked = vote.options.map((o) => ({ ...o, n: vote.counts[o.key] ?? 0 })).sort((a, b) => b.n - a.n)
   const [top, second] = ranked
   const lead = top ? top.n - (second?.n ?? 0) : 0
-  const need = Math.max(0, vote.threshold - (top?.n ?? 0))
-  if (!vote.total) return `First option to ${vote.threshold} votes (and 2 ahead) breeds.`
-  return `${top.label === '×' ? 'Cross' : top.label} leads with ${top.n}${lead ? `, ${lead} ahead` : ' (tied)'}. ${need ? `${need} more to breed.` : 'Needs a 2-vote lead.'}`
+  if (!vote.total) return 'The first vote starts a 15-minute clock. When it runs out, the leader breeds.'
+  const leader = top.label === '×' ? 'Cross' : top.label
+  const left = vote.closesAt ? Math.max(0, Date.parse(vote.closesAt) - Date.now()) : 0
+  const clock = left ? `Closes in ${Math.floor(left / 60000)}:${String(Math.floor((left % 60000) / 1000)).padStart(2, '0')}` : 'Closing now'
+  return `${leader} leads with ${top.n}${lead ? `, ${lead} ahead` : ' (tied)'}. ${clock}, then the leader breeds.`
 }
 
 export function voteHtml({ tree, esc, owner = false, compact = false }) {

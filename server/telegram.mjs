@@ -60,7 +60,7 @@ function roundText(tree) {
     '',
     ...vote.options.filter((o) => o.kind === 'breed').map((o) => `${o.label} ${o.name}: ${config.publicUrl}/n/${o.key}/`),
     '',
-    `Vote for the one that breeds next. First to ${vote.threshold} votes (and 2 ahead) wins, and three new kids are born from it.`,
+    `Vote for the one that breeds next. The first vote starts a ${config.roundMinutes}-minute clock; when it runs out, the leader breeds (or sooner, if one gets ${vote.threshold} votes and leads by 2).`,
   ]
   return lines.join('\n')
 }
