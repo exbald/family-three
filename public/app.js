@@ -129,13 +129,19 @@ function familyRow(f) {
   const status = f.building
     ? `<span class="pill pill-busy">${f.building} growing</span>`
     : f.adopted
-      ? '<span class="pill pill-live">Adopted</span>'
+      ? `<span class="pill pill-live">${f.adopted} adopted</span>`
       : ''
+  const shots = (f.preview ?? [])
+    .map((k) => `<span class="fam-shot${k.adopted ? ' adopted' : ''}"><img src="/thumb/${esc(k.id)}.png?v=${encodeURIComponent(k.v)}" alt=""><span>${esc(k.label)} ${esc(k.name)}</span></span>`)
+    .join('')
   return `
-    <a class="fam" href="/f/${esc(f.id)}" data-link>
-      <span class="fam-badge">${f.apps}</span>
-      <span class="fam-text"><strong>${esc(f.title)}</strong><span>Gen ${f.generations} · ${f.apps} apps</span></span>
-      ${status}
+    <a class="fam${shots ? ' has-shots' : ''}" href="/f/${esc(f.id)}" data-link>
+      <span class="fam-top">
+        <span class="fam-badge">${f.apps}</span>
+        <span class="fam-text"><strong>${esc(f.title)}</strong><span>Generation ${f.generations} · ${f.apps} apps</span></span>
+        ${status}
+      </span>
+      ${shots ? `<span class="fam-shots">${shots}</span>` : ''}
     </a>`
 }
 

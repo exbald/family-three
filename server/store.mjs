@@ -94,6 +94,12 @@ function summarize(tree) {
     apps: kids.filter((k) => k.status === 'ready').length,
     adopted: kids.filter((k) => k.adopted).length,
     building,
+    // Up to four pictures for the list: adopted ones first, then the newest.
+    preview: kids
+      .filter((k) => k.status === 'ready' && k.thumb)
+      .sort((a, b) => Number(Boolean(b.adopted)) - Number(Boolean(a.adopted)) || b.n - a.n)
+      .slice(0, 4)
+      .map((k) => ({ id: k.id, label: k.label, name: k.name, adopted: Boolean(k.adopted), v: k.finishedAt ?? '' })),
     updatedAt: tree.updatedAt ?? tree.createdAt,
   }
 }
