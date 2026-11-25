@@ -526,3 +526,4 @@ body:has(.landing) { background: var(--bg); }
   .vo-open { display: none; }
 }
 .lp-note a { color: var(--text-2); }
+.retry-btn { position: relative; z-index: 2; font-weight: 600; font-size: 13px; }

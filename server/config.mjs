@@ -34,6 +34,8 @@ export const config = Object.freeze({
   telegramBaseUrl: pick('FT_TELEGRAM_BASE_URL', 'telegramBaseUrl', ''),
   telegramChannel: pick('FT_TELEGRAM_CHANNEL', 'telegramChannel', ''),
   telegramOwner: pick('FT_TELEGRAM_OWNER', 'telegramOwner', ''),
+  // Telegram stays off until the site is public (the channel would show private links otherwise).
+  telegramLive: ['1', 'true', true].includes(pick('FT_TELEGRAM_LIVE', 'telegramLive', false)),
   buildTimeoutMs: Number(pick('FT_BUILD_TIMEOUT_MS', 'buildTimeoutMs', 12 * 60 * 1000)),
   chromePath: pick('FT_CHROME', 'chromePath', path.join(home, '.browsers', 'chrome')),
   spriteSocket: '/.sprite/api.sock',

@@ -5,7 +5,9 @@ import { snapThumb } from './thumbs.mjs'
 import { holdAwake } from './awake.mjs'
 import { saveCheckpoint } from './checkpoints.mjs'
 import { config } from './config.mjs'
-import { readTree, updateTree, updateChild } from './store.mjs'
+import { access } from 'node:fs/promises'
+import path from 'node:path'
+import { kidDir, readTree, updateTree, updateChild } from './store.mjs'
 import { emitSafe } from './events.mjs'
 
 const LETTERS = ['A', 'B', 'C']
@@ -79,17 +81,29 @@ function throttle(fn, ms) {
   }
 }
 
+const OVERLOADED = /\b(529|429)\b|overloaded|rate.?limit|quota|temporarily unavailable/i
+const hasApp = (fid, n) => access(path.join(kidDir(fid, n), 'index.html')).then(() => true, () => false)
+
+// Builds one child. A builder that runs out of time but left an app is rescued (the browser check decides);
+// one that left nothing starts over once. Then headless Chrome checks it, with one repair round if needed.
 async function raiseOne({ fid, request, child, kind, parents }) {
   const startedAt = new Date().toISOString()
-  await updateChild(fid, child.id, { status: 'building', startedAt })
+  await updateChild(fid, child.id, { status: 'building', startedAt, summary: '', activity: '' })
   const report = throttle((p) => updateChild(fid, child.id, p).catch(() => {}), PROGRESS_EVERY_MS)
-  const result = await buildChild({ fid, request, child, kind, parents, onProgress: report })
+  let result = await buildChild({ fid, request, child, kind, parents, onProgress: report })
+  if (!result.ok && !(await hasApp(fid, child.n)) && !OVERLOADED.test(result.summary ?? '')) {
+    await updateChild(fid, child.id, { activity: 'Starting over: the first try left no app' })
+    const second = await buildChild({ fid, request, child, kind, parents, onProgress: report })
+    result = { ...second, steps: result.steps + second.steps }
+  }
   const finishedAt = new Date().toISOString()
-  if (!result.ok) {
+  if (!result.ok && !(await hasApp(fid, child.n))) {
     await updateChild(fid, child.id, { status: 'failed', finishedAt, steps: result.steps, summary: result.summary })
     return
   }
-  await updateChild(fid, child.id, { status: 'thumbing', finishedAt, steps: result.steps, summary: result.summary })
+  const rescued = !result.ok
+  const summary = rescued ? 'The builder ran out of time after writing the app; the browser check let it through.' : result.summary
+  await updateChild(fid, child.id, { status: 'thumbing', finishedAt, steps: result.steps, summary, rescued })
   const url = `http://127.0.0.1:${config.port}/n/${child.id}/`
   const first = await snapThumb({ fid, n: child.n, url })
   if (!first.errors.length) {
@@ -100,6 +114,10 @@ async function raiseOne({ fid, request, child, kind, parents }) {
   await updateChild(fid, child.id, { status: 'building', activity: 'Fixing a bug the browser found' })
   const fix = await fixChild({ fid, child, errors: first.errors, onProgress: report })
   const second = await snapThumb({ fid, n: child.n, url })
+  if (rescued && second.errors.length) {
+    await updateChild(fid, child.id, { status: 'failed', finishedAt: new Date().toISOString(), summary: `Ran out of time, and the app still throws: ${second.errors[0]}` })
+    return
+  }
   await updateChild(fid, child.id, {
     status: 'ready',
     thumb: second.thumb,
@@ -107,6 +125,46 @@ async function raiseOne({ fid, request, child, kind, parents }) {
     finishedAt: new Date().toISOString(),
     steps: result.steps + fix.steps,
     check: { errors: first.errors.length, fixed: fix.ok && !second.errors.length, remaining: second.errors },
+  })
+}
+
+// Owner's "Try again" on a lost child: rescue it if its app exists, otherwise build it from scratch.
+export async function retryChild({ fid, cid }) {
+  const tree = await readTree(fid)
+  const child = tree.children[cid]
+  const litter = tree.litters.find((l) => l.id === child.litter)
+  const parents = child.parents.map((id) => tree.children[id])
+  const release = holdAwake(`retry-${cid}`)
+  ;(async () => {
+    if (await hasApp(fid, child.n)) await rescueChild({ fid, child })
+    else await raiseOne({ fid, request: tree.request, child, kind: litter.kind, parents })
+    const done = (await readTree(fid)).children[cid]
+    if (done.status === 'ready') emitSafe('kid-ready', { fid, kid: done })
+  })()
+    .catch((err) => console.error(`retry ${cid} failed:`, err))
+    .finally(release)
+}
+
+// A lost child whose app exists: let the browser check decide, with one repair round.
+async function rescueChild({ fid, child }) {
+  await updateChild(fid, child.id, { status: 'thumbing', activity: 'Checking the app it left', summary: '' })
+  const url = `http://127.0.0.1:${config.port}/n/${child.id}/`
+  let check = await snapThumb({ fid, n: child.n, url })
+  let steps = 0
+  if (check.errors.length) {
+    await updateChild(fid, child.id, { status: 'building', activity: 'Fixing a bug the browser found' })
+    const fix = await fixChild({ fid, child, errors: check.errors, onProgress: () => {} })
+    steps = fix.steps
+    check = await snapThumb({ fid, n: child.n, url })
+  }
+  if (check.errors.length) {
+    await updateChild(fid, child.id, { status: 'failed', activity: '', summary: `The app still throws: ${check.errors[0]}` })
+    return
+  }
+  await updateChild(fid, child.id, {
+    status: 'ready', thumb: check.thumb, activity: '', rescued: true, finishedAt: new Date().toISOString(),
+    summary: 'Rescued: the builder ran out of time after writing the app, and the browser check let it through.',
+    steps: (child.steps ?? 0) + steps,
   })
 }
 

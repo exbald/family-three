@@ -85,7 +85,7 @@ export function panelHtml(tree, { selected, crossFrom, esc, duration, owner = fa
   const progress = BUSY.has(kid.status)
     ? `<p class="muted">Growing: ${kid.steps ?? 0} steps, ${duration(kid.startedAt)}. <span class="mono">${esc(kid.activity ?? '')}</span></p>`
     : kid.status === 'failed'
-      ? `<p class="error">${esc(kid.summary ?? 'This one didn’t make it.')}</p>`
+      ? `<p class="error">${esc(kid.summary ?? 'This one didn’t make it.')}</p>${owner ? `<button class="btn btn-ghost" type="button" data-retry="${esc(kid.id)}">Try again</button>` : ''}`
       : `<p class="muted">Born in ${duration(kid.startedAt, kid.finishedAt)}.</p>`
   const crossing = crossFrom
     ? `<p class="hint-x">Now tap the child to cross with <b>${esc(tree.children[crossFrom]?.label ?? '')}</b>. <button class="linkish" type="button" data-cancel-cross>Cancel</button></p>`

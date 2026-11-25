@@ -217,6 +217,21 @@ bus.on('litter-done', async ({ fid, kids }) => {
   await openRound(fid, kids[0].litter, { restingUntil })
 })
 
+// A lost kid that comes back (rescued or retried) joins its litter's open round with 0 votes.
+bus.on('kid-ready', async ({ fid, kid }) => {
+  await updateTree(fid, (t) => {
+    const v = t.vote
+    if (!t.crowd || !v || v.status !== 'open' || v.litter !== kid.litter || v.options.some((o) => o.key === kid.id)) return t
+    const singles = v.options.filter((o) => o.kind === 'breed')
+    const option = { key: kid.id, kind: 'breed', label: kid.label, name: kid.name }
+    const others = v.options.filter((o) => o.kind !== 'breed')
+    const cross = singles.length + 1 >= 2 && !others.some((o) => o.key === CROSS) ? [{ key: CROSS, kind: 'cross', label: '×', name: 'Cross the top two' }] : []
+    const options = [...singles, option].sort((a, b) => a.label.localeCompare(b.label)).concat(others, cross)
+    return { ...t, vote: { ...v, options, counts: { ...v.counts, [kid.id]: 0, ...(cross.length ? { [CROSS]: 0 } : {}) } } }
+  })
+  emitSafe('vote-counted', { fid })
+})
+
 // Every few minutes: a round open for 6 hours with a few votes goes to its leader.
 setInterval(async () => {
   try {

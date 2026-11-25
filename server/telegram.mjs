@@ -10,7 +10,7 @@ import { listFamilies, readTree, updateTree } from './store.mjs'
 import { castVote, setPaused, VoteError } from './votes.mjs'
 
 const EDIT_EVERY_MS = 2000
-export const enabled = () => Boolean(config.telegramBaseUrl && config.telegramChannel)
+export const enabled = () => Boolean(config.telegramLive && config.telegramBaseUrl && config.telegramChannel)
 
 async function tg(method, body) {
   const res = await fetch(`${config.telegramBaseUrl}/${method}`, {

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { config } from './config.mjs'
 import { sendJson, sendError, readJson, sendFile } from './http.mjs'
 import { FAMILY_ID, kidDir, listFamilies, newFamilyId, parseChildId, readTree, updateTree } from './store.mjs'
-import { startFamily, startLitter } from './generation.mjs'
+import { startFamily, startLitter, retryChild } from './generation.mjs'
 import { readTaste, tastePathFor } from './taste.mjs'
 import { loadOwnerKey, isOwner, handleUnlock } from './owner.mjs'
 import { adoptChild, readAdopted, SLUG } from './adopt.mjs'
@@ -128,6 +128,15 @@ const api = {
     sendJson(res, 202, { success: true, data: { child: found.child.id } })
   },
 
+  async retry(req, res) {
+    const body = await readJson(req)
+    const found = await findChild(body.child)
+    if (!found) return sendError(res, 404, 'No child with that id.')
+    if (found.child.status !== 'failed') return sendError(res, 409, 'Only a lost child can be tried again.')
+    await retryChild({ fid: found.fid, cid: found.child.id })
+    sendJson(res, 202, { success: true, data: { child: found.child.id } })
+  },
+
   async checkpoints(req, res, url) {
     const fid = url.searchParams.get('family')
     if (fid && !FAMILY_ID.test(fid)) return sendError(res, 400, 'Bad family id.')
@@ -208,7 +217,7 @@ async function route(req, res) {
   const method = req.method
 
   if (p === '/' && handleUnlock(req, res, url)) return
-  if (method === 'GET' && p === '/api/site') return sendJson(res, 200, { success: true, data: { telegramChannel: config.telegramChannel || null } })
+  if (method === 'GET' && p === '/api/site') return sendJson(res, 200, { success: true, data: { telegramChannel: config.telegramLive ? config.telegramChannel || null : null } })
   if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req) } })
   if (method === 'POST' && p.startsWith('/tg/')) return telegramWebhook(req, res, p.slice(4))
   if (method === 'POST' && p === '/api/vote') return api.vote(req, res)
@@ -221,6 +230,7 @@ async function route(req, res) {
   if (method === 'POST' && p === '/api/adopt') return api.adopt(req, res)
   if (method === 'POST' && p === '/api/restore') return api.restore(req, res)
   if (method === 'POST' && p === '/api/kit') return api.kit(req, res)
+  if (method === 'POST' && p === '/api/retry') return api.retry(req, res)
   if (method === 'GET' && p === '/api/checkpoints') return api.checkpoints(req, res, url)
   if (method === 'GET' && p === '/api/taste') {
     const fid = url.searchParams.get('family')

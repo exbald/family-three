@@ -222,6 +222,19 @@ function drawFamily() {
     view.querySelectorAll('[data-pick]').forEach((btn) => btn.addEventListener('click', () => togglePick(btn.dataset.pick)))
   }
   if (tree.crowd) wireVote(view, { api, fid: tree.id, onChange: () => refreshFamily() })
+  view.querySelectorAll('[data-retry]').forEach((btn) =>
+    btn.addEventListener('click', async () => {
+      btn.disabled = true
+      btn.textContent = 'Trying again…'
+      try {
+        await api('/api/retry', { method: 'POST', body: JSON.stringify({ child: btn.dataset.retry }) })
+        await refreshFamily()
+      } catch (err) {
+        btn.disabled = false
+        btn.textContent = err.message
+      }
+    }),
+  )
   drawActionbar()
 }
 
@@ -335,7 +348,7 @@ function kidCard(kid) {
       </div>
       <p class="brief">${esc(kid.brief)}</p>
       <div class="kid-foot">
-        ${ready ? `<a href="${esc(kid.adopted ? kid.adoption.sprite : `/n/${kid.id}/`)}" target="_blank" rel="noopener">${kid.adopted ? 'Adopted · open ›' : 'Open the live app ›'}</a>` : '<span></span>'}
+        ${ready ? `<a href="${esc(kid.adopted ? kid.adoption.sprite : `/n/${kid.id}/`)}" target="_blank" rel="noopener">${kid.adopted ? 'Adopted · open ›' : 'Open the live app ›'}</a>` : kid.status === 'failed' && owner ? `<button class="linkish lime retry-btn" type="button" data-retry="${esc(kid.id)}">Try again ›</button>` : '<span></span>'}
         <span class="meta">${meta}</span>
       </div>
     </article>`
