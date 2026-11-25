@@ -4,6 +4,7 @@ import { drawCheckpoints, hideCheckpoints } from './checkpoints.js'
 import { adoptedHtml, wireAdopted } from './adopted.js'
 import { wireKit } from './kit.js'
 import { landingHtml, INSTALL } from './landing.js'
+import { voteHtml, wireVote } from './vote.js'
 const view = document.getElementById('view')
 const familyHead = document.getElementById('family-head')
 const newFamily = document.getElementById('new-family')
@@ -51,6 +52,7 @@ async function renderHome() {
       <form id="ask-form">
         <label for="ask">Say it however you like. I’ll make three different children, each a working app.</label>
         <textarea id="ask" name="request" maxlength="500" required placeholder="A tracker for my running. Weekly distance, a streak, nothing cute."></textarea>
+        <label class="crowd-check"><input type="checkbox" id="crowd"> Crowd family: anyone can vote on which kid breeds next</label>
       </form>
       <div class="row"><button class="btn btn-lime" type="submit" form="ask-form" id="raise">Raise 3 children</button></div>
       <p class="error" id="ask-error" hidden></p>
@@ -86,10 +88,26 @@ function wireInstallCopy(root) {
 async function renderVisitorHome() {
   const families = await api('/api/families').catch(() => [])
   const featured = [...families].sort((a, b) => b.apps - a.apps)[0] ?? null
-  view.innerHTML = landingHtml({ featured, families, esc })
+  const crowdFam = families.find((f) => f.crowd)
+  view.innerHTML = landingHtml({ featured: [...families].filter((f) => !f.crowd).sort((a, b) => b.apps - a.apps)[0] ?? featured, families, esc, crowd: crowdFam })
   wireInstallCopy(view)
+  if (crowdFam) drawLandingVote(crowdFam.id)
   if (families.length) renderFamilyList()
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView()
+}
+
+async function drawLandingVote(fid) {
+  const box = document.getElementById('crowd-vote')
+  if (!box || !document.body.contains(box)) return
+  try {
+    const tree = await api(`/api/families/${encodeURIComponent(fid)}`)
+    box.innerHTML = voteHtml({ tree, esc, compact: true })
+    wireVote(box, { api, fid, onChange: () => drawLandingVote(fid) })
+  } catch {
+    box.innerHTML = ''
+  }
+  clearTimeout(state.pollTimer)
+  state = { ...state, pollTimer: setTimeout(() => drawLandingVote(fid), 4000) }
 }
 
 async function onAsk(event) {
@@ -101,7 +119,8 @@ async function onAsk(event) {
   button.disabled = true
   button.textContent = 'Starting three builders…'
   try {
-    const { id } = await api('/api/families', { method: 'POST', body: JSON.stringify({ request }) })
+    const crowd = document.getElementById('crowd')?.checked === true
+    const { id } = await api('/api/families', { method: 'POST', body: JSON.stringify({ request, crowd }) })
     navigate(`/f/${id}`)
   } catch (err) {
     error.textContent = err.message
@@ -126,7 +145,9 @@ async function renderFamilyList() {
 }
 
 function familyRow(f) {
-  const status = f.building
+  const status = f.crowd && f.vote?.status === 'open'
+    ? `<span class="pill pill-x">Crowd · ${f.vote.total} vote${f.vote.total === 1 ? '' : 's'}</span>`
+    : f.building
     ? `<span class="pill pill-busy">${f.building} growing</span>`
     : f.adopted
       ? `<span class="pill pill-live">${f.adopted} adopted</span>`
@@ -160,7 +181,7 @@ async function refreshFamily() {
   try {
     const [tree, taste, checkpoints] = await Promise.all([
       api(`/api/families/${encodeURIComponent(fid)}`),
-      api('/api/taste').catch(() => null),
+      api(`/api/taste?family=${encodeURIComponent(fid)}`).catch(() => null),
       owner ? api(`/api/checkpoints?family=${encodeURIComponent(fid)}`).catch(() => []) : [],
     ])
     if (state.fid !== fid) return
@@ -172,11 +193,16 @@ async function refreshFamily() {
     return
   }
   const busy = Object.values(state.tree.children).some((c) => BUSY.has(c.status) || c.adoption?.status === 'working' || c.kit?.status === 'working')
-  state.pollTimer = setTimeout(refreshFamily, busy ? 2000 : 10000)
+  state.pollTimer = setTimeout(refreshFamily, busy ? 2000 : state.tree.crowd ? 3000 : 10000)
 }
 
 function visitorBanner() {
+  if (state.tree?.crowd) return `<p class="visitor-note crowd-note">This family is raised by whoever shows up. Vote for the kid that breeds next: no account, one vote per round. The winner breeds by itself.</p>`
   return owner ? '' : `<p class="visitor-note">You’re looking at someone’s family. Every app is live. <a href="/" data-link>Raise your own in one command ›</a></p>`
+}
+
+function crowdPanel() {
+  return state.tree?.crowd ? voteHtml({ tree: state.tree, esc, owner }) : ''
 }
 
 function drawFamily() {
@@ -191,9 +217,10 @@ function drawFamily() {
 
   if (wide.matches) drawTreeView()
   else {
-    view.innerHTML = visitorBanner() + tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('') + tasteHtml(state.taste, esc)
+    view.innerHTML = visitorBanner() + crowdPanel() + tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('') + tasteHtml(state.taste, esc)
     view.querySelectorAll('[data-pick]').forEach((btn) => btn.addEventListener('click', () => togglePick(btn.dataset.pick)))
   }
+  if (tree.crowd) wireVote(view, { api, fid: tree.id, onChange: () => refreshFamily() })
   drawActionbar()
 }
 
@@ -218,7 +245,7 @@ function drawTreeView() {
         </div>
         ${treeHtml(tree, { selected, picked: state.picked, esc })}
       </section>
-      <aside class="side">${panelHtml(tree, { selected, crossFrom: state.crossFrom, esc, duration, owner })}${tasteHtml(state.taste, esc)}</aside>
+      <aside class="side">${crowdPanel()}${panelHtml(tree, { selected, crossFrom: state.crossFrom, esc, duration, owner })}${tasteHtml(state.taste, esc)}</aside>
     </div>`
   const next = view.querySelector('.tree-scroll')
   if (scroll && next) next.scrollTo(scroll.left, scroll.top)

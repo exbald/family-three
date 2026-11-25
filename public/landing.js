@@ -24,7 +24,7 @@ const UNDER_THE_HOOD = [
   'The Sprite saves a checkpoint after every generation. Restore rewinds the whole computer in about eight seconds.',
 ]
 
-export function landingHtml({ featured, families, esc }) {
+export function landingHtml({ featured, families, esc, crowd = null }) {
   const card = featured
     ? `<a class="lp-card" href="/f/${esc(featured.id)}" data-link aria-label="Open the family ${esc(featured.title)}"><img onerror="this.closest('.lp-card').remove()" src="/card/${esc(featured.id)}.png" alt="Family tree for ${esc(featured.title)}: ${featured.generations} generations, ${featured.apps} live apps"></a>`
     : ''
@@ -45,6 +45,19 @@ export function landingHtml({ featured, families, esc }) {
       </section>
 
       <p class="lp-why">Most people can't describe the app they want. They know it when they see it. So Family Three shows you three and lets you choose.</p>
+
+      ${crowd ? `
+      <section class="lp-section lp-crowd" aria-labelledby="crowd-title">
+        <div class="lp-crowd-head">
+          <div>
+            <p class="lp-kicker">Live now · raised by whoever shows up</p>
+            <h2 id="crowd-title">Pick the next kid</h2>
+            <p>The crowd's family started from “${esc(crowd.request)}”. Vote for the one that breeds next. When one gets enough votes, three new kids are born from it a few minutes later.</p>
+          </div>
+          <a class="btn btn-ghost" href="/f/${esc(crowd.id)}" data-link>See its whole tree</a>
+        </div>
+        <div id="crowd-vote"></div>
+      </section>` : ''}
 
       <section class="lp-section" aria-labelledby="how">
         <h2 id="how">How it works</h2>
