@@ -3,6 +3,7 @@ import { treeHtml, panelHtml, tasteHtml } from './treeview.js'
 import { drawCheckpoints, hideCheckpoints } from './checkpoints.js'
 import { adoptedHtml, wireAdopted } from './adopted.js'
 import { wireKit } from './kit.js'
+import { landingHtml, INSTALL } from './landing.js'
 const view = document.getElementById('view')
 const familyHead = document.getElementById('family-head')
 const newFamily = document.getElementById('new-family')
@@ -75,17 +76,6 @@ async function renderHome() {
   renderFamilyList()
 }
 
-const INSTALL = 'curl -fsSL https://raw.githubusercontent.com/exbald/family-three/main/scripts/install.sh | bash'
-
-function installBox() {
-  return `
-    <div class="install">
-      <p class="mono-label">Raise your own, on your own Sprite</p>
-      <div class="install-row"><code>${esc(INSTALL)}</code><button class="btn btn-lime" type="button" data-copy-install>Copy</button></div>
-      <p class="muted">Run it inside a <a href="https://fly.io/sprites" target="_blank" rel="noopener">Fly.io Sprite</a> where Claude Code works. Your apps, your model, your computer. <a href="https://github.com/exbald/family-three" target="_blank" rel="noopener">The code</a></p>
-    </div>`
-}
-
 function wireInstallCopy(root) {
   root.querySelector('[data-copy-install]')?.addEventListener('click', (e) => {
     const btn = e.currentTarget
@@ -93,17 +83,13 @@ function wireInstallCopy(root) {
   })
 }
 
-function renderVisitorHome() {
-  view.innerHTML = `
-    <section class="ask">
-      <h1>Apps you raise, not prompt.</h1>
-      <p class="lede">Ask for an app and three children are born: three working apps, each with its own link. Pick one and it breeds three more, or cross two. Keep the one you love and it gets a public link and a GitHub repo whose history is its family line.</p>
-      <p class="muted">These families live on one person's Sprite, so you can look around but not raise here. Every app on the trees is live: open any of them.</p>
-      <div id="families"></div>
-      ${installBox()}
-    </section>`
+async function renderVisitorHome() {
+  const families = await api('/api/families').catch(() => [])
+  const featured = [...families].sort((a, b) => b.apps - a.apps)[0] ?? null
+  view.innerHTML = landingHtml({ featured, families, esc })
   wireInstallCopy(view)
-  renderFamilyList()
+  if (families.length) renderFamilyList()
+  if (location.hash) document.querySelector(location.hash)?.scrollIntoView()
 }
 
 async function onAsk(event) {
@@ -132,7 +118,7 @@ async function renderFamilyList() {
     const families = await api('/api/families')
     if (!families.length) return
     box.innerHTML = `
-      <p class="mono-label">${owner ? 'Your families' : 'Families on this Sprite'}</p>
+      ${box.closest('.landing') ? '' : `<p class="mono-label">${owner ? 'Your families' : 'Families on this Sprite'}</p>`}
       <div class="families">${families.map(familyRow).join('')}</div>`
   } catch (err) {
     box.innerHTML = `<p class="error">${esc(err.message)}</p>`
@@ -416,6 +402,15 @@ async function renderAdoptedPage(fid, cid) {
 
 function route() {
   clearTimeout(state.pollTimer)
+  if (location.pathname === '/about') {
+    state = { ...state, fid: null, tree: null, picked: [] }
+    familyHead.hidden = true
+    newFamily.hidden = true
+    actionbar.hidden = true
+    hideCheckpoints()
+    renderVisitorHome()
+    return
+  }
   const adopted = /^\/f\/([^/]+)\/adopted\/([^/]+)$/.exec(location.pathname)
   const match = /^\/f\/([^/]+)$/.exec(location.pathname)
   if (adopted) renderAdoptedPage(decodeURIComponent(adopted[1]), decodeURIComponent(adopted[2]))

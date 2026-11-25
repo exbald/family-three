@@ -206,7 +206,7 @@ async function route(req, res) {
     const ids = parseChildId(thumb[1])
     if (ids && (await sendFile(res, kidDir(ids.fid, ids.n), 'thumb.png'))) return
   }
-  if (p === '/' || /^\/f\/[^/]+(?:\/adopted\/[^/]+)?$/.test(p)) return serveIndex(req, res, p)
+  if (p === '/' || p === '/about' || /^\/f\/[^/]+(?:\/adopted\/[^/]+)?$/.test(p)) return serveIndex(req, res, p)
   const card = /^\/card\/([^/]+)\.png$/.exec(p)
   if (card && FAMILY_ID.test(card[1])) {
     const file = await ensureCard(card[1])

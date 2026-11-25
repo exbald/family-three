@@ -373,3 +373,99 @@ body:has(.treeview) .top { max-width: 1560px; }
 .kit .urlrow .mono { white-space: normal; overflow: visible; font-size: 11.5px; line-height: 1.4; }
 .ad-kit .kit { padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
 .share-card { color: var(--lime); text-decoration: none; font-weight: 600; }
+
+/* Landing (visitors) */
+body:has(.landing) { background:
+  radial-gradient(60% 50% at 85% 0%, rgba(198, 244, 50, 0.07), transparent 70%),
+  radial-gradient(50% 40% at 0% 30%, rgba(255, 155, 87, 0.05), transparent 70%),
+  var(--bg); }
+body:has(.landing)::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.landing { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px; padding-top: 12px; }
+.landing > * { animation: lp-rise 0.7s cubic-bezier(.2, .7, .2, 1) both; }
+.landing > :nth-child(2) { animation-delay: 0.12s; }
+.landing > :nth-child(3) { animation-delay: 0.22s; }
+.landing > :nth-child(n + 4) { animation-delay: 0.3s; }
+@keyframes lp-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .landing > * { animation: none; } }
+
+.lp-hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 48px; align-items: center; }
+.lp-hero-text { display: flex; flex-direction: column; gap: 20px; }
+.lp-kicker { margin: 0; font: 500 13px var(--mono); color: var(--lime); letter-spacing: 0.04em; text-transform: uppercase; }
+.lp-hero h1 { margin: 0; font: 700 clamp(44px, 6.2vw, 80px)/0.98 var(--display); letter-spacing: -0.035em; }
+.lp-sub { margin: 0; font-size: 19px; line-height: 1.55; color: var(--text-2); max-width: 34rem; }
+.lp-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+.lp-ctas .btn { min-height: 52px; padding: 0 22px; font-size: 16px; border-radius: 14px; }
+.lp-note { margin: 0; font-size: 13px; max-width: 30rem; }
+.lp-card {
+  display: block; border-radius: 20px; overflow: hidden; transform: perspective(1400px) rotateY(-7deg) rotateX(3deg);
+  box-shadow: 0 0 0 1px var(--line-2), 0 40px 80px rgba(0, 0, 0, 0.55), 0 0 120px rgba(198, 244, 50, 0.08);
+  transition: transform 0.5s cubic-bezier(.2, .7, .2, 1);
+}
+.lp-card:hover { transform: perspective(1400px) rotateY(0) rotateX(0) scale(1.01); }
+.lp-card img { display: block; width: 100%; height: auto; }
+
+.lp-why {
+  margin: 0 auto; max-width: 46rem; text-align: center; font: 500 clamp(22px, 2.6vw, 30px)/1.35 var(--display);
+  letter-spacing: -0.01em; color: var(--text);
+}
+
+.lp-section { display: flex; flex-direction: column; gap: 24px; }
+.lp-section h2 { margin: 0; font: 700 32px/1.1 var(--display); letter-spacing: -0.02em; }
+.lp-section h3 { margin: 0; font: 700 18px/1.2 var(--display); }
+.lp-section p { margin: 0; color: var(--text-3); line-height: 1.55; }
+
+/* The steps hang off one lime line, like the tree; step 3 is a cross, so its joint is orange. */
+.lp-steps { list-style: none; margin: 0; padding: 26px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; position: relative; }
+.lp-steps::before { content: ''; position: absolute; left: 22px; right: 22px; top: 25px; height: 3px; border-radius: 2px; background: var(--lime); }
+.lp-steps li { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 34px 18px 20px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
+.lp-num {
+  position: absolute; top: -26px; left: 18px; width: 40px; height: 40px; border-radius: 20px; display: grid; place-items: center;
+  background: var(--bg); border: 3px solid var(--lime); color: var(--lime); font: 700 15px var(--mono);
+}
+.lp-steps li:nth-child(3) .lp-num { border-color: var(--orange); color: var(--orange); }
+
+.lp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.lp-item { display: flex; flex-direction: column; gap: 8px; padding: 22px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
+.lp-item:first-child { border-color: rgba(198, 244, 50, 0.35); }
+
+.lp-hood { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; }
+.lp-hood li { position: relative; padding-left: 22px; color: var(--text-3); line-height: 1.55; }
+.lp-hood li::before { content: ''; position: absolute; left: 0; top: 9px; width: 9px; height: 9px; border-radius: 5px; border: 2px solid var(--lime); }
+
+#install { padding: 28px; border-radius: 22px; background: var(--panel); border: 1px solid var(--line-2); }
+.lp-lede { font-size: 16px; color: var(--text-2) !important; }
+.lp-install { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 14px; color: var(--text-2); line-height: 1.6; }
+.lp-install code { font: 13px var(--mono); color: var(--lime); }
+.lp-install .install-row { margin-top: 8px; }
+.lp-foot { padding: 8px 0 24px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 24px; }
+.lp-foot a { color: var(--text-2); }
+
+@media (max-width: 860px) {
+  .landing { gap: 52px; }
+  .lp-hero { grid-template-columns: 1fr; gap: 32px; }
+  .lp-card { transform: none; }
+  .lp-steps { grid-template-columns: 1fr; padding: 0 0 0 26px; gap: 28px; }
+  .lp-steps::before { left: 4px; right: auto; top: 20px; bottom: 20px; width: 3px; height: auto; }
+  .lp-num { top: 16px; left: -42px; }
+  .lp-steps li { padding: 18px; }
+  .lp-grid, .lp-hood { grid-template-columns: 1fr; }
+  #install { padding: 20px; }
+}
+.about-link { color: var(--text-3); text-decoration: none; font-size: 13px; font-weight: 600; }
+.about-link:hover { color: var(--lime); }
+#new-family[hidden] + .about-link { margin-left: auto; }
+@media (max-width: 860px) { .about-link { order: 1; } #new-family[hidden] + .about-link { margin-left: auto; } }
+
+/* Critique fixes: the glow no longer ends in a hard seam, and the hero shows only the tree half of the card. */
+body:has(.landing) { background: var(--bg); }
+.landing::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 85% 0%, rgba(198, 244, 50, 0.07), transparent 70%),
+    radial-gradient(50% 40% at 0% 30%, rgba(255, 155, 87, 0.05), transparent 70%);
+}
+.lp-card { aspect-ratio: 732 / 592; position: relative; }
+.lp-card img { position: absolute; top: -3.2%; left: -59%; width: 164%; max-width: none; height: auto; }
