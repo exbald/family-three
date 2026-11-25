@@ -13,7 +13,8 @@ import { listCheckpoints, restoreCheckpoint } from './checkpoints.mjs'
 import { makeKit, kitDir } from './kit.mjs'
 import { ensureCard } from './card.mjs'
 import { castVote, VoteError, clientIp, hashIp, myVote, setPaused, resumeCrowdRounds } from './votes.mjs'
-import { randomBytes } from 'node:crypto'
+import { randomBytes, timingSafeEqual } from 'node:crypto'
+import { startTelegram, handleUpdate, webhookSecret } from './telegram.mjs'
 import { readFile } from 'node:fs/promises'
 
 const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public')
@@ -179,6 +180,17 @@ async function serveIndex(req, res, p) {
   res.end(html)
 }
 
+const sameSecret = (a, b) => typeof a === 'string' && a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b))
+
+// Telegram posts updates here; both the path and the header carry our secret.
+async function telegramWebhook(req, res, pathSecret) {
+  const s = await webhookSecret()
+  if (!sameSecret(pathSecret, s) || !sameSecret(req.headers['x-telegram-bot-api-secret-token'], s)) return sendError(res, 404, 'Not found.')
+  const update = await readJson(req)
+  sendJson(res, 200, { ok: true })
+  handleUpdate(update).catch((err) => console.error('telegram update failed:', err.message))
+}
+
 async function serveChild(req, res, cid, rest) {
   const ids = parseChildId(cid)
   if (!ids) return false
@@ -197,6 +209,7 @@ async function route(req, res) {
 
   if (p === '/' && handleUnlock(req, res, url)) return
   if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req) } })
+  if (method === 'POST' && p.startsWith('/tg/')) return telegramWebhook(req, res, p.slice(4))
   if (method === 'POST' && p === '/api/vote') return api.vote(req, res)
   if (method === 'POST' && p.startsWith('/api/') && !isOwner(req)) return sendError(res, 403, 'Only the owner can raise apps here. You can still look around.')
   if (method === 'POST' && p === '/api/vote/pause') return api.pause(req, res)
@@ -289,5 +302,6 @@ await loadOwnerKey()
 await markInterrupted()
 await resumeCrowdRounds().catch((err) => console.error('resuming crowd rounds failed:', err.message))
 server.listen(config.port, () => {
+  startTelegram().catch((err) => console.error('telegram start failed:', err.message))
   console.log(`Family Three on :${config.port} (builder: ${config.builder}, home: ${config.home})`)
 })
