@@ -18,18 +18,30 @@ export function voteHtml({ tree, esc, owner = false, compact = false }) {
   const open = vote?.status === 'open' && !vote.paused && !(vote.restingUntil && Date.parse(vote.restingUntil) > Date.now())
   const max = Math.max(vote?.threshold ?? 1, ...Object.values(vote?.counts ?? {}))
   const mine = tree.myVote
+  const thumb = (kid) => (kid?.thumb ? `<img src="/thumb/${esc(kid.id)}.png?v=${encodeURIComponent(kid.finishedAt ?? '')}" alt="">` : '')
+  // The two kids a cross would use right now: the two leading single options (ties go to the earlier one).
+  const pair = (vote?.options ?? [])
+    .map((o, i) => ({ ...o, n: vote.counts[o.key] ?? 0, i }))
+    .filter((o) => o.kind === 'breed')
+    .sort((a, b) => b.n - a.n || a.i - b.i)
+    .slice(0, 2)
+    .map((o) => tree.children[o.key])
+    .filter(Boolean)
   const options = (vote?.options ?? [])
     .map((o) => {
       const kid = tree.children[o.key]
       const n = vote.counts[o.key] ?? 0
       const pct = Math.round((n / max) * 100)
       const picked = mine === o.key
-      const shot = kid?.thumb ? `<img src="/thumb/${esc(kid.id)}.png?v=${encodeURIComponent(kid.finishedAt ?? '')}" alt="">` : `<span class="vo-x">×</span>`
+      const shot = o.kind === 'cross'
+        ? `<span class="vo-pair">${pair.map((k) => `<span>${thumb(k)}</span>`).join('<b aria-hidden="true">×</b>')}</span>`
+        : thumb(kid)
+      const name = o.kind === 'cross' && pair.length === 2 ? `Cross the top two <span class="vo-sub">right now ${esc(pair[0].label)} × ${esc(pair[1].label)}</span>` : esc(o.name)
       return `
         <div class="vo${picked ? ' mine' : ''}${o.kind === 'cross' ? ' cross' : ''}">
           <span class="vo-shot">${shot}</span>
           <span class="vo-body">
-            <span class="vo-name"><b>${esc(o.label)}</b> ${esc(o.name)}</span>
+            <span class="vo-name">${o.kind === 'cross' ? '' : `<b>${esc(o.label)}</b> `}${name}</span>
             <span class="vo-bar"><span style="width:${pct}%"></span></span>
             <span class="vo-count">${n} vote${n === 1 ? '' : 's'}${picked ? ' · yours' : ''}</span>
           </span>
