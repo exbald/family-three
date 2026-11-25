@@ -55,13 +55,17 @@ export async function makeKit({ fid, cid }) {
     if (!present.includes('DESIGN.md') || !present.includes('tokens.css')) {
       throw new Error(result.summary || 'The kit is missing DESIGN.md or tokens.css.')
     }
+    // A run that stopped early still leaves a usable kit; describe it from its own mood line.
+    const design = await readFile(path.join(dir, 'DESIGN.md'), 'utf8').catch(() => '')
+    const mood = /## Mood\s+([^\n]+)/.exec(design)?.[1]?.trim()
+    const summary = result.ok && result.summary ? result.summary : (mood ?? 'A design kit made from this app.').slice(0, 300)
     const zipped = present.length === KIT_FILES.length && config.builder !== 'stub' ? await zip(dir, kitZip(fid, kid.n)) : false
     let inRepo = false
     if (kid.adopted && kid.adoption?.repo) {
-      await pushRepoUpdate({ fid, cid, message: `Design kit for ${kid.label} ${kid.name}\n\n${result.summary}`, sourceDir: dir, prefix: 'design/' })
+      await pushRepoUpdate({ fid, cid, message: `Design kit for ${kid.label} ${kid.name}\n\n${summary}`, sourceDir: dir, prefix: 'design/' })
       inRepo = true
     }
-    const kit = { status: 'ready', files: present, zip: zipped, inRepo, summary: result.summary, at: new Date().toISOString() }
+    const kit = { status: 'ready', files: present, zip: zipped, inRepo, summary, complete: present.length === KIT_FILES.length, at: new Date().toISOString() }
     await updateChild(fid, cid, { kit })
     return kit
   } catch (err) {
