@@ -308,3 +308,48 @@ body:has(.treeview) .top { max-width: 1560px; }
 }
 .install .muted a { color: var(--text-2); }
 .visitor-note { margin: 0 0 12px; padding: 10px 14px; border-radius: 12px; background: var(--panel); border: 1px dashed var(--line-3); color: var(--text-3); font-size: 13px; }
+
+/* Phone adopted screen */
+.adopted-screen { max-width: 440px; margin: 8px auto 0; display: flex; flex-direction: column; gap: 16px; }
+.ad-head { display: flex; flex-direction: column; gap: 6px; padding: 0 4px; }
+.ad-head .muted { font-size: 12px; }
+.ad-head h1 { margin: 0; font: 700 28px/1.1 var(--display); letter-spacing: -0.02em; }
+.ad-head h1 span { color: var(--lime); }
+.ad-shot {
+  position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 22px; overflow: hidden;
+  background: var(--card); box-shadow: 0 0 0 1px var(--line-2);
+}
+.ad-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.ad-name {
+  position: absolute; left: 12px; bottom: 12px; padding: 6px 12px; border-radius: 999px;
+  background: rgba(15, 19, 17, 0.85); color: var(--text); font-weight: 700; font-size: 14px;
+}
+.ad-link { display: flex; flex-direction: column; gap: 8px; }
+.ad-link > .muted { font-size: 12px; }
+.ad-url { display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 14px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--panel); }
+.ad-url .mono { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.ad-url .btn { min-height: 44px; padding: 0 16px; border-radius: 10px; }
+.ad-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.ad-buttons .btn { min-height: 48px; }
+.ad-hint { font-size: 12px; }
+.ad-line { gap: 8px; }
+.ad-line .muted.small a { color: var(--lime); text-decoration: none; }
+.fl-x { color: var(--orange); font-weight: 700; }
+.ad-learned {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 14px;
+  border: 1px dashed var(--orange); color: #F1DCCB; font-size: 13px; line-height: 1.45;
+}
+.ad-learned svg { flex: 0 0 auto; color: var(--orange); margin-top: 1px; }
+.ad-back { align-self: center; }
+.adopting-big { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 40px 16px; text-align: center; }
+.adopting-big p { margin: 0; font: 700 20px var(--display); }
+.actionbar .btn-ghost { width: 100%; text-decoration: none; }
+
+@media (max-width: 860px) {
+  .top { gap: 10px 12px; }
+  .family-head { order: 3; flex-basis: 100%; }
+  .checkpoint { order: 4; margin-left: 0; }
+  .checkpoint .cp-text { font-size: 11px; }
+  #new-family { order: 2; margin-left: auto; min-height: 40px; padding: 0 14px; }
+  .checkpoint:not([hidden]) + #new-family { margin-left: auto; }
+}

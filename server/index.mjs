@@ -156,7 +156,7 @@ async function route(req, res) {
     const ids = parseChildId(thumb[1])
     if (ids && (await sendFile(res, kidDir(ids.fid, ids.n), 'thumb.png'))) return
   }
-  if (p === '/' || /^\/f\/[^/]+$/.test(p)) {
+  if (p === '/' || /^\/f\/[^/]+(?:\/adopted\/[^/]+)?$/.test(p)) {
     if (await sendFile(res, PUBLIC_DIR, 'index.html')) return
   }
   if (/^\/[\w.-]+$/.test(p) && (await sendFile(res, PUBLIC_DIR, p.slice(1)))) return

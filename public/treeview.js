@@ -154,6 +154,7 @@ export function adoptionHtml(tree, kid, { owner, esc }) {
         <div class="adopt-links">
           <a href="${esc(a.repo)}" target="_blank" rel="noopener">GitHub repo · ${a.commits} commits ›</a>
           ${a.pages ? `<a href="${esc(a.pages)}" target="_blank" rel="noopener">GitHub Pages ›</a>` : ''}
+          <a href="/f/${esc(tree.id)}/adopted/${esc(kid.id)}" data-link>Its adopted page ›</a>
         </div>
         <div class="familyline"><span class="mono-label">Family line</span><div class="fl-row"><span class="fl-req">request</span><span class="fl-sep">›</span>${line}</div></div>
       </div>`

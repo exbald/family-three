@@ -1,6 +1,7 @@
 // Family Three front end: the ask page and a family (tree on laptops, litters on phones). Plain JS, no build step.
 import { treeHtml, panelHtml, tasteHtml } from './treeview.js'
 import { drawCheckpoints, hideCheckpoints } from './checkpoints.js'
+import { adoptedHtml, wireAdopted } from './adopted.js'
 const view = document.getElementById('view')
 const familyHead = document.getElementById('family-head')
 const newFamily = document.getElementById('new-family')
@@ -340,8 +341,24 @@ function drawActionbar() {
        <button class="btn btn-orange" id="go" type="button">Cross ${esc(a.label)} × ${esc(b.label)}</button></div>`
     : `<p>Breed three new children from <b>${esc(a.label)}</b>. Pick one more to cross instead.</p>
        <div class="row"><input id="note" maxlength="300" placeholder="What do you like or want changed? (optional)" aria-label="Note for the builders">
-       <button class="btn btn-lime" id="go" type="button">Breed from ${esc(a.label)}</button></div>`
+       <button class="btn btn-lime" id="go" type="button">Breed from ${esc(a.label)}</button></div>
+       ${a.adopted
+         ? `<a class="btn btn-ghost" href="/f/${esc(tree.id)}/adopted/${esc(a.id)}" data-link>${esc(a.label)} is adopted: see its page</a>`
+         : `<button class="btn btn-ghost" id="adopt-one" type="button">Adopt ${esc(a.label)}: a public link and a repo</button>`}`
   document.getElementById('go').addEventListener('click', onBreedOrCross)
+  document.getElementById('adopt-one')?.addEventListener('click', async (e) => {
+    const btn = e.currentTarget
+    btn.disabled = true
+    try {
+      await api('/api/adopt', { method: 'POST', body: JSON.stringify({ child: a.id }) })
+      state = { ...state, picked: [] }
+      actionbar.hidden = true
+      navigate(`/f/${tree.id}/adopted/${a.id}`)
+    } catch (err) {
+      btn.disabled = false
+      btn.textContent = err.message
+    }
+  })
 }
 
 async function onBreedOrCross() {
@@ -372,10 +389,31 @@ function navigate(path) {
   route()
 }
 
+async function renderAdoptedPage(fid, cid) {
+  clearTimeout(state.pollTimer)
+  newFamily.hidden = true
+  actionbar.hidden = true
+  hideCheckpoints()
+  try {
+    const [tree, taste] = await Promise.all([api(`/api/families/${encodeURIComponent(fid)}`), api('/api/taste').catch(() => null)])
+    const kid = tree.children[cid]
+    if (!kid) throw new Error('No child with that id in this family.')
+    familyHead.hidden = true
+    document.title = `${kid.label} ${kid.name} · Family Three`
+    view.innerHTML = adoptedHtml({ tree, kid, taste, esc })
+    wireAdopted(view)
+    if (kid.adoption?.status === 'working') state = { ...state, pollTimer: setTimeout(() => renderAdoptedPage(fid, cid), 2000) }
+  } catch (err) {
+    view.innerHTML = `<p class="empty">${esc(err.message)} <a href="/" data-link>Home</a></p>`
+  }
+}
+
 function route() {
   clearTimeout(state.pollTimer)
+  const adopted = /^\/f\/([^/]+)\/adopted\/([^/]+)$/.exec(location.pathname)
   const match = /^\/f\/([^/]+)$/.exec(location.pathname)
-  if (match) renderFamily(decodeURIComponent(match[1]))
+  if (adopted) renderAdoptedPage(decodeURIComponent(adopted[1]), decodeURIComponent(adopted[2]))
+  else if (match) renderFamily(decodeURIComponent(match[1]))
   else {
     state = { ...state, fid: null, tree: null, picked: [] }
     renderHome()
