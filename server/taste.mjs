@@ -14,10 +14,13 @@ function section(md, title) {
     .filter(Boolean)
 }
 
-export async function readTaste() {
+export const crowdTastePath = () => config.tastePath.replace(/taste\.md$/, 'taste-crowd.md')
+export const tastePathFor = (tree) => (tree?.crowd ? crowdTastePath() : config.tastePath)
+
+export async function readTaste(file = config.tastePath) {
   let md
   try {
-    md = await readFile(config.tastePath, 'utf8')
+    md = await readFile(file, 'utf8')
   } catch (err) {
     if (err.code === 'ENOENT') return EMPTY
     throw err
@@ -35,7 +38,7 @@ function clean(list) {
     .slice(0, MAX_ITEMS)
 }
 
-export async function writeTaste(taste) {
+export async function writeTaste(taste, file = config.tastePath) {
   const next = {
     picks: taste.picks,
     likes: clean(taste.likes),
@@ -59,9 +62,9 @@ export async function writeTaste(taste) {
     next.learned ? `- ${next.learned}` : '',
     '',
   ].join('\n')
-  const tmp = `${config.tastePath}.${process.pid}.tmp`
+  const tmp = `${file}.${process.pid}.tmp`
   await writeFile(tmp, md)
-  await rename(tmp, config.tastePath)
+  await rename(tmp, file)
   return next
 }
 

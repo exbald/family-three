@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { runInFolder } from './builder.mjs'
 import { pushRepoUpdate } from './adopt.mjs'
 import { familyDir, kidDir, readTree, updateChild } from './store.mjs'
-import { readTaste, tasteText } from './taste.mjs'
+import { readTaste, tasteText, tastePathFor } from './taste.mjs'
 import { config } from './config.mjs'
 
 const PROMPT_PATH = path.join(path.dirname(fileURLToPath(import.meta.url)), 'prompts', 'kit.md')
@@ -37,7 +37,7 @@ export async function makeKit({ fid, cid }) {
     const dir = kitDir(fid, kid.n)
     await rm(dir, { recursive: true, force: true })
     await rm(kitZip(fid, kid.n), { force: true })
-    const taste = await readTaste().catch(() => null)
+    const taste = await readTaste(tastePathFor(tree)).catch(() => null)
     const template = await readFile(PROMPT_PATH, 'utf8')
     const prompt = template
       .replaceAll('{{appDir}}', kidDir(fid, kid.n))

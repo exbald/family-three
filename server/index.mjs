@@ -6,12 +6,14 @@ import { config } from './config.mjs'
 import { sendJson, sendError, readJson, sendFile } from './http.mjs'
 import { FAMILY_ID, kidDir, listFamilies, newFamilyId, parseChildId, readTree, updateTree } from './store.mjs'
 import { startFamily, startLitter } from './generation.mjs'
-import { readTaste } from './taste.mjs'
+import { readTaste, tastePathFor } from './taste.mjs'
 import { loadOwnerKey, isOwner, handleUnlock } from './owner.mjs'
 import { adoptChild, readAdopted, SLUG } from './adopt.mjs'
 import { listCheckpoints, restoreCheckpoint } from './checkpoints.mjs'
 import { makeKit, kitDir } from './kit.mjs'
 import { ensureCard } from './card.mjs'
+import { castVote, VoteError, clientIp, hashIp, myVote, setPaused, resumeCrowdRounds } from './votes.mjs'
+import { randomBytes } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 
 const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public')
@@ -38,6 +40,15 @@ function baseUrl(req) {
   return `${proto}://${host}`
 }
 
+const VOTER_COOKIE = 'ft_voter'
+const VOTER_ID = /^[A-Za-z0-9_-]{16,64}$/
+
+function voterId(req) {
+  const pair = (req.headers.cookie ?? '').split(/;\s*/).find((c) => c.startsWith(`${VOTER_COOKIE}=`))
+  const id = pair ? decodeURIComponent(pair.slice(VOTER_COOKIE.length + 1)) : null
+  return id && VOTER_ID.test(id) ? id : null
+}
+
 const api = {
   async listFamilies(req, res) {
     sendJson(res, 200, { success: true, data: await listFamilies() })
@@ -46,7 +57,34 @@ const api = {
   async getFamily(req, res, fid) {
     const tree = await readTree(fid)
     if (!tree) return sendError(res, 404, 'No family with that id.')
-    sendJson(res, 200, { success: true, data: tree })
+    const mine = tree.crowd ? await myVote(fid, voterId(req) && `web:${voterId(req)}`) : null
+    sendJson(res, 200, { success: true, data: { ...tree, myVote: mine } })
+  },
+
+  async vote(req, res) {
+    const body = await readJson(req)
+    const fid = String(body.family ?? '')
+    if (!FAMILY_ID.test(fid)) return sendError(res, 400, 'Bad family id.')
+    let id = voterId(req)
+    if (!id) {
+      id = randomBytes(18).toString('base64url')
+      res.setHeader('set-cookie', `${VOTER_COOKIE}=${id}; Path=/; Max-Age=${365 * 24 * 3600}; HttpOnly; Secure; SameSite=Lax`)
+    }
+    try {
+      const data = await castVote({ fid, option: String(body.option ?? ''), voterKey: `web:${id}`, ipHash: await hashIp(clientIp(req)) })
+      sendJson(res, 200, { success: true, data })
+    } catch (err) {
+      if (err instanceof VoteError) return sendError(res, err.status, err.message)
+      throw err
+    }
+  },
+
+  async pause(req, res) {
+    const body = await readJson(req)
+    const fid = String(body.family ?? '')
+    if (!FAMILY_ID.test(fid)) return sendError(res, 400, 'Bad family id.')
+    const vote = await setPaused(fid, Boolean(body.paused))
+    sendJson(res, 200, { success: true, data: vote ?? null })
   },
 
   async createFamily(req, res) {
@@ -54,7 +92,7 @@ const api = {
     const request = cleanText(body.request, { min: 3, max: 500 })
     if (!request) return sendError(res, 400, 'Say what you want in 3 to 500 characters.')
     const fid = newFamilyId(request)
-    await startFamily({ fid, request })
+    await startFamily({ fid, request, crowd: body.crowd === true })
     sendJson(res, 201, { success: true, data: { id: fid } })
   },
 
@@ -159,7 +197,9 @@ async function route(req, res) {
 
   if (p === '/' && handleUnlock(req, res, url)) return
   if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req) } })
+  if (method === 'POST' && p === '/api/vote') return api.vote(req, res)
   if (method === 'POST' && p.startsWith('/api/') && !isOwner(req)) return sendError(res, 403, 'Only the owner can raise apps here. You can still look around.')
+  if (method === 'POST' && p === '/api/vote/pause') return api.pause(req, res)
   if (method === 'GET' && p === '/api/families') return api.listFamilies(req, res)
   if (method === 'POST' && p === '/api/families') return api.createFamily(req, res)
   if (method === 'POST' && p === '/api/breed') return api.breed(req, res)
@@ -168,7 +208,11 @@ async function route(req, res) {
   if (method === 'POST' && p === '/api/restore') return api.restore(req, res)
   if (method === 'POST' && p === '/api/kit') return api.kit(req, res)
   if (method === 'GET' && p === '/api/checkpoints') return api.checkpoints(req, res, url)
-  if (method === 'GET' && p === '/api/taste') return sendJson(res, 200, { success: true, data: await readTaste() })
+  if (method === 'GET' && p === '/api/taste') {
+    const fid = url.searchParams.get('family')
+    const tree = fid && FAMILY_ID.test(fid) ? await readTree(fid) : null
+    return sendJson(res, 200, { success: true, data: await readTaste(tastePathFor(tree)) })
+  }
   const fam = /^\/api\/families\/([^/]+)$/.exec(p)
   if (method === 'GET' && fam && FAMILY_ID.test(fam[1])) return api.getFamily(req, res, fam[1])
   if (p.startsWith('/api/')) return sendError(res, 404, 'Unknown API route.')
@@ -243,6 +287,7 @@ const server = http.createServer((req, res) => {
 
 await loadOwnerKey()
 await markInterrupted()
+await resumeCrowdRounds().catch((err) => console.error('resuming crowd rounds failed:', err.message))
 server.listen(config.port, () => {
   console.log(`Family Three on :${config.port} (builder: ${config.builder}, home: ${config.home})`)
 })

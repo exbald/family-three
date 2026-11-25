@@ -6,6 +6,7 @@ import { holdAwake } from './awake.mjs'
 import { saveCheckpoint } from './checkpoints.mjs'
 import { config } from './config.mjs'
 import { readTree, updateTree, updateChild } from './store.mjs'
+import { emitSafe } from './events.mjs'
 
 const LETTERS = ['A', 'B', 'C']
 const PROGRESS_EVERY_MS = 1500
@@ -131,6 +132,7 @@ export async function startLitter({ fid, kind, parentIds = [], note = '' }) {
   const placeholders = await addLitter(fid, { kind, parentIds, note, briefs: PLACEHOLDERS })
   await Promise.all(placeholders.map((c) => updateChild(fid, c.id, { status: 'briefing', activity: 'The breeder is writing its brief' })))
   const release = holdAwake(`litter-${fid}-${placeholders[0].litter}`)
+  emitSafe('litter-started', { fid, litter: placeholders[0].litter, kind, parents, note })
   ;(async () => {
     const briefs = await writeBriefs({ tree, kind, parents, note })
     const children = await fillBriefs(fid, placeholders, briefs)
@@ -138,17 +140,19 @@ export async function startLitter({ fid, kind, parentIds = [], note = '' }) {
     const done = await readTree(fid)
     const kids = children.map((c) => done.children[c.id])
     await saveCheckpoint({ fid, gen: kids[0].gen, what: `Generation ${kids[0].gen}: ${kids.map((k) => `${k.label} ${k.name}`).join(', ')}` })
+    emitSafe('litter-done', { fid, litter: kids[0].litter, kids })
   })()
     .catch((err) => console.error(`litter in ${fid} failed:`, err))
     .finally(release)
   return placeholders
 }
 
-export async function startFamily({ fid, request }) {
+export async function startFamily({ fid, request, crowd = false }) {
   const now = new Date().toISOString()
   await updateTree(fid, () => ({
     id: fid,
     request,
+    crowd,
     title: request.length > 48 ? `${request.slice(0, 45)}…` : request,
     createdAt: now,
     updatedAt: now,

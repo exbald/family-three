@@ -1,7 +1,8 @@
 // The breeder writes three briefs that differ on purpose and learns your taste from each pick.
 // It is one GLM call per litter through the Z.ai connector; the built-in directions are the fallback.
 import { askJson } from './llm.mjs'
-import { readTaste, writeTaste, tasteText } from './taste.mjs'
+import { config } from './config.mjs'
+import { readTaste, writeTaste, tasteText, tastePathFor } from './taste.mjs'
 
 const FIRST = [
   {
@@ -105,18 +106,20 @@ function validBriefs(reply) {
 
 // Returns three briefs. For a breed or cross it also updates taste.md. Never throws.
 export async function writeBriefs({ tree, kind, parents, note }) {
-  const taste = await readTaste().catch(() => ({ picks: 0, likes: [], avoid: [], learned: '' }))
+  const tastePath = tastePathFor(tree)
+  const taste = await readTaste(tastePath).catch(() => ({ picks: 0, likes: [], avoid: [], learned: '' }))
   try {
+    if (config.builder === 'stub') throw new Error('stub mode: no model calls')
     const reply = await askJson({ system: SYSTEM, user: userPrompt({ tree, kind, parents, note, taste }) })
     const briefs = validBriefs(reply)
     if (!briefs) throw new Error('The breeder did not return three briefs.')
     if (kind !== 'first') {
-      await writeTaste({ picks: taste.picks + 1, likes: reply.likes ?? taste.likes, avoid: reply.avoid ?? taste.avoid, learned: reply.learned })
+      await writeTaste({ picks: taste.picks + 1, likes: reply.likes ?? taste.likes, avoid: reply.avoid ?? taste.avoid, learned: reply.learned }, tastePath)
     }
     return briefs
   } catch (err) {
     console.error('breeder fell back to built-in briefs:', err.message)
-    if (kind !== 'first') await writeTaste({ ...taste, picks: taste.picks + 1 }).catch(() => {})
+    if (kind !== 'first') await writeTaste({ ...taste, picks: taste.picks + 1 }, tastePath).catch(() => {})
     return builtIn(kind, note)
   }
 }
