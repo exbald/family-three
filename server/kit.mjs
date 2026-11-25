@@ -1,0 +1,72 @@
+// Design kit: one Claude Code run reads an adopted app and writes DESIGN.md, tokens.css,
+// tokens.json and design.html. The kit is served at /kit/<child>/, zipped, and committed
+// to the app's repo under design/.
+import { spawn } from 'node:child_process'
+import { access, readFile, rm } from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { runInFolder } from './builder.mjs'
+import { pushRepoUpdate } from './adopt.mjs'
+import { familyDir, kidDir, readTree, updateChild } from './store.mjs'
+import { readTaste, tasteText } from './taste.mjs'
+import { config } from './config.mjs'
+
+const PROMPT_PATH = path.join(path.dirname(fileURLToPath(import.meta.url)), 'prompts', 'kit.md')
+export const KIT_FILES = ['DESIGN.md', 'tokens.css', 'tokens.json', 'design.html']
+
+export const kitDir = (fid, n) => path.join(familyDir(fid), 'kits', String(n))
+export const kitZip = (fid, n) => path.join(familyDir(fid), 'kits', `${n}.zip`)
+
+const exists = (p) => access(p).then(() => true, () => false)
+
+function zip(dir, out) {
+  return new Promise((resolve) => {
+    const proc = spawn('zip', ['-q', '-j', out, ...KIT_FILES.map((f) => path.join(dir, f))], { stdio: 'ignore' })
+    proc.on('error', () => resolve(false))
+    proc.on('close', (code) => resolve(code === 0))
+  })
+}
+
+// Makes (or remakes) the kit for one child. Never throws.
+export async function makeKit({ fid, cid }) {
+  const tree = await readTree(fid)
+  const kid = tree?.children[cid]
+  if (!kid) return null
+  await updateChild(fid, cid, { kit: { status: 'working' } })
+  try {
+    const dir = kitDir(fid, kid.n)
+    await rm(dir, { recursive: true, force: true })
+    await rm(kitZip(fid, kid.n), { force: true })
+    const taste = await readTaste().catch(() => null)
+    const template = await readFile(PROMPT_PATH, 'utf8')
+    const prompt = template
+      .replaceAll('{{appDir}}', kidDir(fid, kid.n))
+      .replaceAll('{{name}}', kid.name)
+      .replaceAll('{{request}}', tree.request)
+      .replaceAll('{{taste}}', taste ? tasteText(taste) : 'not known yet')
+    const result = await runInFolder({
+      dir,
+      prompt,
+      extraDirs: [kidDir(fid, kid.n)],
+      logFile: path.join(familyDir(fid), 'logs', `kit-${kid.n}.jsonl`),
+    })
+    const present = []
+    for (const f of KIT_FILES) if (await exists(path.join(dir, f))) present.push(f)
+    if (!present.includes('DESIGN.md') || !present.includes('tokens.css')) {
+      throw new Error(result.summary || 'The kit is missing DESIGN.md or tokens.css.')
+    }
+    const zipped = present.length === KIT_FILES.length && config.builder !== 'stub' ? await zip(dir, kitZip(fid, kid.n)) : false
+    let inRepo = false
+    if (kid.adopted && kid.adoption?.repo) {
+      await pushRepoUpdate({ fid, cid, message: `Design kit for ${kid.label} ${kid.name}\n\n${result.summary}`, sourceDir: dir, prefix: 'design/' })
+      inRepo = true
+    }
+    const kit = { status: 'ready', files: present, zip: zipped, inRepo, summary: result.summary, at: new Date().toISOString() }
+    await updateChild(fid, cid, { kit })
+    return kit
+  } catch (err) {
+    console.error(`kit for ${cid} failed:`, err)
+    await updateChild(fid, cid, { kit: { status: 'failed', error: err.message } })
+    return null
+  }
+}

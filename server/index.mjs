@@ -10,6 +10,9 @@ import { readTaste } from './taste.mjs'
 import { loadOwnerKey, isOwner, handleUnlock } from './owner.mjs'
 import { adoptChild, readAdopted, SLUG } from './adopt.mjs'
 import { listCheckpoints, restoreCheckpoint } from './checkpoints.mjs'
+import { makeKit, kitDir } from './kit.mjs'
+import { ensureCard } from './card.mjs'
+import { readFile } from 'node:fs/promises'
 
 const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public')
 const UNFINISHED = new Set(['briefing', 'queued', 'building', 'thumbing'])
@@ -76,6 +79,16 @@ const api = {
     sendJson(res, 202, { success: true, data: { child: found.child.id } })
   },
 
+  async kit(req, res) {
+    const body = await readJson(req)
+    const found = await findChild(body.child)
+    if (!found) return sendError(res, 404, 'No child with that id.')
+    if (found.child.status !== 'ready') return sendError(res, 409, 'Only a finished child can have a design kit.')
+    if (found.child.kit?.status === 'working' || found.child.adoption?.status === 'working') return sendError(res, 409, 'Already working on it.')
+    makeKit({ fid: found.fid, cid: found.child.id })
+    sendJson(res, 202, { success: true, data: { child: found.child.id } })
+  },
+
   async checkpoints(req, res, url) {
     const fid = url.searchParams.get('family')
     if (fid && !FAMILY_ID.test(fid)) return sendError(res, 400, 'Bad family id.')
@@ -106,6 +119,28 @@ const api = {
   },
 }
 
+const escAttr = (v) => String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+
+// The page shell, with link-preview tags for a family so a shared link shows its tree.
+async function serveIndex(req, res, p) {
+  let html = await readFile(path.join(PUBLIC_DIR, 'index.html'), 'utf8')
+  const fid = /^\/f\/([^/]+)/.exec(p)?.[1]
+  const tree = fid && FAMILY_ID.test(fid) ? await readTree(fid) : null
+  const base = baseUrl(req)
+  const title = tree ? `I raised “${tree.title}” in ${Math.max(1, ...Object.values(tree.children).map((k) => k.gen))} generations · Family Three` : 'Family Three: apps you raise, not prompt'
+  const image = tree ? `${base}/card/${fid}.png` : null
+  const meta = [
+    `<meta property="og:title" content="${escAttr(title)}">`,
+    '<meta property="og:description" content="Three working apps per generation, built at once on a Fly.io Sprite. Breed one, cross two, adopt the keeper.">',
+    `<meta property="og:url" content="${escAttr(base + p)}">`,
+    image ? `<meta property="og:image" content="${escAttr(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">` : '',
+    `<meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}">`,
+  ].join('\n')
+  html = html.replace('</head>', `${meta}\n</head>`)
+  res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-cache' })
+  res.end(html)
+}
+
 async function serveChild(req, res, cid, rest) {
   const ids = parseChildId(cid)
   if (!ids) return false
@@ -131,6 +166,7 @@ async function route(req, res) {
   if (method === 'POST' && p === '/api/cross') return api.cross(req, res)
   if (method === 'POST' && p === '/api/adopt') return api.adopt(req, res)
   if (method === 'POST' && p === '/api/restore') return api.restore(req, res)
+  if (method === 'POST' && p === '/api/kit') return api.kit(req, res)
   if (method === 'GET' && p === '/api/checkpoints') return api.checkpoints(req, res, url)
   if (method === 'GET' && p === '/api/taste') return sendJson(res, 200, { success: true, data: await readTaste() })
   const fam = /^\/api\/families\/([^/]+)$/.exec(p)
@@ -151,13 +187,30 @@ async function route(req, res) {
     const ids = cid && parseChildId(cid)
     if (ids && (await sendFile(res, kidDir(ids.fid, ids.n), adopted[2] || ''))) return
   }
+  const kitZipMatch = /^\/kit\/([^/]+)\.zip$/.exec(p)
+  if (kitZipMatch) {
+    const ids = parseChildId(kitZipMatch[1])
+    if (ids) {
+      res.setHeader('content-disposition', `attachment; filename="design-kit-${kitZipMatch[1]}.zip"`)
+      if (await sendFile(res, path.join(kitDir(ids.fid, ids.n), '..'), `${ids.n}.zip`)) return
+      res.removeHeader('content-disposition')
+    }
+  }
+  const kitPage = /^\/kit\/([^/]+)\/(.*)$/.exec(p)
+  if (kitPage) {
+    const ids = parseChildId(kitPage[1])
+    if (ids && (await sendFile(res, kitDir(ids.fid, ids.n), kitPage[2] || 'design.html'))) return
+  }
   const thumb = /^\/thumb\/([^/]+)\.png$/.exec(p)
   if (thumb) {
     const ids = parseChildId(thumb[1])
     if (ids && (await sendFile(res, kidDir(ids.fid, ids.n), 'thumb.png'))) return
   }
-  if (p === '/' || /^\/f\/[^/]+(?:\/adopted\/[^/]+)?$/.test(p)) {
-    if (await sendFile(res, PUBLIC_DIR, 'index.html')) return
+  if (p === '/' || /^\/f\/[^/]+(?:\/adopted\/[^/]+)?$/.test(p)) return serveIndex(req, res, p)
+  const card = /^\/card\/([^/]+)\.png$/.exec(p)
+  if (card && FAMILY_ID.test(card[1])) {
+    const file = await ensureCard(card[1])
+    if (file && (await sendFile(res, path.dirname(file), 'card.png'))) return
   }
   if (/^\/[\w.-]+$/.test(p) && (await sendFile(res, PUBLIC_DIR, p.slice(1)))) return
 

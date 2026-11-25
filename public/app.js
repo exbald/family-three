@@ -2,6 +2,7 @@
 import { treeHtml, panelHtml, tasteHtml } from './treeview.js'
 import { drawCheckpoints, hideCheckpoints } from './checkpoints.js'
 import { adoptedHtml, wireAdopted } from './adopted.js'
+import { wireKit } from './kit.js'
 const view = document.getElementById('view')
 const familyHead = document.getElementById('family-head')
 const newFamily = document.getElementById('new-family')
@@ -178,7 +179,7 @@ async function refreshFamily() {
     view.innerHTML = `<p class="empty">${esc(err.message)} <a href="/" data-link>Start a family</a></p>`
     return
   }
-  const busy = Object.values(state.tree.children).some((c) => BUSY.has(c.status) || c.adoption?.status === 'working')
+  const busy = Object.values(state.tree.children).some((c) => BUSY.has(c.status) || c.adoption?.status === 'working' || c.kit?.status === 'working')
   state.pollTimer = setTimeout(refreshFamily, busy ? 2000 : 10000)
 }
 
@@ -194,7 +195,7 @@ function drawFamily() {
   const growing = kids.filter((k) => BUSY.has(k.status)).length
   document.title = `${tree.title} · Family Three`
   familyHead.hidden = false
-  familyHead.innerHTML = `<strong>${esc(tree.title)}</strong><span>Generation ${gens} · ${ready} apps${growing ? ` · ${growing} growing` : ''}</span>`
+  familyHead.innerHTML = `<strong>${esc(tree.title)}</strong><span>Generation ${gens} · ${ready} apps${growing ? ` · ${growing} growing` : ''} · <a class="share-card" href="/card/${esc(tree.id)}.png" target="_blank" rel="noopener">Share card ›</a></span>`
 
   if (wide.matches) drawTreeView()
   else {
@@ -238,6 +239,7 @@ function drawTreeView() {
     drawFamily()
   })
   view.querySelector('[data-adopt]')?.addEventListener('click', (e) => onAdopt(e.currentTarget))
+  wireKit(view, { api, onStarted: () => refreshFamily() })
   view.querySelector('[data-copy]')?.addEventListener('click', (e) => {
     const btn = e.currentTarget
     navigator.clipboard?.writeText(btn.dataset.copy).then(() => { btn.textContent = 'Copied' }, () => {})
@@ -403,9 +405,10 @@ async function renderAdoptedPage(fid, cid) {
     if (!kid) throw new Error('No child with that id in this family.')
     familyHead.hidden = true
     document.title = `${kid.label} ${kid.name} · Family Three`
-    view.innerHTML = adoptedHtml({ tree, kid, taste, esc })
+    view.innerHTML = adoptedHtml({ tree, kid, taste, esc, owner })
     wireAdopted(view)
-    if (kid.adoption?.status === 'working') state = { ...state, pollTimer: setTimeout(() => renderAdoptedPage(fid, cid), 2000) }
+    wireKit(view, { api, onStarted: () => renderAdoptedPage(fid, cid) })
+    if (kid.adoption?.status === 'working' || kid.kit?.status === 'working') state = { ...state, pollTimer: setTimeout(() => renderAdoptedPage(fid, cid), 2000) }
   } catch (err) {
     view.innerHTML = `<p class="empty">${esc(err.message)} <a href="/" data-link>Home</a></p>`
   }

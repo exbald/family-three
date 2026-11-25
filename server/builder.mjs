@@ -183,3 +183,17 @@ export async function fixChild({ fid, child, errors, onProgress }) {
     return { ok: false, steps: 0, summary: `Fixer crashed: ${err.message}` }
   }
 }
+
+// Runs one Claude Code job in a folder with a prompt (used for design kits). Never throws.
+export async function runInFolder({ dir, prompt, extraDirs = [], logFile, onProgress = () => {} }) {
+  try {
+    await mkdir(dir, { recursive: true })
+    await mkdir(path.dirname(logFile), { recursive: true })
+    const log = createWriteStream(logFile, { flags: 'a' })
+    const result = await runClaude({ dir, prompt, extraDirs, log, onProgress })
+    log.end()
+    return result
+  } catch (err) {
+    return { ok: false, steps: 0, summary: `Could not run: ${err.message}` }
+  }
+}

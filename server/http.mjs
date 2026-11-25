@@ -20,6 +20,7 @@ const TYPES = {
   '.md': 'text/plain; charset=utf-8',
   '.woff2': 'font/woff2',
   '.webmanifest': 'application/manifest+json',
+  '.zip': 'application/zip',
 }
 
 const MAX_BODY = 16 * 1024

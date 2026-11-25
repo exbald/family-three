@@ -162,6 +162,8 @@ export async function adoptChild({ fid, cid, baseUrl }) {
     await saveAdopted(slug, cid)
     const adoption = { status: 'done', slug, sprite, repo: repoInfo.html_url, pages, commits, at: new Date().toISOString() }
     await updateChild(fid, cid, { adopted: true, adoption })
+    const { makeKit } = await import('./kit.mjs')
+    await makeKit({ fid, cid })
     await saveCheckpoint({ fid, gen: kid.gen, what: `Adopted ${kid.label} ${kid.name}` })
     return adoption
   } catch (err) {
@@ -171,26 +173,28 @@ export async function adoptChild({ fid, cid, baseUrl }) {
   }
 }
 
-// Pushes the child's current code to its adopted repo as one more commit on main.
-export async function pushRepoUpdate({ fid, cid, message }) {
+// Adds or replaces files in an adopted repo as one more commit on main (files not listed stay).
+// sourceDir defaults to the child's code; prefix puts the files in a folder (e.g. "design/").
+export async function pushRepoUpdate({ fid, cid, message, sourceDir, prefix = '' }) {
   const tree = await readTree(fid)
   const kid = tree.children[cid]
   const repo = kid?.adoption?.repo?.replace('https://github.com/', '')
   if (!repo) throw new Error('That child is not adopted.')
   const head = (await gh('GET', `/repos/${repo}/git/ref/heads/main`)).object.sha
-  const readmeText = Buffer.from((await gh('GET', `/repos/${repo}/contents/README.md`)).content, 'base64').toString('utf8')
-  const files = await listFiles(kidDir(fid, kid.n))
-  const entries = [{ path: 'README.md', mode: '100644', type: 'blob', content: readmeText }]
-  for (const rel of files) {
-    const buf = await readFile(path.join(kidDir(fid, kid.n), rel))
+  const baseTree = (await gh('GET', `/repos/${repo}/git/commits/${head}`)).tree.sha
+  const dir = sourceDir ?? kidDir(fid, kid.n)
+  const entries = []
+  for (const rel of await listFiles(dir)) {
+    const buf = await readFile(path.join(dir, rel))
     if (buf.length > MAX_FILE) continue
     const sha = (await gh('POST', `/repos/${repo}/git/blobs`, { content: buf.toString('base64'), encoding: 'base64' })).sha
-    entries.push({ path: rel, mode: '100644', type: 'blob', sha })
+    entries.push({ path: `${prefix}${rel}`, mode: '100644', type: 'blob', sha })
   }
-  const treeSha = (await gh('POST', `/repos/${repo}/git/trees`, { tree: entries })).sha
+  const treeSha = (await gh('POST', `/repos/${repo}/git/trees`, { base_tree: baseTree, tree: entries })).sha
   const author = { name: `${kid.label} ${kid.name} (Family Three)`, email: 'family-three@users.noreply.github.com', date: new Date().toISOString() }
   const sha = (await gh('POST', `/repos/${repo}/git/commits`, { message, tree: treeSha, parents: [head], author })).sha
   await gh('PATCH', `/repos/${repo}/git/refs/heads/main`, { sha })
-  await updateChild(fid, cid, { adoption: { ...kid.adoption, commits: (kid.adoption.commits ?? 0) + 1 } })
+  const fresh = (await readTree(fid)).children[cid]
+  await updateChild(fid, cid, { adoption: { ...fresh.adoption, commits: (fresh.adoption.commits ?? 0) + 1 } })
   return sha
 }

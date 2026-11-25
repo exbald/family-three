@@ -1,5 +1,6 @@
 // The laptop view of a family: the tree on the left, the selected child on the right.
 import { layoutTree, lineage, treeLines, NODE_W, NODE_H, TOP, ROW_H, REQUEST_TOP } from './tree.js'
+import { kitHtml } from './kit.js'
 
 const BUSY = new Set(['briefing', 'queued', 'building', 'thumbing'])
 
@@ -157,6 +158,7 @@ export function adoptionHtml(tree, kid, { owner, esc }) {
           <a href="/f/${esc(tree.id)}/adopted/${esc(kid.id)}" data-link>Its adopted page ›</a>
         </div>
         <div class="familyline"><span class="mono-label">Family line</span><div class="fl-row"><span class="fl-req">request</span><span class="fl-sep">›</span>${line}</div></div>
+        ${kitHtml(kid, { owner, esc })}
       </div>`
   }
   if (a?.status === 'working') return `<p class="muted adopting"><span class="seed small" aria-hidden="true"></span>${esc(a.step ?? 'Adopting')}…</p>`
