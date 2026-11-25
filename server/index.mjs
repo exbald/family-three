@@ -12,7 +12,7 @@ import { adoptChild, readAdopted, SLUG } from './adopt.mjs'
 import { listCheckpoints, restoreCheckpoint } from './checkpoints.mjs'
 import { makeKit, kitDir } from './kit.mjs'
 import { ensureCard } from './card.mjs'
-import { castVote, VoteError, clientIp, hashIp, myVote, setPaused, resumeCrowdRounds } from './votes.mjs'
+import { castVote, VoteError, clientIp, hashIp, myVote, setPaused, resumeCrowdRounds, breedLeaderNow } from './votes.mjs'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
 import { startTelegram, handleUpdate, webhookSecret } from './telegram.mjs'
 import { readFile } from 'node:fs/promises'
@@ -74,6 +74,19 @@ const api = {
     try {
       const data = await castVote({ fid, option: String(body.option ?? ''), voterKey: `web:${id}`, ipHash: await hashIp(clientIp(req)) })
       sendJson(res, 200, { success: true, data })
+    } catch (err) {
+      if (err instanceof VoteError) return sendError(res, err.status, err.message)
+      throw err
+    }
+  },
+
+  async closeRound(req, res) {
+    const body = await readJson(req)
+    const fid = String(body.family ?? '')
+    if (!FAMILY_ID.test(fid)) return sendError(res, 400, 'Bad family id.')
+    try {
+      const winner = await breedLeaderNow(fid)
+      sendJson(res, 200, { success: true, data: { winner: winner.key } })
     } catch (err) {
       if (err instanceof VoteError) return sendError(res, err.status, err.message)
       throw err
@@ -223,6 +236,7 @@ async function route(req, res) {
   if (method === 'POST' && p === '/api/vote') return api.vote(req, res)
   if (method === 'POST' && p.startsWith('/api/') && !isOwner(req)) return sendError(res, 403, 'Only the owner can raise apps here. You can still look around.')
   if (method === 'POST' && p === '/api/vote/pause') return api.pause(req, res)
+  if (method === 'POST' && p === '/api/vote/close') return api.closeRound(req, res)
   if (method === 'GET' && p === '/api/families') return api.listFamilies(req, res)
   if (method === 'POST' && p === '/api/families') return api.createFamily(req, res)
   if (method === 'POST' && p === '/api/breed') return api.breed(req, res)

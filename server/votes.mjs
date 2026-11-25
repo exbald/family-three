@@ -200,6 +200,18 @@ export async function castVote({ fid, option, voterKey, ipHash }) {
   return { counts: result.counts, total: result.total, threshold: result.threshold, myVote: option }
 }
 
+// Owner override: close the round now and breed whoever leads (needs at least one vote).
+export async function breedLeaderNow(fid) {
+  const tree = await readTree(fid)
+  const vote = tree?.crowd ? tree.vote : null
+  if (!vote || vote.status !== 'open') throw new VoteError(409, 'There is no open round to close.')
+  const [top] = ranked(vote)
+  if (!top?.count) throw new VoteError(409, 'Nobody has voted yet, so there is no leader.')
+  const winner = await closeAndBreed(fid, top)
+  if (!winner) throw new VoteError(409, 'Kids are still building; try again when they are born.')
+  return winner
+}
+
 export async function setPaused(fid, paused) {
   const tree = await updateTree(fid, (t) => (t.vote ? { ...t, vote: { ...t.vote, paused } } : t))
   emitSafe('vote-counted', { fid })

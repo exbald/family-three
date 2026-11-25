@@ -537,3 +537,4 @@ body:has(.landing) { background: var(--bg); }
 .vo-sub { color: var(--orange); font: 500 11px var(--mono); margin-left: 4px; }
 .vo-name { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.3; }
 .vo-sub { display: block; margin: 2px 0 0; }
+.vote-owner { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px solid var(--line); }

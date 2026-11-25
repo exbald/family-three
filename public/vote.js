@@ -60,7 +60,10 @@ export function voteHtml({ tree, esc, owner = false, compact = false }) {
       <div class="vote-options">${options}</div>
       <p class="muted small vote-rule">${mine ? 'Thanks. Your vote is in for this round.' : 'No account needed. One vote per round.'}</p>
       <p class="error vote-error" hidden></p>
-      ${owner && vote ? `<button class="linkish" type="button" data-pause="${vote.paused ? '0' : '1'}">${vote.paused ? 'Resume voting' : 'Pause voting'}</button>` : ''}
+      ${owner && vote ? `<div class="vote-owner">
+        ${vote.status === 'open' && vote.total ? '<button class="btn btn-ghost" type="button" data-close-round>Breed the leader now</button>' : ''}
+        <button class="linkish" type="button" data-pause="${vote.paused ? '0' : '1'}">${vote.paused ? 'Resume voting' : 'Pause voting'}</button>
+      </div>` : ''}
     </section>`
 }
 
@@ -80,6 +83,17 @@ export function wireVote(root, { api, fid, onChange }) {
       onChange()
     }),
   )
+  root.querySelector('[data-close-round]')?.addEventListener('click', async (e) => {
+    const btn = e.currentTarget
+    btn.disabled = true
+    btn.textContent = 'Closing the round…'
+    try {
+      await api('/api/vote/close', { method: 'POST', body: JSON.stringify({ family: fid }) })
+    } catch (err) {
+      btn.textContent = err.message
+    }
+    onChange()
+  })
   root.querySelector('[data-pause]')?.addEventListener('click', async (e) => {
     await api('/api/vote/pause', { method: 'POST', body: JSON.stringify({ family: fid, paused: e.currentTarget.dataset.pause === '1' }) }).catch(() => {})
     onChange()
