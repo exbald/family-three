@@ -22,9 +22,11 @@ const UNDER_THE_HOOD = [
   'Adopt goes through a GitHub connector that can only create repos and write to family-three-* repos.',
   'Headless Chrome opens every new app. If it throws an error, the same builder gets one round to fix it before anyone sees it.',
   'The Sprite saves a checkpoint after every generation. Restore rewinds the whole computer in about eight seconds.',
+  'The crowd family has no owner at the wheel. Votes come from the web (one per browser) and from Telegram buttons (one per account). Plain code counts them, and when one kid has enough votes and a lead of two, it breeds by itself.',
+  'Telegram goes through the same kind of connector, so the bot token never sits on the Sprite either.',
 ]
 
-export function landingHtml({ featured, families, esc, crowd = null }) {
+export function landingHtml({ featured, families, esc, crowd = null, telegram = '' }) {
   const card = featured
     ? `<a class="lp-card" href="/f/${esc(featured.id)}" data-link aria-label="Open the family ${esc(featured.title)}"><img onerror="this.closest('.lp-card').remove()" src="/card/${esc(featured.id)}.png" alt="Family tree for ${esc(featured.title)}: ${featured.generations} generations, ${featured.apps} live apps"></a>`
     : ''
@@ -36,10 +38,13 @@ export function landingHtml({ featured, families, esc, crowd = null }) {
           <h1>Apps you raise, not prompt.</h1>
           <p class="lp-sub">Say what you want. Three working apps come back, each on its own link. Pick the one you like and it breeds three more. Cross two to mix them. When one is right, adopt it.</p>
           <div class="lp-ctas">
-            ${featured ? `<a class="btn btn-lime" href="/f/${esc(featured.id)}" data-link>See a real family</a>` : ''}
-            <a class="btn btn-ghost" href="#install">Raise your own</a>
+            ${crowd ? '<a class="btn btn-orange" href="#crowd-title">Vote on the next kid</a>' : ''}
+            ${featured ? `<a class="btn ${crowd ? 'btn-ghost' : 'btn-lime'}" href="/f/${esc(featured.id)}" data-link>See a real family</a>` : ''}
+            ${crowd ? '' : '<a class="btn btn-ghost" href="#install">Raise your own</a>'}
           </div>
-          <p class="muted lp-note">This Sprite belongs to one person, so you can look around but not raise here. Every app on the tree is live.</p>
+          <p class="muted lp-note">${crowd
+            ? 'Vote for the kid that breeds next in the crowd\'s family. No account needed. To raise apps of your own, <a href="#install">install it on your Sprite</a>.'
+            : 'This Sprite belongs to one person, so you can look around but not raise here. Every app on the tree is live.'}</p>
         </div>
         ${card}
       </section>
@@ -54,7 +59,10 @@ export function landingHtml({ featured, families, esc, crowd = null }) {
             <h2 id="crowd-title">Pick the next kid</h2>
             <p>The crowd's family started from “${esc(crowd.request)}”. Vote for the one that breeds next. When one gets enough votes, three new kids are born from it a few minutes later.</p>
           </div>
-          <a class="btn btn-ghost" href="/f/${esc(crowd.id)}" data-link>See its whole tree</a>
+          <div class="lp-ctas">
+            <a class="btn btn-ghost" href="/f/${esc(crowd.id)}" data-link>See its whole tree</a>
+            ${telegram ? `<a class="btn btn-ghost" href="https://t.me/${esc(telegram.replace(/^@/, ''))}" target="_blank" rel="noopener">Watch it on Telegram</a>` : ''}
+          </div>
         </div>
         <div id="crowd-vote"></div>
       </section>` : ''}

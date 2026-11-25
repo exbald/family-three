@@ -208,6 +208,7 @@ async function route(req, res) {
   const method = req.method
 
   if (p === '/' && handleUnlock(req, res, url)) return
+  if (method === 'GET' && p === '/api/site') return sendJson(res, 200, { success: true, data: { telegramChannel: config.telegramChannel || null } })
   if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req) } })
   if (method === 'POST' && p.startsWith('/tg/')) return telegramWebhook(req, res, p.slice(4))
   if (method === 'POST' && p === '/api/vote') return api.vote(req, res)

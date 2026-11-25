@@ -525,3 +525,4 @@ body:has(.landing) { background: var(--bg); }
   .vo { grid-template-columns: 56px minmax(0, 1fr) auto; }
   .vo-open { display: none; }
 }
+.lp-note a { color: var(--text-2); }

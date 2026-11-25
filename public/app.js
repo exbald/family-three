@@ -89,7 +89,8 @@ async function renderVisitorHome() {
   const families = await api('/api/families').catch(() => [])
   const featured = [...families].sort((a, b) => b.apps - a.apps)[0] ?? null
   const crowdFam = families.find((f) => f.crowd)
-  view.innerHTML = landingHtml({ featured: [...families].filter((f) => !f.crowd).sort((a, b) => b.apps - a.apps)[0] ?? featured, families, esc, crowd: crowdFam })
+  const site = await api('/api/site').catch(() => ({}))
+  view.innerHTML = landingHtml({ featured: [...families].filter((f) => !f.crowd).sort((a, b) => b.apps - a.apps)[0] ?? featured, families, esc, crowd: crowdFam, telegram: site.telegramChannel ?? '' })
   wireInstallCopy(view)
   if (crowdFam) drawLandingVote(crowdFam.id)
   if (families.length) renderFamilyList()
