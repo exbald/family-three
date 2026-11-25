@@ -353,3 +353,15 @@ body:has(.treeview) .top { max-width: 1560px; }
   #new-family { order: 2; margin-left: auto; min-height: 40px; padding: 0 14px; }
   .checkpoint:not([hidden]) + #new-family { margin-left: auto; }
 }
+
+/* Laptop: the page stays put; the tree and the side column scroll on their own. */
+@media (min-width: 1000px) {
+  body:has(.treeview) { height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
+  body:has(.treeview) .top { flex: 0 0 auto; width: 100%; }
+  .view:has(.treeview) { flex: 1 1 auto; min-height: 0; width: 100%; padding-bottom: 16px; display: flex; flex-direction: column; }
+  .treeview { flex: 1 1 auto; min-height: 0; align-items: stretch; }
+  .tree-card { min-height: 0; }
+  .tree-scroll { flex: 1 1 auto; min-height: 0; max-height: none; }
+  .side { position: static; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; scrollbar-width: thin; scrollbar-color: var(--line-3) transparent; }
+  .tree-scroll { overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line-3) transparent; }
+}

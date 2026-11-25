@@ -215,6 +215,7 @@ function drawTreeView() {
   state = { ...state, selected }
   const scroller = view.querySelector('.tree-scroll')
   const scroll = scroller ? { left: scroller.scrollLeft, top: scroller.scrollTop } : null
+  const sideTop = view.querySelector('.side')?.scrollTop ?? 0
   view.innerHTML = `${visitorBanner()}
     <div class="treeview">
       <section class="tree-card" aria-label="Family tree">
@@ -228,6 +229,8 @@ function drawTreeView() {
     </div>`
   const next = view.querySelector('.tree-scroll')
   if (scroll && next) next.scrollTo(scroll.left, scroll.top)
+  const side = view.querySelector('.side')
+  if (side) side.scrollTop = sideTop
   view.querySelectorAll('[data-select]').forEach((b) => b.addEventListener('click', () => onSelect(b.dataset.select)))
   view.querySelector('[data-breed]')?.addEventListener('click', (e) => setPicks([e.currentTarget.dataset.breed]))
   view.querySelector('[data-cross-from]')?.addEventListener('click', (e) => {
