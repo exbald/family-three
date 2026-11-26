@@ -329,7 +329,8 @@ async function route(req, res) {
     const file = await ensureCard(card[1])
     if (file && (await sendFile(res, path.dirname(file), 'card.png'))) return
   }
-  if (/^\/[\w.-]+$/.test(p) && (await sendFile(res, PUBLIC_DIR, p.slice(1)))) return
+  const film = /\.(mp4|jpg)$/.test(p)
+  if (/^\/[\w.-]+$/.test(p) && (await sendFile(res, PUBLIC_DIR, p.slice(1), { range: req.headers.range ?? '', cache: film ? 'public, max-age=86400' : 'no-cache' }))) return
 
   res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' })
   res.end('Not found')

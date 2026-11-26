@@ -21,6 +21,7 @@ const TYPES = {
   '.woff2': 'font/woff2',
   '.webmanifest': 'application/manifest+json',
   '.zip': 'application/zip',
+  '.mp4': 'video/mp4',
 }
 
 const MAX_BODY = 16 * 1024
@@ -60,7 +61,7 @@ export function readJson(req) {
 }
 
 // Serves root/rel, refusing anything that escapes root. Directories serve their index.html.
-export async function sendFile(res, root, rel, { cache = 'no-cache' } = {}) {
+export async function sendFile(res, root, rel, { cache = 'no-cache', range = '' } = {}) {
   const base = path.resolve(root)
   let file = path.resolve(base, `.${path.sep}${decodeURIComponent(rel)}`)
   if (file !== base && !file.startsWith(base + path.sep)) return false
@@ -72,8 +73,24 @@ export async function sendFile(res, root, rel, { cache = 'no-cache' } = {}) {
     info = await stat(file).catch(() => null)
   }
   if (!info?.isFile()) return false
+  const type = TYPES[path.extname(file).toLowerCase()] ?? 'application/octet-stream'
+  // Byte ranges, so browsers (Safari above all) can stream and seek a video.
+  const m = /^bytes=(\d*)-(\d*)$/.exec(range)
+  if (m && (m[1] || m[2])) {
+    const start = m[1] ? Number(m[1]) : Math.max(0, info.size - Number(m[2]))
+    const end = m[1] && m[2] ? Math.min(Number(m[2]), info.size - 1) : info.size - 1
+    if (start > end || start >= info.size) {
+      res.writeHead(416, { 'content-range': `bytes */${info.size}` })
+      res.end()
+      return true
+    }
+    res.writeHead(206, { 'content-type': type, 'content-length': end - start + 1, 'content-range': `bytes ${start}-${end}/${info.size}`, 'accept-ranges': 'bytes', 'cache-control': cache })
+    createReadStream(file, { start, end }).pipe(res)
+    return true
+  }
   res.writeHead(200, {
-    'content-type': TYPES[path.extname(file).toLowerCase()] ?? 'application/octet-stream',
+    'accept-ranges': 'bytes',
+    'content-type': type,
     'content-length': info.size,
     'cache-control': cache,
   })

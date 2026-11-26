@@ -8,7 +8,7 @@ export const AGENT_LINE = 'Build this in the style of DESIGN.md: use tokens.css 
 
 const UNDER_THE_HOOD = [
   ['One Sprite', 'A plain Node server, every family page and every kid app run on one Fly.io Sprite. It sleeps when nobody is around and saves a checkpoint after each generation.'],
-  ['Three builders at once', 'Each kid is a headless Claude Code session in its own folder, with its own brief from the agent. Headless Chrome opens every new app, and a builder gets one round to fix an error before anyone sees it.'],
+  ['Three builders at once', 'Each kid is built by its own coding agent (Claude Code running GLM through the Z.ai connector) in its own folder, with its own brief from the agent. Headless Chrome opens every new app, and a builder gets one round to fix an error before anyone sees it.'],
   ['Keys stay off the Sprite', 'The model, GitHub and Telegram are reached through Sprites connectors, limited to Sprites named ft-. The Sprite never holds their keys.'],
   ['The crowd, counted by plain code', 'One vote per browser per round on the web, one per account on Telegram. The first vote starts a 15-minute clock and the leader breeds. With no votes the agent picks, at most twice in a row.'],
 ]
@@ -33,13 +33,13 @@ function heroHtml({ tree, esc, telegram, nextGen }) {
     <section class="lp2-hero ln-row" aria-labelledby="lp2-title" data-reveal>
       <div class="ln-text lp2-hero-text">
         <h1 id="lp2-title">Apps you raise, not prompt.</h1>
-        <p class="lp2-lede">You say what you want in one sentence. Three Claude Code builders on a Fly.io Sprite each build a different working app. Pick the one you like and it breeds three more; cross two and it mixes them.</p>
+        <p class="lp2-lede">You say what you want in one sentence. Three AI coding agents on a Fly.io Sprite each build a different working app. Pick the one you like and it breeds three more; cross two and it mixes them.</p>
         <p class="lp2-lede lp2-lede-2">This page is one real family, as it happened. ${Gen} is up for a vote right now, and anyone can vote.</p>
         <div class="lp-ctas">
           <a class="btn btn-orange" href="#vote">Vote on ${gen}</a>
           ${tg ? `<a class="btn btn-ghost" href="${esc(tg)}" target="_blank" rel="noopener"><span class="lp2-long">Watch it on Telegram</span><span class="lp2-short">Telegram</span></a>` : ''}
         </div>
-        <p class="ln-legend"><span class="is-kept">the kid they kept</span><span class="is-cross">a cross of two</span></p>
+        <button class="lp2-film-btn" type="button" data-film><span class="lp2-film-thumb"><img src="/family-three-film.jpg" alt="" width="96" height="54"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><strong>Watch the 1-minute film</strong><small>64 seconds, with sound</small></span></button>
       </div>
       ${tree ? heroTreeHtml(tree, esc) : TREE_OUTLINE}
     </section>`
@@ -118,6 +118,11 @@ export function landingHtml({ tree, families, esc, crowds = [], telegram = '', l
         </ol>
         <p class="muted">Want Adopt to make GitHub repos? Add a GitHub connector for your Sprites in the Fly dashboard first. The installer finds it.</p>
       </section>
+
+      <dialog class="lp2-film" aria-label="The Family Three film">
+        <video src="/family-three-film.mp4" poster="/family-three-film.jpg" controls playsinline preload="none"></video>
+        <button class="lp2-film-close" type="button" data-film-close aria-label="Close the film"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </dialog>
 
       <footer class="lp-foot">Built in a week for Fly.io's Hacksgiving 2026. <a href="${REPO}" target="_blank" rel="noopener">The code is on GitHub.</a></footer>
     </article>`

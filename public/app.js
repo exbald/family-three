@@ -103,12 +103,27 @@ async function renderVisitorHome() {
     navigator.clipboard?.writeText(AGENT_LINE).then(() => { btn.textContent = 'Copied' }, () => {})
   })
   revealOnScroll(view)
+  wireFilm(view)
   if (tree?.crowd) {
     state = { ...state, landingFid: tree.id }
     drawLandingVote(tree.id)
   }
   if (families.length) renderFamilyList()
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView()
+}
+
+// The film opens in a dialog and plays; closing it (button, Escape or a click outside) stops it.
+function wireFilm(root) {
+  const dialog = root.querySelector('.lp2-film')
+  const video = dialog?.querySelector('video')
+  if (!dialog || !video) return
+  root.querySelector('[data-film]')?.addEventListener('click', () => {
+    dialog.showModal()
+    video.play().catch(() => {})
+  })
+  dialog.querySelector('[data-film-close]')?.addEventListener('click', () => dialog.close())
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close() })
+  dialog.addEventListener('close', () => video.pause())
 }
 
 // Each generation's lines draw down as it scrolls into view. Without JS or with reduced motion, everything just shows.
