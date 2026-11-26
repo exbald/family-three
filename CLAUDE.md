@@ -11,9 +11,9 @@ Hackathon project for Fly.io's Hacksgiving. Deadline: midnight PST, Sunday Nov 2
 
 ## Never
 
-- Never put a key in code, commits, logs or chat. Model, GitHub and Ollama calls go through Sprites connectors (`https://api.sprites.dev/v1/gateway/<provider>/<id>/<path>`); the Sprite never holds their keys. Keys the lead holds live in `~/.zshenv` (`ZAI_API_KEY`), read without printing.
+- Never put a key in code, commits, logs or chat. Model, GitHub and Telegram calls go through Sprites connectors (`https://api.sprites.dev/v1/gateway/<provider>/<id>/<path>`); the Sprite never holds their keys. Keys the lead holds live in `~/.zshenv` (`ZAI_API_KEY`, `TELEGRAM_BOT_TOKEN`), read without printing.
 - Never open a connector to all Sprites: access is by the name prefix `ft-`. GitHub's connector also gets an endpoint allow-list (create repo, `/repos/<user>/family-three-*`).
-- Never touch Sprites that don't start with `ft-`: the same Fly organization runs agentinico's production bot computers (`bot-*`, `agentinico-*`).
+- Never touch Sprites that don't start with `ft-`: the same Fly organization runs other production Sprites.
 - Never give this repo a self-hosted CI runner. If it gets CI, GitHub's own runners only (it goes public).
 
 ## Tools
