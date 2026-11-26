@@ -27,7 +27,7 @@ export async function snapThumb({ fid, n, url }) {
     '--hide-scrollbars',
     '--enable-logging=stderr',
     '--v=0',
-    '--window-size=1024,768',
+    '--window-size=1280,800',
     '--virtual-time-budget=4000',
     `--screenshot=${out}`,
     url,

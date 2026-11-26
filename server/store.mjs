@@ -69,7 +69,8 @@ export function updateChild(fid, cid, patch) {
   }))
 }
 
-export async function listFamilies() {
+// Archived families are hidden from lists, voting and Telegram; their pages still open by URL.
+export async function listFamilies({ includeArchived = false } = {}) {
   let names = []
   try {
     names = await readdir(config.familiesDir)
@@ -78,7 +79,7 @@ export async function listFamilies() {
   }
   const trees = await Promise.all(names.filter((n) => FAMILY_ID.test(n)).map((n) => readTree(n)))
   return trees
-    .filter(Boolean)
+    .filter((t) => t && (includeArchived || !t.archived))
     .map((t) => summarize(t))
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
 }

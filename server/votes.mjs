@@ -178,7 +178,7 @@ const lastByIp = new Map()
 
 export async function castVote({ fid, option, voterKey, ipHash }) {
   const tree = await readTree(fid)
-  if (!tree?.crowd) throw new VoteError(404, 'Only the crowd family takes votes.')
+  if (!tree?.crowd || tree.archived) throw new VoteError(404, 'Only the crowd family takes votes.')
   const vote = tree.vote
   if (!vote) throw new VoteError(409, 'Voting opens when the first kids are born.')
   if (vote.paused) throw new VoteError(409, 'Voting is paused for a moment.')
@@ -236,7 +236,7 @@ export async function setPaused(fid, paused) {
 // When a crowd litter finishes, the next round opens. If the model was overloaded, rest an hour first.
 bus.on('litter-done', async ({ fid, kids }) => {
   const tree = await readTree(fid)
-  if (!tree?.crowd) return
+  if (!tree?.crowd || tree.archived) return
   const overloaded = kids.some((k) => k.status === 'failed' && OVERLOADED.test(k.summary ?? ''))
   const restingUntil = overloaded ? new Date(Date.now() + REST_MS).toISOString() : null
   await openRound(fid, kids[0].litter, { restingUntil })

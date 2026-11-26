@@ -80,6 +80,14 @@ const api = {
     }
   },
 
+  async archive(req, res) {
+    const body = await readJson(req)
+    const fid = String(body.family ?? '')
+    if (!FAMILY_ID.test(fid) || !(await readTree(fid))) return sendError(res, 404, 'No family with that id.')
+    const tree = await updateTree(fid, (t) => ({ ...t, archived: body.archived !== false, vote: t.vote && body.archived !== false ? { ...t.vote, paused: true } : t.vote }))
+    sendJson(res, 200, { success: true, data: { id: fid, archived: Boolean(tree.archived) } })
+  },
+
   async closeRound(req, res) {
     const body = await readJson(req)
     const fid = String(body.family ?? '')
@@ -241,7 +249,8 @@ async function route(req, res) {
   }
   if (method === 'POST' && p === '/api/vote/pause') return api.pause(req, res)
   if (method === 'POST' && p === '/api/vote/close') return api.closeRound(req, res)
-  if (method === 'GET' && p === '/api/families') return api.listFamilies(req, res)
+  if (method === 'POST' && p === '/api/archive') return api.archive(req, res)
+  if (method === 'GET' && p === '/api/families') return sendJson(res, 200, { success: true, data: await listFamilies({ includeArchived: isOwner(req) && url.searchParams.get('archived') === '1' }) })
   if (method === 'POST' && p === '/api/families') return api.createFamily(req, res)
   if (method === 'POST' && p === '/api/breed') return api.breed(req, res)
   if (method === 'POST' && p === '/api/cross') return api.cross(req, res)
