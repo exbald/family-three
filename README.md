@@ -43,7 +43,7 @@ Family Three has its own Fly org. One Sprite, `ft-family`, runs everything: a pl
 |---|---|
 | Custom API → Z.ai (Anthropic-compatible endpoint) | The model behind every builder and the breeder. Claude Code points `ANTHROPIC_BASE_URL` at the gateway; the gateway adds the key. |
 | GitHub | Adopt: create the repo and write its family line. The connector may only call `POST /user/repos` and `/repos/<owner>/family-three-*`. |
-| Custom API → Telegram Bot API | The crowd channel. The bot token rides in the URL path, added by the gateway. |
+| Custom API → Telegram Bot API | The crowd channel. The bot token rides in the URL path, added by the gateway. The owner can also run things from a private chat with the bot: `/new <sentence>` starts a private family, `/new crowd <sentence>` a crowd family, `/seed` has the agent invent one now, `/pause` and `/resume` stop and restart voting, and any other message gets a status of every crowd family. |
 | Ollama (optional) | A backup model for the breeder and the autopilot's pick: when the main model call fails, they ask Ollama Cloud (`glm-5.3-flash` by default, `ollamaModel` in `~/.ft/config.json`). The installer finds the connector by itself. Needs credits on your Ollama account; the builders keep using Claude Code, because the Ollama connector doesn't offer the Claude-style endpoint. |
 
 All three are limited to Sprites whose name starts with `ft-`, so the model, GitHub and Telegram keys never sit on the Sprite.

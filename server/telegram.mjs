@@ -8,6 +8,9 @@ import { config } from './config.mjs'
 import { bus } from './events.mjs'
 import { listFamilies, readTree, updateTree } from './store.mjs'
 import { castVote, setPaused, VoteError } from './votes.mjs'
+import { startFamily } from './generation.mjs'
+import { seedOnce } from './seeder.mjs'
+import { newFamilyId } from './store.mjs'
 
 const EDIT_EVERY_MS = 2000
 export const enabled = () => Boolean(config.telegramLive && config.telegramBaseUrl && config.telegramChannel)
@@ -144,7 +147,26 @@ async function onCallback(q) {
 async function onOwnerCommand(msg) {
   const reply = (text) => tg('sendMessage', { chat_id: msg.chat.id, text })
   const crowd = (await listFamilies()).filter((f) => f.crowd)
-  const cmd = (msg.text ?? '').trim().split(/\s+/)[0].toLowerCase()
+  const text = (msg.text ?? '').trim()
+  const cmd = text.split(/\s+/)[0].toLowerCase().replace(/@\w+$/, '')
+  const base = (config.publicUrl || '').replace(/\/$/, '')
+  if (cmd === '/new') {
+    // "/new <sentence>" starts a private family; "/new crowd <sentence>" a crowd family.
+    let rest = text.slice(text.indexOf(' ') + 1).trim()
+    if (rest === text || !rest) return reply('Send /new followed by one sentence, e.g.\n/new A plant watering tracker: which plant, how often, what is overdue.\nAdd "crowd" first for a crowd family: /new crowd …')
+    const crowdFamily = /^crowd\b/i.test(rest)
+    if (crowdFamily) rest = rest.replace(/^crowd\b[:\s-]*/i, '')
+    const request = rest.replace(/\s+/g, ' ').trim()
+    if (request.length < 3 || request.length > 500) return reply('Keep it to one sentence, 3 to 500 characters.')
+    if (crowdFamily && crowd.length >= config.maxCrowdFamilies) return reply(`There are already ${crowd.length} crowd families (the cap is ${config.maxCrowdFamilies}). Start it without "crowd", or archive one first.`)
+    const fid = newFamilyId(request)
+    await startFamily({ fid, request, crowd: crowdFamily })
+    return reply(`Started ${crowdFamily ? 'a crowd family' : 'a private family'}: "${request}"\nThree kids are being built; they take a few minutes.${crowdFamily ? ' Its first vote round posts to the channel when they are born.' : ''}\n${base}/f/${fid}`)
+  }
+  if (cmd === '/seed') {
+    const result = await seedOnce({ force: true })
+    return reply(result.seeded ? `The agent started a crowd family: "${result.request}"\n${base}/f/${result.fid}` : `No new family: ${result.reason}.`)
+  }
   if (cmd === '/pause' || cmd === '/resume') {
     for (const f of crowd) await setPaused(f.id, cmd === '/pause')
     return reply(cmd === '/pause' ? 'Voting paused.' : 'Voting is open again.')
@@ -154,7 +176,8 @@ async function onOwnerCommand(msg) {
     const v = t.vote
     return `${t.title}: gen ${f.generations}, ${f.apps} apps, vote ${v?.status ?? 'none'}${v?.paused ? ' (paused)' : ''}, ${v?.total ?? 0}/${v?.threshold ?? '?'} votes`
   }))
-  return reply(lines.length ? `Crowd families:\n${lines.join('\n')}\n\n/pause · /resume` : 'No crowd family yet. Start one from the website with the crowd box ticked.')
+  const help = '/new <sentence> · /new crowd <sentence> · /seed · /pause · /resume'
+  return reply(lines.length ? `Crowd families:\n${lines.join('\n')}\n\n${help}` : `No crowd family yet.\n\n${help}`)
 }
 
 export async function handleUpdate(update) {
