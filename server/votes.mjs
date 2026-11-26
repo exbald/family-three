@@ -43,10 +43,14 @@ async function ipSalt() {
   return salt
 }
 
+// The Sprite's proxy appends the visitor's address to X-Forwarded-For, then two hops of its own.
+// Anything to the left of that is whatever the visitor sent, so it can't be trusted.
+const PROXY_HOPS = () => Number(config.proxyHops ?? 2)
+
 export function clientIp(req) {
-  const h = req.headers
-  const forwarded = String(h['fly-client-ip'] ?? h['x-real-ip'] ?? String(h['x-forwarded-for'] ?? '').split(',')[0] ?? '').trim()
-  return forwarded || req.socket.remoteAddress || 'unknown'
+  const hops = String(req.headers['x-forwarded-for'] ?? '').split(',').map((x) => x.trim()).filter(Boolean)
+  const idx = hops.length - 1 - PROXY_HOPS()
+  return (idx >= 0 ? hops[idx] : hops[0]) || req.socket.remoteAddress || 'unknown'
 }
 
 export async function hashIp(ip) {
