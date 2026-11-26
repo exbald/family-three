@@ -93,7 +93,8 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 - Anyone can get a kid's design kit (one per kid, one at a time, one start per visitor per 10 min). Adopted repos are GitHub templates.
 - Deploys refuse to restart while kids are building (FORCE=1 overrides): a restart mid-brief is what emptied "Where my money leaks". Try again now re-writes lost briefs.
 - Film: `video/` (HyperFrames), rendered to `video/renders/family-three-hacksgiving-final.mp4` (64.5 s, -14.6 LUFS).
-- Left: posts tagging @flydotio (Nik posts), the submission form (Nik submits; answers drafted in chat), Z.ai key rotation.
+- Submitted 2026-11-26 06:59 UTC: the Hacksgiving form (connectors: Z.ai, GitHub, Telegram; Ollama connected but unused, so not listed). Launch post on X with the film: https://x.com/exbald/status/2125846615319621881. LinkedIn post scheduled for 09:37 NY Nov 26 (mixpost-social, nl-hacksgiving).
+- Left: Z.ai key rotation.
 
 ## Status (Tue Nov 24, evening)
 
