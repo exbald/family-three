@@ -133,6 +133,8 @@ async function pushFamilyLine({ repo, tree, kid, links }) {
   }
   // Replace the auto-init commit with the family line.
   await gh('PATCH', `/repos/${repo}/git/refs/heads/main`, { sha: shas.get(kid.id), force: true })
+  // Mark it a template, so anyone can start their own project from it.
+  await gh('PATCH', `/repos/${repo}`, { is_template: true }).catch((err) => console.error(`template flag for ${repo}:`, err.message))
   return line.length
 }
 

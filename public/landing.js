@@ -1,103 +1,110 @@
-// The visitor home page: what this is, how it works, what you leave with, how it runs, and how to raise your own.
+// The visitor home page: one real family read top to bottom, ending at its open vote,
+// then the other crowd families, what you take home, how it runs, and how to raise your own.
+import { heroTreeHtml, lineageRowsHtml, adoptionRowHtml, otherFamiliesHtml } from './lineage.js'
+
 export const INSTALL = 'curl -fsSL https://raw.githubusercontent.com/exbald/family-three/main/scripts/install.sh | bash'
 const REPO = 'https://github.com/exbald/family-three'
-
-const STEPS = [
-  ['Ask', 'One sentence, like "a tracker for my running". No spec, no settings.'],
-  ['Three are born', 'Three Claude Code builders work at once, each on a different brief: one changes the layout, one the mood, one adds a feature. A few minutes later you have three apps to click through.'],
-  ['Pick', 'Breed from the one you like, or cross two: one gives the structure, the other the look. Every pick teaches it your taste, and the next family starts from there.'],
-  ['Adopt', 'The keeper gets a public link, its own GitHub repo where each commit is one ancestor, and a design kit you can reuse anywhere.'],
-]
-
-const OUTCOMES = [
-  ['An app you picked', 'It runs on its own link and works on your phone. You chose it from things you could click, so you never had to describe it.'],
-  ['A repo with its family line', 'Each ancestor is one commit with the brief its builder got. A cross is a merge commit with two parents.'],
-  ['A design kit', 'DESIGN.md and tokens.css, taken from the app you adopted. Drop them into your next project and tell Claude Code or Cursor to build in that style.'],
-  ['Taste that carries over', 'After a few picks it knows you like, say, dense dark screens and big numbers. Your next family starts there.'],
-]
+export const AGENT_LINE = 'Build this in the style of DESIGN.md: use tokens.css for every colour, font, space and radius.'
 
 const UNDER_THE_HOOD = [
-  'One Sprite runs everything: a plain Node server, the family pages and every child app.',
-  'Three headless Claude Code builders run at once, each in its own folder. They reach the model through a Sprites connector, so the model key never sits on the Sprite.',
-  'Adopt goes through a GitHub connector that can only create repos and write to family-three-* repos.',
-  'Headless Chrome opens every new app. If it throws an error, the same builder gets one round to fix it before anyone sees it.',
-  'The Sprite saves a checkpoint after every generation. Restore rewinds the whole computer in about eight seconds.',
-  'The crowd family has no owner at the wheel. Votes come from the web (one per browser) and from Telegram buttons (one per account). Plain code counts them, and when one kid has enough votes and a lead of two, it breeds by itself.',
-  'Telegram goes through the same kind of connector, so the bot token never sits on the Sprite either.',
+  ['One Sprite', 'A plain Node server, every family page and every kid app run on one Fly.io Sprite. It sleeps when nobody is around and saves a checkpoint after each generation.'],
+  ['Three builders at once', 'Each kid is a headless Claude Code session in its own folder, with its own brief from the agent. Headless Chrome opens every new app, and a builder gets one round to fix an error before anyone sees it.'],
+  ['Keys stay off the Sprite', 'The model, GitHub and Telegram are reached through Sprites connectors, limited to Sprites named ft-. The Sprite never holds their keys.'],
+  ['The crowd, counted by plain code', 'One vote per browser per round on the web, one per account on Telegram. The first vote starts a 15-minute clock and the leader breeds. With no votes the agent picks, at most twice in a row.'],
 ]
 
-// One tab per crowd family, so a visitor can hop between them and vote in each.
-export function crowdTabsHtml(crowds, selectedId, esc) {
-  if (crowds.length < 2) return ''
-  return `<div class="lp-crowd-tabs" role="tablist" aria-label="Crowd families">${crowds.map((f) => {
-    const thumb = f.preview?.[0]?.id ? `<img src="/thumb/${esc(f.preview[0].id)}.png" alt="" loading="eager">` : '<span class="lp-crowd-tab-blank"></span>'
-    const open = f.vote?.status === 'open'
-    return `<button type="button" role="tab" class="lp-crowd-tab" data-crowd="${esc(f.id)}" aria-selected="${f.id === selectedId}">${thumb}<span class="lp-crowd-tab-text"><strong>${esc(f.title || f.request)}</strong><small>${f.building ? 'kids being born' : open ? `vote open · ${f.vote.total ?? 0} so far` : `${f.apps} apps`}</small></span></button>`
-  }).join('')}</div>`
+function telegramUrl(telegram) {
+  return telegram ? `https://t.me/${telegram.replace(/^@/, '')}` : ''
 }
 
-export function crowdIntroHtml(crowd, esc) {
-  return `<p class="lp-crowd-request">Started from “${esc(crowd.request)}” · <a href="/f/${esc(crowd.id)}" data-link>see its whole tree</a></p>`
-}
+// Before the family loads: the same tree, drawn empty, so the first screen is never blank.
+const TREE_OUTLINE = `
+    <div class="ln-tree ln-hero-tree is-loading" aria-hidden="true">
+      <span class="ln-request">&nbsp;</span>
+      <div class="ln-connect"><svg class="ln-connector is-kept" viewBox="0 0 300 64" preserveAspectRatio="none"><path d="M150 0 V50 M50 50 H250 M50 50 V64 M150 50 V64 M250 50 V64"/></svg></div>
+      <div class="ln-kids">${'<span class="ln-kid"><span class="ln-shot"></span><span class="ln-name">&nbsp;</span></span>'.repeat(3)}</div>
+    </div>`
 
-export function landingHtml({ featured, families, esc, crowd = null, crowds = [], telegram = '' }) {
-  const card = featured
-    ? `<a class="lp-card" href="/f/${esc(featured.id)}" data-link aria-label="Open the family ${esc(featured.title)}"><img onerror="this.closest('.lp-card').remove()" src="/card/${esc(featured.id)}.png" alt="Family tree for ${esc(featured.title)}: ${featured.generations} generations, ${featured.apps} live apps"></a>`
-    : ''
+function heroHtml({ tree, esc, telegram, nextGen }) {
+  const tg = telegramUrl(telegram)
+  const gen = nextGen ? `generation ${nextGen}` : 'the next generation'
+  const Gen = nextGen ? `Generation ${nextGen}` : 'Its next generation'
   return `
-    <article class="landing">
-      <section class="lp-hero">
-        <div class="lp-hero-text">
-          <p class="lp-kicker">A personal agent on a Fly.io Sprite</p>
-          <h1>Apps you raise, not prompt.</h1>
-          <p class="lp-sub">Say what you want. Three working apps come back, each on its own link. Pick the one you like and it breeds three more. Cross two to mix them. When one is right, adopt it.</p>
-          <div class="lp-ctas">
-            ${crowd ? '<a class="btn btn-orange" href="#crowd-title">Vote on the next kid</a>' : ''}
-            ${featured ? `<a class="btn ${crowd ? 'btn-ghost' : 'btn-lime'}" href="/f/${esc(featured.id)}" data-link>See a real family</a>` : ''}
-            ${crowd ? '' : '<a class="btn btn-ghost" href="#install">Raise your own</a>'}
-          </div>
-          <p class="muted lp-note">${crowd
-            ? 'Vote for the kid that breeds next in the crowd\'s family. No account needed. To raise apps of your own, <a href="#install">install it on your Sprite</a>.'
-            : 'This Sprite belongs to one person, so you can look around but not raise here. Every app on the tree is live.'}</p>
+    <section class="lp2-hero ln-row" aria-labelledby="lp2-title">
+      <div class="ln-text lp2-hero-text">
+        <h1 id="lp2-title">Apps you raise, not prompt.</h1>
+        <p class="lp2-lede">You say what you want in one sentence. Three Claude Code builders on a Fly.io Sprite each build a different working app. Pick the one you like and it breeds three more; cross two and it mixes them.</p>
+        <p class="lp2-lede lp2-lede-2">This page is one real family, as it happened. ${Gen} is up for a vote right now, and anyone can vote.</p>
+        <div class="lp-ctas">
+          <a class="btn btn-orange" href="#vote">Vote on ${gen}</a>
+          ${tg ? `<a class="btn btn-ghost" href="${esc(tg)}" target="_blank" rel="noopener">Watch it on Telegram</a>` : ''}
         </div>
-        ${card}
-      </section>
+        <p class="ln-legend"><span class="is-kept">the kid they kept</span><span class="is-cross">a cross of two</span></p>
+      </div>
+      ${tree ? heroTreeHtml(tree, esc) : TREE_OUTLINE}
+    </section>`
+}
 
-      <p class="lp-why">Most people can't describe the app they want. They know it when they see it. So Family Three shows you three and lets you choose.</p>
+function voteSectionHtml({ tree, esc, telegram, nextGen }) {
+  const tg = telegramUrl(telegram)
+  return `
+    <section class="ln-row lp2-vote" id="vote" aria-labelledby="vote-title">
+      <div class="ln-text">
+        <h2 id="vote-title">Pick who breeds generation ${nextGen}</h2>
+        <p>Open the kids, then vote for one, or for crossing the top two. No account. The first vote starts a 15-minute clock; when it runs out, the leader breeds and three new apps are born a few minutes later.</p>
+        ${tg ? `<p>Or vote with one tap in the Telegram channel, where every new generation is posted.</p><a class="btn btn-ghost" href="${esc(tg)}" target="_blank" rel="noopener">Open the Telegram channel</a>` : ''}
+      </div>
+      <div id="crowd-vote" class="lp2-vote-panel" data-family="${esc(tree.id)}"></div>
+    </section>`
+}
 
-      ${crowd ? `
-      <section class="lp-section lp-crowd" aria-labelledby="crowd-title">
-        <div class="lp-crowd-head">
+function takeHomeHtml(esc) {
+  return `
+    <section class="lp2-take" id="take-home" aria-labelledby="take-title">
+      <h2 id="take-title">What you take home</h2>
+      <div class="lp2-take-grid">
+        <div class="lp2-take-kit">
+          <h3>The look of any kid, as a design kit</h3>
+          <p>Every finished app here has a Get its design kit button, for anyone. The agent reads the app's CSS and writes DESIGN.md, tokens.css, tokens.json and a preview page. Drop them into your project and give your coding agent one line:</p>
+          <div class="urlrow"><span class="mono">${esc(AGENT_LINE)}</span><button class="linkish lime" type="button" data-copy-agent-line>Copy</button></div>
+        </div>
+        <div class="lp2-take-side">
           <div>
-            <p class="lp-kicker">Live now · raised by whoever shows up</p>
-            <h2 id="crowd-title">Pick the next kid</h2>
-            <p>${crowds.length > 1 ? `${crowds.length} families are raised by whoever shows up. Pick one, open its kids, and vote` : 'Open the kids and vote'} for the one that breeds next. When the clock runs out, three new kids are born from the winner a few minutes later.</p>
+            <h3>An adopted app, as a template</h3>
+            <p>Adopted apps live in public GitHub repos marked as templates. Fork one as the start of your own, with its family line in the history.</p>
           </div>
-          <div class="lp-ctas">
-            ${telegram ? `<a class="btn btn-ghost" href="https://t.me/${esc(telegram.replace(/^@/, ''))}" target="_blank" rel="noopener">Watch it on Telegram</a>` : ''}
+          <div>
+            <h3>A family of your own</h3>
+            <p>Install Family Three on your own Sprite and raise apps from your own sentences. It learns your taste as you pick. <a href="#install">How to install</a></p>
           </div>
         </div>
-        ${crowdTabsHtml(crowds, crowd.id, esc)}
-        <div id="crowd-intro">${crowdIntroHtml(crowd, esc)}</div>
-        <div id="crowd-vote"></div>
+      </div>
+    </section>`
+}
+
+export function landingHtml({ tree, families, esc, crowds = [], telegram = '', loading = false }) {
+  const nextGen = tree ? tree.litters.length + 1 : null
+  return `
+    <article class="landing lp2">
+      ${tree || loading ? heroHtml({ tree, esc, telegram, nextGen }) : ''}
+      ${tree ? `<div class="ln-spine">${lineageRowsHtml(tree, esc, { from: 1 })}${adoptionRowHtml(tree, esc)}</div>` : ''}
+      ${tree?.crowd ? voteSectionHtml({ tree, esc, telegram, nextGen }) : loading ? '<section id="vote" class="lp2-vote-pending" aria-hidden="true"></section>' : ''}
+
+      ${crowds.length > 1 ? `
+      <section class="lp2-others" aria-labelledby="others-title">
+        <h2 id="others-title">More families raised by whoever shows up</h2>
+        <p>Each started from one sentence. Open one, click through its kids and vote.</p>
+        ${otherFamiliesHtml(crowds, tree?.id, esc)}
       </section>` : ''}
 
-      <section class="lp-section" aria-labelledby="how">
-        <h2 id="how">How it works</h2>
-        <ol class="lp-steps">${STEPS.map(([t, d], i) => `<li><span class="lp-num">${i + 1}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></li>`).join('')}</ol>
+      ${takeHomeHtml(esc)}
+
+      <section class="lp2-runs" aria-labelledby="runs">
+        <h2 id="runs">How it runs on Fly.io</h2>
+        <dl class="lp2-hood">${UNDER_THE_HOOD.map(([t, d]) => `<div><dt>${esc(t)}</dt><dd>${esc(d)}</dd></div>`).join('')}</dl>
       </section>
 
-      <section class="lp-section" aria-labelledby="leave">
-        <h2 id="leave">What you leave with</h2>
-        <div class="lp-grid">${OUTCOMES.map(([t, d]) => `<div class="lp-item"><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
-      </section>
-
-      ${families.length ? `<section class="lp-section" aria-labelledby="families-title"><h2 id="families-title">Families on this Sprite</h2><div id="families"></div></section>` : ''}
-
-      <section class="lp-section" aria-labelledby="runs">
-        <h2 id="runs">How it runs</h2>
-        <ul class="lp-hood">${UNDER_THE_HOOD.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
-      </section>
+      ${families.length ? `<section class="lp-section" aria-labelledby="families-title"><h2 id="families-title">Raised in private by the owner</h2><div id="families"></div></section>` : ''}
 
       <section class="lp-section" id="install" aria-labelledby="own">
         <h2 id="own">Raise your own</h2>
