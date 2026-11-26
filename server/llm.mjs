@@ -5,7 +5,7 @@ import os from 'node:os'
 import { config } from './config.mjs'
 import { claudeEnv } from './builder.mjs'
 
-const TIMEOUT_MS = 120_000
+const TIMEOUT_MS = 180_000
 
 function extractJson(text) {
   const fenced = /```(?:json)?\s*([\s\S]*?)```/.exec(text)
