@@ -155,10 +155,14 @@ async function closeAndBreed(fid, winner, { autopilot = null } = {}) {
   if (busy) return null
   const parentIds = winner.kind === 'cross' ? singles.slice(0, 2).map((o) => o.key) : [winner.key]
   if (!parentIds.every((id) => tree.children[id]?.status === 'ready')) return null
-  await updateTree(fid, (t) => ({
-    ...t,
-    vote: { ...t.vote, status: 'breeding', lastTotal: t.vote.total, lastWinner: winner.key, closedAt: new Date().toISOString(), autopilot },
-  }))
+  // Close only if this exact round is still open, so two closers can never both breed.
+  let closed = false
+  await updateTree(fid, (t) => {
+    if (t.vote?.round !== vote.round || t.vote.status !== 'open') return t
+    closed = true
+    return { ...t, vote: { ...t.vote, status: 'breeding', lastTotal: t.vote.total, lastWinner: winner.key, closedAt: new Date().toISOString(), autopilot } }
+  })
+  if (!closed) return null
   const names = parentIds.map((id) => tree.children[id].label).join(' × ')
   const note = autopilot
     ? `Nobody voted, so the agent picked: ${autopilot.reason}`
@@ -281,27 +285,34 @@ async function autopilotPick(tree) {
 
 // Every 15 s: a round whose clock has run out goes to its leader (ties go to the earlier option);
 // a round nobody voted on goes to the agent's pick once its autopilot time comes.
+// A family being closed is skipped until that finishes (the agent's pick can take longer than 15 s).
+const closing = new Set()
 setInterval(async () => {
   try {
     for (const fam of await listFamilies()) {
-      if (!fam.crowd) continue
-      const tree = await readTree(fam.id)
-      const vote = tree?.vote
-      if (!vote || vote.status !== 'open' || vote.paused) continue
-      if (vote.restingUntil && Date.parse(vote.restingUntil) > Date.now()) continue
-      if (!vote.total && vote.autopilotAt && Date.parse(vote.autopilotAt) <= Date.now()) {
-        const { winner, reason } = await autopilotPick(tree)
-        await closeAndBreed(fam.id, winner, { autopilot: { reason } })
-        continue
-      }
-      if (!vote.closesAt || !vote.total || Date.parse(vote.closesAt) > Date.now()) continue
-      const [leader] = ranked(vote)
-      if (leader?.count) await closeAndBreed(fam.id, leader)
+      if (!fam.crowd || closing.has(fam.id)) continue
+      closing.add(fam.id)
+      await checkRound(fam.id).finally(() => closing.delete(fam.id))
     }
   } catch (err) {
     console.error('round clock check failed:', err.message)
   }
 }, 15 * 1000).unref()
+
+async function checkRound(fid) {
+  const tree = await readTree(fid)
+  const vote = tree?.vote
+  if (!vote || vote.status !== 'open' || vote.paused) return
+  if (vote.restingUntil && Date.parse(vote.restingUntil) > Date.now()) return
+  if (!vote.total && vote.autopilotAt && Date.parse(vote.autopilotAt) <= Date.now()) {
+    const { winner, reason } = await autopilotPick(tree)
+    await closeAndBreed(fid, winner, { autopilot: { reason } })
+    return
+  }
+  if (!vote.closesAt || !vote.total || Date.parse(vote.closesAt) > Date.now()) return
+  const [leader] = ranked(vote)
+  if (leader?.count) await closeAndBreed(fid, leader)
+}
 
 // A crowd family's first round opens when generation 1 is born; restarts reopen a round that was mid-breed.
 export async function resumeCrowdRounds() {
