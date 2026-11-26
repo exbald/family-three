@@ -30,14 +30,14 @@ function heroHtml({ tree, esc, telegram, nextGen }) {
   const gen = nextGen ? `generation ${nextGen}` : 'the next generation'
   const Gen = nextGen ? `Generation ${nextGen}` : 'Its next generation'
   return `
-    <section class="lp2-hero ln-row" aria-labelledby="lp2-title">
+    <section class="lp2-hero ln-row" aria-labelledby="lp2-title" data-reveal>
       <div class="ln-text lp2-hero-text">
         <h1 id="lp2-title">Apps you raise, not prompt.</h1>
         <p class="lp2-lede">You say what you want in one sentence. Three Claude Code builders on a Fly.io Sprite each build a different working app. Pick the one you like and it breeds three more; cross two and it mixes them.</p>
         <p class="lp2-lede lp2-lede-2">This page is one real family, as it happened. ${Gen} is up for a vote right now, and anyone can vote.</p>
         <div class="lp-ctas">
           <a class="btn btn-orange" href="#vote">Vote on ${gen}</a>
-          ${tg ? `<a class="btn btn-ghost" href="${esc(tg)}" target="_blank" rel="noopener">Watch it on Telegram</a>` : ''}
+          ${tg ? `<a class="btn btn-ghost" href="${esc(tg)}" target="_blank" rel="noopener"><span class="lp2-long">Watch it on Telegram</span><span class="lp2-short">Telegram</span></a>` : ''}
         </div>
         <p class="ln-legend"><span class="is-kept">the kid they kept</span><span class="is-cross">a cross of two</span></p>
       </div>

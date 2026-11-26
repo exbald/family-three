@@ -15,7 +15,7 @@ function kept(tree, id) {
 }
 
 // Lines from the parents' columns in the row above down to this row's three kids.
-function connectorSvg(prev, litter) {
+function connectorSvg(prev, litter, tree) {
   if (!prev) return ''
   const from = litter.parents.map((id) => prev.children.indexOf(id)).filter((i) => i >= 0).map((i) => COLS[i])
   if (!from.length) return ''
@@ -27,7 +27,7 @@ function connectorSvg(prev, litter) {
   const spread = `M${minX} ${mid} H${maxX} ${COLS.map((x) => `M${x} ${mid} V64`).join(' ')}`
   const center = (from[0] + from[from.length - 1]) / 2
   const badge = cross
-    ? `<span class="ln-x" style="left:${(center / 3).toFixed(2)}%" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg></span>`
+    ? `<span class="ln-x" style="left:${(center / 3).toFixed(2)}%" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg></span><span class="ln-x-label" style="left:calc(${(center / 3).toFixed(2)}% + 24px)">${litter.parents.map((id) => tree.children[id]?.label ?? '').join(' × ')}</span>`
     : ''
   return `<div class="ln-connect"><svg class="ln-connector ${cross ? 'is-cross' : 'is-kept'}" viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true">
       <path pathLength="1" d="${down} ${spread}"/>
@@ -60,6 +60,15 @@ function litterText(tree, litter, esc) {
   return `<div class="ln-text"><h3>${esc(title)}</h3><p>${why}</p></div>`
 }
 
+// Under generation 1, the lines of the kids that were picked keep going down into generation 2.
+function tailHtml(tree) {
+  const [first, next] = tree.litters
+  if (!next) return ''
+  const xs = next.parents.map((id) => first.children.indexOf(id)).filter((i) => i >= 0).map((i) => COLS[i])
+  if (!xs.length) return ''
+  return `<div class="ln-tail"><svg class="ln-connector ${next.kind === 'cross' ? 'is-cross' : 'is-kept'}" viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="${xs.map((x) => `M${x} 0 V64`).join(' ')}"/></svg></div>`
+}
+
 // The request and generation 1, for the first viewport.
 export function heroTreeHtml(tree, esc) {
   const first = tree.litters[0]
@@ -68,8 +77,8 @@ export function heroTreeHtml(tree, esc) {
     <div class="ln-tree ln-hero-tree">
       <a class="ln-request" href="/f/${esc(tree.id)}" data-link title="See this family's whole tree">“${esc(tree.request)}”</a>
       <div class="ln-connect"><svg class="ln-connector is-kept" viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M150 0 V50 M50 50 H250 M50 50 V64 M150 50 V64 M250 50 V64"/></svg></div>
-      <div class="ln-kids">${first.children.map((id) => kidHtml(tree, id, esc)).join('')}</div>
-      <span class="ln-gen">Gen 1</span>
+      <div class="ln-kids"><span class="ln-gen">Gen 1</span>${first.children.map((id) => kidHtml(tree, id, esc)).join('')}</div>
+      ${tailHtml(tree)}
     </div>`
 }
 
@@ -81,9 +90,8 @@ export function lineageRowsHtml(tree, esc, { from = 0 } = {}) {
       <div class="ln-row" data-reveal>
         ${litterText(tree, litter, esc)}
         <div class="ln-tree">
-          ${connectorSvg(prev, litter)}
-          <div class="ln-kids">${litter.children.map((id) => kidHtml(tree, id, esc)).join('')}</div>
-          <span class="ln-gen">Gen ${litter.gen}</span>
+          ${connectorSvg(prev, litter, tree)}
+          <div class="ln-kids"><span class="ln-gen">Gen ${litter.gen}</span>${litter.children.map((id) => kidHtml(tree, id, esc)).join('')}</div>
         </div>
       </div>`
   }).join('')

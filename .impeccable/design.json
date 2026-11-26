@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-26T12:00:00Z",
+  "title": "Design System: Family Three",
+  "extensions": {
+    "colorMeta": {
+      "kept-lime": {
+        "role": "primary",
+        "displayName": "Kept-Line Lime",
+        "canonical": "oklch(90.3% 0.208 122.9)",
+        "tonalRamp": [
+          "#0A0C05",
+          "#202903",
+          "#3A4908",
+          "#556B11",
+          "#738F19",
+          "#92B523",
+          "#C6F432",
+          "#E2FF8A"
+        ]
+      },
+      "lime-bloom": {
+        "role": "primary",
+        "displayName": "Lime Bloom",
+        "canonical": "#E2FF8A",
+        "tonalRamp": [
+          "#0A0C05",
+          "#202903",
+          "#3A4908",
+          "#556B11",
+          "#738F19",
+          "#92B523",
+          "#C6F432",
+          "#E2FF8A"
+        ]
+      },
+      "cross-orange": {
+        "role": "secondary",
+        "displayName": "Cross Orange",
+        "canonical": "oklch(78.0% 0.146 53.1)",
+        "tonalRamp": [
+          "#120904",
+          "#3C1B03",
+          "#633413",
+          "#8C4F25",
+          "#B86C38",
+          "#E78B4C",
+          "#FF9B57",
+          "#FFE5CA"
+        ]
+      },
+      "cross-ink": {
+        "role": "secondary",
+        "displayName": "Cross Ink",
+        "canonical": "#1A0E05",
+        "tonalRamp": [
+          "#120904",
+          "#1A0E05",
+          "#3C1B03",
+          "#633413",
+          "#8C4F25",
+          "#B86C38",
+          "#E78B4C",
+          "#FFE5CA"
+        ]
+      },
+      "cross-note-text": {
+        "role": "secondary",
+        "displayName": "Cross Note Text",
+        "canonical": "#F1DCCB",
+        "tonalRamp": [
+          "#120904",
+          "#3C1B03",
+          "#633413",
+          "#8C4F25",
+          "#B86C38",
+          "#E78B4C",
+          "#F1DCCB",
+          "#FFE5CA"
+        ]
+      },
+      "failure-coral": {
+        "role": "tertiary",
+        "displayName": "Failure Coral",
+        "canonical": "oklch(73.5% 0.163 21.9)",
+        "tonalRamp": [
+          "#150606",
+          "#431113",
+          "#6D2829",
+          "#994142",
+          "#C85B5C",
+          "#FF7A7A",
+          "#FFA19F",
+          "#FFDFDC"
+        ]
+      },
+      "night-ground": {
+        "role": "neutral",
+        "displayName": "Night Ground",
+        "canonical": "oklch(18.2% 0.007 164.0)",
+        "tonalRamp": [
+          "#0F1311",
+          "#141916",
+          "#1A201C",
+          "#1F2622",
+          "#2C3530",
+          "#3A4540",
+          "#9AA69F",
+          "#EEF2EC"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel",
+        "canonical": "#141916"
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Card",
+        "canonical": "#1A201C"
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Raised",
+        "canonical": "#1F2622"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "#222A26"
+      },
+      "line-2": {
+        "role": "neutral",
+        "displayName": "Line 2",
+        "canonical": "#2C3530"
+      },
+      "line-3": {
+        "role": "neutral",
+        "displayName": "Line 3",
+        "canonical": "#3A4540"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Text",
+        "canonical": "#EEF2EC"
+      },
+      "text-2": {
+        "role": "neutral",
+        "displayName": "Text 2",
+        "canonical": "#DCE3DE"
+      },
+      "text-3": {
+        "role": "neutral",
+        "displayName": "Text 3",
+        "canonical": "#C9D2CC"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#9AA69F"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The landing's one h1."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Landing section heads."
+      },
+      "title-lg": {
+        "displayName": "Title Large",
+        "purpose": "The heading beside each generation in the landing lineage."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Kid names in the side panel, litter headings."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "\"Family Three\" beside the mark."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The landing's first paragraph."
+      },
+      "body-long": {
+        "displayName": "Body Long",
+        "purpose": "Landing paragraphs, max 34rem."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "The app's base text size."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Every button label."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase mono panel headers."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Counts, commits, file names, URLs, commands, legends."
+      },
+      "kid-letter": {
+        "displayName": "Kid Letter",
+        "purpose": "The A/B/C before every kid's name."
+      }
+    },
+    "shadows": [
+      {
+        "name": "thumbnail-lift",
+        "value": "0 10px 30px rgba(0, 0, 0, 0.35)",
+        "purpose": "Lineage thumbnails on the landing."
+      },
+      {
+        "name": "node-hover",
+        "value": "0 0 0 1px #3A4540, 0 8px 24px rgba(0, 0, 0, 0.35)",
+        "purpose": "A tree node under the pointer."
+      },
+      {
+        "name": "floating",
+        "value": "0 18px 50px rgba(0, 0, 0, 0.5)",
+        "purpose": "The fixed action bar and the checkpoint menu."
+      },
+      {
+        "name": "cross-glow",
+        "value": "0 6px 18px rgba(255, 155, 87, 0.35)",
+        "purpose": "The orange × badge on a cross connector."
+      },
+      {
+        "name": "ring-rest",
+        "value": "0 0 0 1px #222A26",
+        "purpose": "Kid card at rest."
+      },
+      {
+        "name": "ring-kept",
+        "value": "0 0 0 1.5px #C6F432",
+        "purpose": "A kept tree node."
+      },
+      {
+        "name": "ring-picked",
+        "value": "0 0 0 2px #C6F432",
+        "purpose": "A picked kid card (orange for the second pick)."
+      },
+      {
+        "name": "ring-selected",
+        "value": "0 0 0 3px #C6F432",
+        "purpose": "The selected tree node (orange while crossing)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Every reveal, lift and rise."
+      },
+      {
+        "name": "line-draw",
+        "value": "stroke-dashoffset 0.9s",
+        "purpose": "A connector draws downward when its row scrolls in."
+      },
+      {
+        "name": "cross-pop",
+        "value": "transform scale(0→1) 0.45s, delay 0.45s",
+        "purpose": "The × badge lands as its line arrives."
+      },
+      {
+        "name": "kid-rise",
+        "value": "opacity, translateY(16px), blur(4px) 0.6s; delays 0.5s / 0.6s / 0.7s",
+        "purpose": "The three kids land after the line."
+      },
+      {
+        "name": "hero-rise",
+        "value": "translateY(14px) + fade 0.7s",
+        "purpose": "The first viewport on load."
+      },
+      {
+        "name": "hover-lift",
+        "value": "translateY(-2px to -3px) 0.35s",
+        "purpose": "Thumbnails and family previews under the pointer."
+      },
+      {
+        "name": "border-shift",
+        "value": "border-color 0.2s",
+        "purpose": "Hover on cards and thumbnails."
+      },
+      {
+        "name": "tally",
+        "value": "width 0.4s ease",
+        "purpose": "Vote bars filling."
+      },
+      {
+        "name": "seed-spin",
+        "value": "rotate 1.1s linear infinite",
+        "purpose": "The lime-topped ring shown while a kid is being born; stops under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "app-compact",
+        "value": "max-width: 860px"
+      },
+      {
+        "name": "landing-stack",
+        "value": "max-width: 960px"
+      },
+      {
+        "name": "tree-lock",
+        "value": "min-width: 1000px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Lime Button",
+      "kind": "button",
+      "refersTo": "button-lime",
+      "description": "Primary forward action: new family, breed, adopt, copy, vote for one kid.",
+      "html": "<button class=\"ds-btn-lime\" type=\"button\">New family</button>",
+      "css": ".ds-btn-lime { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 12px; border: 0; font: 700 14px var(--body, Inter, system-ui, sans-serif); text-decoration: none; cursor: pointer; background: var(--lime, #C6F432); color: var(--bg, #0F1311); } .ds-btn-lime:hover { background: var(--lime-hi, #E2FF8A); } .ds-btn-lime:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; } .ds-btn-lime:disabled { opacity: 0.55; cursor: not-allowed; }"
+    },
+    {
+      "name": "Orange Vote Button",
+      "kind": "button",
+      "refersTo": "button-orange",
+      "description": "The crowd vote call to action; orange because the vote decides the next breed or cross.",
+      "html": "<a class=\"ds-btn-orange\" href=\"#vote\">Vote on generation 4</a>",
+      "css": ".ds-btn-orange { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 12px; border: 0; font: 700 14px var(--body, Inter, system-ui, sans-serif); text-decoration: none; cursor: pointer; min-height: 52px; padding: 0 22px; border-radius: 14px; font-size: 16px; background: var(--orange, #FF9B57); color: var(--orange-ink, #1A0E05); } .ds-btn-orange:hover { filter: brightness(1.06); } .ds-btn-orange:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action on Card with a Line 3 hairline.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Watch it on Telegram</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 12px; border: 0; font: 700 14px var(--body, Inter, system-ui, sans-serif); text-decoration: none; cursor: pointer; background: var(--card, #1A201C); color: var(--text, #EEF2EC); border: 1px solid var(--line-3, #3A4540); font-weight: 600; } .ds-btn-ghost:hover { border-color: var(--text-3, #C9D2CC); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; }"
+    },
+    {
+      "name": "Cross Outline Button",
+      "kind": "button",
+      "refersTo": "button-cross-outline",
+      "description": "A choice that crosses two kids.",
+      "html": "<button class=\"ds-btn-cross\" type=\"button\">Cross A × C</button>",
+      "css": ".ds-btn-cross { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 12px; border: 0; font: 700 14px var(--body, Inter, system-ui, sans-serif); text-decoration: none; cursor: pointer; min-height: 40px; padding: 0 16px; background: transparent; color: var(--orange, #FF9B57); border: 1.5px solid var(--orange, #FF9B57); } .ds-btn-cross:hover { background: rgba(255, 155, 87, 0.1); } .ds-btn-cross:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; }"
+    },
+    {
+      "name": "Chip and Status Pills",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Example-request chip plus the live, building, cross and failed status pills.",
+      "html": "<div class=\"ds-row\"><button class=\"ds-chip\" type=\"button\">A recipe box</button><span class=\"ds-pill ds-pill-live\">Live</span><span class=\"ds-pill ds-pill-busy\">Building</span><span class=\"ds-pill ds-pill-x\">Cross</span><span class=\"ds-pill ds-pill-fail\">Failed</span></div>",
+      "css": ".ds-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; } .ds-chip { min-height: 36px; padding: 0 12px; border: 1px solid var(--line-2, #2C3530); border-radius: 999px; background: transparent; color: var(--text-2, #DCE3DE); font: 13px var(--body, Inter, system-ui, sans-serif); cursor: pointer; } .ds-chip:hover { border-color: var(--lime, #C6F432); color: var(--lime, #C6F432); } .ds-chip:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; } .ds-pill { font: 600 11px var(--body, Inter, system-ui, sans-serif); padding: 3px 8px; border-radius: 999px; border: 1px solid transparent; white-space: nowrap; } .ds-pill-live { background: var(--lime, #C6F432); color: var(--bg, #0F1311); } .ds-pill-busy { color: var(--lime, #C6F432); border-color: var(--lime, #C6F432); } .ds-pill-x { color: var(--orange, #FF9B57); border-color: var(--orange, #FF9B57); } .ds-pill-fail { color: var(--red, #FF7A7A); border-color: var(--red, #FF7A7A); }"
+    },
+    {
+      "name": "Ask Box",
+      "kind": "input",
+      "refersTo": "input-ask",
+      "description": "Where a family starts: one sentence in a lime-bordered textarea.",
+      "html": "<label class=\"ds-ask\"><span>What app do you want?</span><textarea placeholder=\"Thanksgiving dinner for 8…\"></textarea></label>",
+      "css": ".ds-ask { display: flex; flex-direction: column; gap: 8px; max-width: 520px; } .ds-ask span { color: var(--muted, #9AA69F); font: 13px var(--body, Inter, system-ui, sans-serif); } .ds-ask textarea { min-height: 120px; padding: 14px; border: 1.5px solid var(--lime, #C6F432); border-radius: 14px; background: var(--panel, #141916); color: var(--text, #EEF2EC); font: 16px/1.45 var(--body, Inter, system-ui, sans-serif); resize: vertical; } .ds-ask textarea:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; }"
+    },
+    {
+      "name": "Top Navigation",
+      "kind": "nav",
+      "refersTo": "",
+      "description": "The lime family mark, the wordmark, and an About link.",
+      "html": "<header class=\"ds-top\"><a class=\"ds-brand\" href=\"#\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 30 30\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\"><circle cx=\"15\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"25\" r=\"3\"/><circle cx=\"15\" cy=\"25\" r=\"3\"/><circle cx=\"24\" cy=\"25\" r=\"3\"/><path d=\"M15 8v8M6 22v-6h18v6M15 16v6\"/></svg><span>Family Three</span></a><a class=\"ds-about\" href=\"#\">About</a></header>",
+      "css": ".ds-top { display: flex; align-items: center; gap: 12px 28px; padding: 20px; background: var(--bg, #0F1311); } .ds-brand { display: flex; align-items: center; gap: 10px; color: var(--text, #EEF2EC); text-decoration: none; } .ds-brand svg { color: var(--lime, #C6F432); } .ds-brand span { font: 700 20px var(--display, 'Space Grotesk', system-ui, sans-serif); letter-spacing: -0.01em; } .ds-about { margin-left: auto; color: var(--text-3, #C9D2CC); text-decoration: none; font: 600 13px var(--body, Inter, system-ui, sans-serif); } .ds-about:hover { color: var(--lime, #C6F432); } .ds-about:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; }"
+    },
+    {
+      "name": "Lineage Generation",
+      "kind": "custom",
+      "refersTo": "lineage-thumb",
+      "description": "Signature: a lime connector from the request down to three real app thumbnails; the kept kid gets a lime border.",
+      "html": "<div class=\"ds-gen\"><span class=\"ds-req\">“Thanksgiving dinner for 8.”</span><svg class=\"ds-conn\" viewBox=\"0 0 300 64\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M150 0 V50 M50 50 H250 M50 50 V64 M150 50 V64 M250 50 V64\"/></svg><div class=\"ds-kids\"><a class=\"ds-kid is-kept\" href=\"#\"><span class=\"ds-shot\"><span class=\"ds-blank\">app thumbnail</span></span><span class=\"ds-name\"><b>A</b> Playful</span></a><a class=\"ds-kid\" href=\"#\"><span class=\"ds-shot\"><span class=\"ds-blank\">app thumbnail</span></span><span class=\"ds-name\"><b>B</b> Quiet</span></a><a class=\"ds-kid is-kept\" href=\"#\"><span class=\"ds-shot\"><span class=\"ds-blank\">app thumbnail</span></span><span class=\"ds-name\"><b>C</b> Dashboard</span></a></div><div class=\"ds-x\" aria-hidden=\"true\"><svg viewBox=\"0 0 12 12\"><path d=\"M3 3l6 6M9 3l-6 6\"/></svg></div></div>",
+      "css": ".ds-gen { display: flex; flex-direction: column; align-items: stretch; max-width: 560px; padding: 16px; background: var(--bg, #0F1311); } .ds-req { align-self: center; padding: 14px 22px; border-radius: 999px; border: 1px solid var(--line-3, #3A4540); background: var(--panel, #141916); color: var(--text-2, #DCE3DE); font: 500 15px/1.4 var(--body, Inter, system-ui, sans-serif); } .ds-conn { width: 100%; height: 64px; overflow: visible; } .ds-conn path { fill: none; stroke: var(--lime, #C6F432); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; } .ds-kids { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } .ds-kid { display: flex; flex-direction: column; gap: 9px; color: var(--text, #EEF2EC); text-decoration: none; min-width: 0; } .ds-shot { display: block; aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden; background: var(--card, #1A201C); border: 2px solid var(--line-2, #2C3530); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); transition: transform 0.35s cubic-bezier(.16, 1, .3, 1), border-color 0.2s; } .ds-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; } .ds-kid.is-kept .ds-shot { border-color: var(--lime, #C6F432); } .ds-kid:hover .ds-shot { transform: translateY(-3px); border-color: var(--text-3, #C9D2CC); } .ds-kid.is-kept:hover .ds-shot { border-color: var(--lime-hi, #E2FF8A); } .ds-kid:focus-visible { outline: none; } .ds-kid:focus-visible .ds-shot { outline: 2px solid var(--lime, #C6F432); outline-offset: 3px; } .ds-name { font: 600 14px/1.3 var(--body, Inter, system-ui, sans-serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-name b { font: 500 12px var(--mono, 'JetBrains Mono', ui-monospace, monospace); color: var(--lime, #C6F432); margin-right: 4px; } .ds-x { align-self: center; margin-top: 16px; width: 30px; height: 30px; border-radius: 50%; background: var(--orange, #FF9B57); display: grid; place-items: center; box-shadow: 0 6px 18px rgba(255, 155, 87, 0.35); } .ds-x svg { width: 12px; height: 12px; fill: none; stroke: var(--orange-ink, #1A0E05); stroke-width: 2.4; stroke-linecap: round; } .ds-blank { display: grid; place-items: center; width: 100%; height: 100%; font: 500 11px var(--mono, 'JetBrains Mono', ui-monospace, monospace); color: var(--muted, #9AA69F); }"
+    },
+    {
+      "name": "Vote Option",
+      "kind": "card",
+      "refersTo": "vote-option",
+      "description": "One option in the crowd vote: thumbnail, kid letter and name, tally bar, count, Vote button.",
+      "html": "<div class=\"ds-vote\"><div class=\"ds-vote-head\"><span>The crowd decides</span><small>3 votes this round</small></div><div class=\"ds-vo\"><span class=\"ds-vo-shot\"><span class=\"ds-blank\">app thumbnail</span></span><span class=\"ds-vo-body\"><span class=\"ds-vo-name\"><b>A</b> Playful</span><span class=\"ds-vo-bar\"><span style=\"width:66%\"></span></span><span class=\"ds-vo-count\">2 votes</span></span><button class=\"ds-vo-btn\" type=\"button\">Vote</button></div></div>",
+      "css": ".ds-vote { display: flex; flex-direction: column; gap: 12px; max-width: 460px; padding: 18px; border-radius: 18px; background: var(--panel, #141916); border: 1.5px solid rgba(255, 155, 87, 0.45); } .ds-vote-head { display: flex; justify-content: space-between; align-items: baseline; } .ds-vote-head span { font: 500 12px var(--mono, 'JetBrains Mono', ui-monospace, monospace); letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange, #FF9B57); } .ds-vote-head small { font: 600 12px var(--mono, 'JetBrains Mono', ui-monospace, monospace); color: var(--text-3, #C9D2CC); } .ds-vo { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 8px; border-radius: 12px; background: var(--card, #1A201C); border: 1px solid var(--line, #222A26); } .ds-vo-shot { width: 64px; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; background: var(--panel, #141916); } .ds-vo-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; } .ds-vo-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; } .ds-vo-name { font: 600 13px var(--body, Inter, system-ui, sans-serif); color: var(--text, #EEF2EC); } .ds-vo-name b { font-family: var(--mono, 'JetBrains Mono', ui-monospace, monospace); color: var(--lime, #C6F432); } .ds-vo-bar { height: 6px; border-radius: 3px; background: var(--line, #222A26); overflow: hidden; } .ds-vo-bar span { display: block; height: 100%; background: var(--lime, #C6F432); border-radius: 3px; transition: width 0.4s ease; } .ds-vo-count { font: 500 11px var(--mono, 'JetBrains Mono', ui-monospace, monospace); color: var(--muted, #9AA69F); } .ds-vo-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 12px; border: 0; font: 700 14px var(--body, Inter, system-ui, sans-serif); text-decoration: none; cursor: pointer; min-height: 40px; padding: 0 16px; background: var(--lime, #C6F432); color: var(--bg, #0F1311); } .ds-vo-btn:hover { background: var(--lime-hi, #E2FF8A); } .ds-vo-btn:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; } .ds-blank { display: grid; place-items: center; width: 100%; height: 100%; font: 500 11px var(--mono, 'JetBrains Mono', ui-monospace, monospace); color: var(--muted, #9AA69F); }"
+    },
+    {
+      "name": "Repo History",
+      "kind": "card",
+      "refersTo": "repo-history",
+      "description": "An adopted app's commits on a rail; the cross is an orange merge commit.",
+      "html": "<a class=\"ds-repo\" href=\"#\"><span class=\"ds-repo-head\">exbald/family-three-double-down <small>5 commits</small></span><ol><li><i></i>C2 Double Down: bred from C1</li><li class=\"is-merge\"><i></i>C1 Ledger: crossed A × C</li><li><i></i>A Playful: born from the request</li></ol></a>",
+      "css": ".ds-repo { display: block; max-width: 460px; padding: 18px 20px; border-radius: 16px; background: var(--panel, #141916); border: 1px solid var(--line-2, #2C3530); color: var(--text, #EEF2EC); text-decoration: none; transition: border-color 0.2s; } .ds-repo:hover { border-color: var(--line-3, #3A4540); } .ds-repo:focus-visible { outline: 2px solid var(--lime, #C6F432); outline-offset: 2px; } .ds-repo-head { display: flex; align-items: center; gap: 10px; font: 600 15px var(--body, Inter, system-ui, sans-serif); margin-bottom: 14px; } .ds-repo-head small { margin-left: auto; font: 500 12px var(--mono, 'JetBrains Mono', ui-monospace, monospace); color: var(--muted, #9AA69F); } .ds-repo ol { list-style: none; margin: 0; padding: 0; position: relative; } .ds-repo ol::before { content: ''; position: absolute; left: 6px; top: 10px; bottom: 10px; width: 2px; background: var(--line-3, #3A4540); } .ds-repo li { position: relative; display: flex; align-items: center; gap: 14px; padding: 7px 0; font: 500 14px var(--mono, 'JetBrains Mono', ui-monospace, monospace); color: var(--text-2, #DCE3DE); } .ds-repo li i { flex: none; width: 14px; height: 14px; border-radius: 50%; background: var(--bg, #0F1311); border: 2px solid var(--lime, #C6F432); position: relative; } .ds-repo li.is-merge { color: var(--text, #EEF2EC); } .ds-repo li.is-merge i { border-color: var(--orange, #FF9B57); background: var(--orange, #FF9B57); } .ds-repo li.is-merge::after { content: 'merge commit'; margin-left: auto; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(255, 155, 87, 0.5); color: var(--orange, #FF9B57); font-size: 11px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Living Family Tree",
+    "overview": "**Creative North Star: \"The Living Family Tree\"**\n\nFamily Three looks like a pedigree chart drawn at night. A dark, green-tinted ground holds real app screenshots, and two coloured lines join them: lime for the line you kept, orange for a cross. Every surface, from the landing to the owner's tree view to the vote panel, is built from the same few parts: a 16:10 thumbnail of a running app, a lime or orange connector, a short mono label saying which generation and which kid, and a quiet panel to hold it.\n\nThe system is dense where it shows a family (three thumbnails side by side, small mono labels, rings for state) and spacious where it explains one (the landing's 112px section rhythm, a 5:7 text-to-tree grid, 88px display type). Decoration is close to absent. The only pictures are screenshots of apps the builders made; depth comes from tonal panels and a few soft shadows under things that float. Motion follows the tree: lines draw downward and each generation rises into place.\n\nThe brand mark is a parent node over three child nodes, drawn as a stroked icon in lime (on the favicon, lime on a #0F1311 rounded tile). PRODUCT.md describes the mark as a plum or dark stroke with lime children; the shipped mark is all lime, and this file records what shipped.",
+    "keyCharacteristics": [
+      "Dark green-black ground (#0F1311) with tonal panels one or two steps lighter.",
+      "Two meaningful accents: lime for the kept line, orange for a cross and the crowd vote.",
+      "Real app thumbnails, 16:10 and anchored to the top, are the only imagery.",
+      "Space Grotesk for display, Inter for reading, JetBrains Mono for anything a machine produced.",
+      "State shown with rings and border colour; shadows only under floating things.",
+      "One motion idea: a stroke draws down, then the kids rise in."
+    ],
+    "rules": [
+      {
+        "name": "The Two Lines Rule",
+        "body": "Lime means the family line you kept; orange means a cross or the crowd vote. Every lime or orange mark on a screen must read as one of those. Neither is used as decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Coral Is Only Failure Rule",
+        "body": "Failure Coral appears only when something failed. It is never a third accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tinted Ground Rule",
+        "body": "Every neutral carries the ground's green tint (hue near 164°). There is no pure black and no pure white anywhere; the lightest text is #EEF2EC.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tinted Border Rule",
+        "body": "A featured container gets its accent as a thin border at 35–45% alpha (lime for the kit, orange for the vote) over a Panel fill, sometimes with a 8–9% accent wash fading to transparent. Accents never fill a large container.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono Is Data Rule",
+        "body": "JetBrains Mono carries generation marks, kid letters, counts, commit messages, file names, URLs and commands: anything the machine produced or a person would copy. It never sets a headline or a reading paragraph.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tight Display Rule",
+        "body": "Space Grotesk is always bold and always tracked tighter as it grows: -0.01em at 20px, -0.02em at 30px, -0.038em at 88px.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ring Not Shadow Rule",
+        "body": "Selection, kept and crossing states are rings or borders in lime or orange. Drop shadows only mean \"this floats\".",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use Kept-Line Lime (#C6F432) for the kept line, kid letters, forward actions, links and focus, and Cross Orange (#FF9B57) for crosses and the crowd vote.",
+      "Do show apps only as real thumbnails: 16:10, `object-fit: cover`, anchored to the top, on a Card backing with a 12px radius.",
+      "Do set generation marks, kid letters, counts, commit messages, file names, URLs and commands in JetBrains Mono.",
+      "Do show state with rings and border colour (lime kept or picked, orange crossing) and keep drop shadows for floating things.",
+      "Do keep the ground #0F1311 and build depth with the Panel, Card and Raised steps.",
+      "Do draw connectors as 3px round-capped elbows, and let them draw downward before the kids rise in, using cubic-bezier(.16, 1, .3, 1).",
+      "Do keep every animated reveal visible without JavaScript and static under `prefers-reduced-motion`.",
+      "Do keep buttons at least 44px tall."
+    ],
+    "donts": [
+      "Don't use lime or orange as decoration or as a large fill; a featured container gets a 35–45% alpha accent border instead.",
+      "Don't introduce a third accent. Failure Coral (#FF7A7A) is only for failures.",
+      "Don't use pure black or pure white; the neutrals are green-tinted.",
+      "Don't use stock photos, illustrations or mock screenshots; the only imagery is real app thumbnails.",
+      "Don't set headlines or paragraphs in JetBrains Mono, or data in Space Grotesk.",
+      "Don't show a selected or kept state with a drop shadow."
+    ]
+  }
+}

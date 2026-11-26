@@ -1,9 +1,17 @@
 /* The visitor home: one real family read top to bottom (text left, its tree right). */
 ::selection { background: var(--lime); color: var(--bg); }
+html { scrollbar-color: var(--line-3) var(--bg); }
+.lp2-short { display: none; }
+.visitor-nav { display: none; gap: 24px; margin-left: auto; margin-right: 0; }
+body:has(.lp2) .visitor-nav { display: flex; }
+.visitor-nav a { color: var(--text-2); text-decoration: none; font-weight: 500; font-size: 15px; }
+.visitor-nav a:hover { color: var(--text); }
+/* About joins the same group, in the same style. */
+body:has(.lp2) .about-link { font-size: 15px; font-weight: 500; color: var(--text-2); }
+body:has(.lp2) .about-link:hover { color: var(--text); }
 
 .lp2 { max-width: 1240px; gap: 0; }
 .lp2 > * { animation: none; }
-.lp2 > .lp2-hero { animation: lp-rise 0.7s cubic-bezier(.16, 1, .3, 1) both; }
 
 /* One grid for every row, so the tree column runs unbroken down the page. */
 .ln-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 64px; align-items: stretch; }
@@ -14,7 +22,8 @@
 .ln-text .btn { align-self: flex-start; }
 
 .ln-tree { position: relative; display: flex; flex-direction: column; padding-left: 72px; padding-bottom: 8px; }
-.ln-gen { position: absolute; left: 0; bottom: 64px; font: 500 12px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ln-kids { position: relative; }
+.ln-gen { position: absolute; left: -72px; top: 38%; font: 500 12px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
 .ln-connect { position: relative; flex: 1 0 64px; min-height: 64px; }
 .ln-connector { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
@@ -22,6 +31,7 @@
 .ln-connector.is-kept path { stroke: var(--lime); }
 .ln-connector.is-cross path { stroke: var(--orange); }
 .ln-x { position: absolute; top: 53.125%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: var(--orange); display: grid; place-items: center; box-shadow: 0 6px 18px rgba(255, 155, 87, 0.35); }
+.ln-x-label { position: absolute; top: 53.125%; transform: translateY(-150%); font: 600 13px var(--mono); color: var(--orange); white-space: nowrap; }
 .ln-x svg { width: 12px; height: 12px; fill: none; stroke: var(--orange-ink); stroke-width: 2.4; stroke-linecap: round; }
 
 .ln-kids { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -39,14 +49,15 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
 .ln-name b { font: 500 12px var(--mono); color: var(--lime); margin-right: 4px; }
 
 /* First viewport */
-.lp2-hero { min-height: min(760px, calc(100svh - 90px)); }
+.lp2-hero { min-height: 0; }
 .lp2-hero-text { padding: 48px 0 40px; justify-content: center; gap: 20px; }
 .lp2-hero h1 { margin: 0; font: 700 clamp(48px, 6.4vw, 88px)/0.96 var(--display); letter-spacing: -0.038em; text-wrap: balance; }
 .lp2-lede { font-size: 19px !important; line-height: 1.55 !important; color: var(--text-2) !important; }
 .lp2-lede-2 { font-size: 16px !important; color: var(--text-3) !important; }
 .lp2-hero .lp-ctas { margin-top: 6px; }
 .ln-hero-tree { justify-content: flex-start; padding-top: 56px; }
-.ln-hero-tree .ln-connect { flex: 1 0 96px; }
+.ln-hero-tree .ln-connect { flex: 0 0 72px; }
+.ln-tail { position: relative; flex: 1 0 24px; margin-top: 10px; margin-bottom: -8px; }
 .ln-request { display: block; padding: 14px 22px; border-radius: 999px; border: 1px solid var(--line-3); background: var(--panel); color: var(--text-2); text-decoration: none; text-align: center; font: 500 16px/1.4 var(--body); margin: 0 auto; max-width: 92%; }
 .ln-request:hover { border-color: var(--text-3); color: var(--text); }
 .ln-legend { display: flex; gap: 22px; margin: 4px 0 0 !important; font: 500 13px var(--mono) !important; color: var(--muted) !important; }
@@ -85,7 +96,7 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
 .lp2-vote .ln-text { padding-top: 48px; }
 .lp2-vote-panel { padding-top: 40px; min-height: 360px; }
 .lp2-vote-panel .vote-panel { margin: 0; border: 0; padding: 0; background: transparent; }
-.lp2-vote-panel .vote-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.lp2-vote-panel .vote-options { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
 
 /* Other crowd families */
 .lp2-others, .lp2-take, .lp2-runs { display: flex; flex-direction: column; gap: 18px; padding-top: 112px; }
@@ -105,7 +116,8 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
 .lp2-take h3 { margin: 0; font: 700 21px/1.2 var(--display); }
 .lp2-take p { margin: 0; color: var(--text-3); line-height: 1.6; }
 .lp2-take-kit { display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 20px; background: var(--panel); border: 1px solid rgba(198, 244, 50, 0.4); }
-.lp2-take-kit .urlrow { margin-top: 6px; }
+.lp2-take-kit .urlrow { margin-top: 6px; min-width: 0; }
+.lp2-take-kit .urlrow .mono { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 .lp2-take-side { display: flex; flex-direction: column; }
 .lp2-take-side > div { display: flex; flex-direction: column; gap: 10px; padding: 24px 4px; border-top: 1px solid var(--line-2); }
 .lp2-take-side > div:first-child { border-top: 0; padding-top: 28px; }
@@ -120,6 +132,8 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
 
 /* Scroll reveal: lines draw down, then the kids land. Only armed by JS, so content is visible without it. */
 .ln-row.is-armed .ln-connector path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.9s cubic-bezier(.16, 1, .3, 1); }
+.ln-row.is-armed .ln-x-label { opacity: 0; transition: opacity 0.4s 0.6s; }
+.ln-row.is-armed.is-in .ln-x-label { opacity: 1; }
 .ln-row.is-armed .ln-x { transform: scale(0); transition: transform 0.45s cubic-bezier(.16, 1, .3, 1) 0.45s; }
 .ln-row.is-armed .ln-kid, .ln-row.is-armed .ln-repo, .ln-row.is-armed .ln-kit { opacity: 0; transform: translateY(16px); filter: blur(4px); transition: opacity 0.6s cubic-bezier(.16, 1, .3, 1), transform 0.6s cubic-bezier(.16, 1, .3, 1), filter 0.6s; }
 .ln-row.is-armed .ln-kid:nth-child(1), .ln-row.is-armed .ln-repo { transition-delay: 0.5s; }
@@ -130,7 +144,7 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
 .ln-row.is-armed.is-in .ln-kid, .ln-row.is-armed.is-in .ln-repo, .ln-row.is-armed.is-in .ln-kit { opacity: 1; transform: none; filter: none; }
 
 @media (max-width: 960px) {
-  .ln-row { grid-template-columns: 1fr; }
+  .ln-row { grid-template-columns: minmax(0, 1fr); }
   .ln-text { padding: 40px 0 16px; }
   .lp2-hero { min-height: 0; }
   .lp2-hero-text { padding-top: 24px; }
@@ -139,13 +153,19 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
   .ln-hero-tree { padding-top: 8px; }
   .ln-takeaway { padding: 8px 0 24px; }
   .ln-kids { gap: 10px; }
-  .ln-name { font-size: 12px; }
+  .ln-name { font-size: 12px; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .lp2-lede { font-size: 17px !important; }
+  .lp2-long, .ln-legend { display: none !important; }
+  .lp2-short { display: inline !important; }
+  .lp2-hero .lp-ctas { flex-wrap: nowrap; }
+  .ln-request { font-size: 14px; padding: 10px 16px; }
+  .ln-hero-tree .ln-connect { flex-basis: 48px; }
+  .visitor-nav { display: none !important; }
   .lp2-vote { padding: 4px 18px 24px; }
   .lp2-vote .ln-text, .lp2-vote-panel { padding-top: 24px; }
-  .lp2-vote-panel .vote-options, .lp2-take-grid, .lp2-hood { grid-template-columns: 1fr; }
+  .lp2-vote-panel .vote-options, .lp2-take-grid, .lp2-hood { grid-template-columns: minmax(0, 1fr); }
   .lp2-others, .lp2-take, .lp2-runs, .lp2 > .lp-section { padding-top: 72px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .lp2 > .lp2-hero { animation: none; }
   .ln-shot, .ln-others-shots { transition: none; }
 }

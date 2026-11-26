@@ -59,7 +59,7 @@ export function voteHtml({ tree, esc, owner = false, compact = false }) {
   return `
     <section class="vote-panel${compact ? ' compact' : ''}" aria-label="Crowd vote">
       <div class="vote-head">
-        <span class="mono-label">The crowd decides</span>
+        ${compact ? '' : '<span class="mono-label">The crowd decides</span>'}
         <span class="vote-total">${vote?.total ?? 0} vote${vote?.total === 1 ? '' : 's'} this round</span>
       </div>
       <p class="vote-status">${esc(statusLine(vote))}</p>

@@ -391,26 +391,8 @@ body:has(.landing)::before {
 @keyframes lp-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .landing > * { animation: none; } }
 
-.lp-hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 48px; align-items: center; }
-.lp-hero-text { display: flex; flex-direction: column; gap: 20px; }
-.lp-kicker { margin: 0; font: 500 13px var(--mono); color: var(--lime); letter-spacing: 0.04em; text-transform: uppercase; }
-.lp-hero h1 { margin: 0; font: 700 clamp(44px, 6.2vw, 80px)/0.98 var(--display); letter-spacing: -0.035em; }
-.lp-sub { margin: 0; font-size: 19px; line-height: 1.55; color: var(--text-2); max-width: 34rem; }
 .lp-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
 .lp-ctas .btn { min-height: 52px; padding: 0 22px; font-size: 16px; border-radius: 14px; }
-.lp-note { margin: 0; font-size: 13px; max-width: 30rem; }
-.lp-card {
-  display: block; border-radius: 20px; overflow: hidden; transform: perspective(1400px) rotateY(-7deg) rotateX(3deg);
-  box-shadow: 0 0 0 1px var(--line-2), 0 40px 80px rgba(0, 0, 0, 0.55), 0 0 120px rgba(198, 244, 50, 0.08);
-  transition: transform 0.5s cubic-bezier(.2, .7, .2, 1);
-}
-.lp-card:hover { transform: perspective(1400px) rotateY(0) rotateX(0) scale(1.01); }
-.lp-card img { display: block; width: 100%; height: auto; }
-
-.lp-why {
-  margin: 0 auto; max-width: 46rem; text-align: center; font: 500 clamp(22px, 2.6vw, 30px)/1.35 var(--display);
-  letter-spacing: -0.01em; color: var(--text);
-}
 
 .lp-section { display: flex; flex-direction: column; gap: 24px; }
 .lp-section h2 { margin: 0; font: 700 32px/1.1 var(--display); letter-spacing: -0.02em; }
@@ -418,22 +400,6 @@ body:has(.landing)::before {
 .lp-section p { margin: 0; color: var(--text-3); line-height: 1.55; }
 
 /* The steps hang off one lime line, like the tree; step 3 is a cross, so its joint is orange. */
-.lp-steps { list-style: none; margin: 0; padding: 26px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; position: relative; }
-.lp-steps::before { content: ''; position: absolute; left: 22px; right: 22px; top: 25px; height: 3px; border-radius: 2px; background: var(--lime); }
-.lp-steps li { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 34px 18px 20px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
-.lp-num {
-  position: absolute; top: -26px; left: 18px; width: 40px; height: 40px; border-radius: 20px; display: grid; place-items: center;
-  background: var(--bg); border: 3px solid var(--lime); color: var(--lime); font: 700 15px var(--mono);
-}
-.lp-steps li:nth-child(3) .lp-num { border-color: var(--orange); color: var(--orange); }
-
-.lp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.lp-item { display: flex; flex-direction: column; gap: 8px; padding: 22px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
-.lp-item:first-child { border-color: rgba(198, 244, 50, 0.35); }
-
-.lp-hood { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; }
-.lp-hood li { position: relative; padding-left: 22px; color: var(--text-3); line-height: 1.55; }
-.lp-hood li::before { content: ''; position: absolute; left: 0; top: 9px; width: 9px; height: 9px; border-radius: 5px; border: 2px solid var(--lime); }
 
 #install { padding: 28px; border-radius: 22px; background: var(--panel); border: 1px solid var(--line-2); }
 .lp-lede { font-size: 16px; color: var(--text-2) !important; }
@@ -445,19 +411,20 @@ body:has(.landing)::before {
 
 @media (max-width: 860px) {
   .landing { gap: 52px; }
-  .lp-hero { grid-template-columns: 1fr; gap: 32px; }
-  .lp-card { transform: none; }
-  .lp-steps { grid-template-columns: 1fr; padding: 0 0 0 26px; gap: 28px; }
-  .lp-steps::before { left: 4px; right: auto; top: 20px; bottom: 20px; width: 3px; height: auto; }
-  .lp-num { top: 16px; left: -42px; }
-  .lp-steps li { padding: 18px; }
-  .lp-grid, .lp-hood { grid-template-columns: 1fr; }
+  
+  
+  
+  
+  
+  
+  
   #install { padding: 20px; }
 }
 .about-link { color: var(--text-3); text-decoration: none; font-size: 13px; font-weight: 600; }
 .about-link:hover { color: var(--lime); }
-#new-family[hidden] + .about-link { margin-left: auto; }
-@media (max-width: 860px) { .about-link { order: 1; } #new-family[hidden] + .about-link { margin-left: auto; } }
+#new-family[hidden] ~ .about-link { margin-left: auto; }
+body:has(.lp2) #new-family[hidden] ~ .about-link { margin-left: 0; }
+@media (max-width: 860px) { .about-link { order: 1; } #new-family[hidden] ~ .about-link, body:has(.lp2) #new-family[hidden] ~ .about-link { margin-left: auto; } }
 
 /* Critique fixes: the glow no longer ends in a hard seam, and the hero shows only the tree half of the card. */
 body:has(.landing) { background: var(--bg); }
@@ -467,8 +434,6 @@ body:has(.landing) { background: var(--bg); }
     radial-gradient(60% 50% at 85% 0%, rgba(198, 244, 50, 0.07), transparent 70%),
     radial-gradient(50% 40% at 0% 30%, rgba(255, 155, 87, 0.05), transparent 70%);
 }
-.lp-card { aspect-ratio: 732 / 592; position: relative; }
-.lp-card img { position: absolute; top: -3.2%; left: -59%; width: 164%; max-width: none; height: auto; }
 
 /* Families list with pictures */
 .fam.has-shots { flex-direction: column; align-items: stretch; gap: 12px; }
@@ -513,19 +478,13 @@ body:has(.landing) { background: var(--bg); }
 .vote-rule { margin: 0; }
 .vote-panel .linkish { align-self: flex-start; color: var(--text-3); }
 
-.lp-crowd { padding: 28px; border-radius: 22px; background: linear-gradient(160deg, rgba(255, 155, 87, 0.08), transparent 55%), var(--panel); border: 1px solid rgba(255, 155, 87, 0.35); }
-.lp-crowd-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
-.lp-crowd-head > div { display: flex; flex-direction: column; gap: 10px; max-width: 40rem; }
-.lp-crowd .lp-kicker { color: var(--orange); }
-.lp-crowd .vote-panel { margin: 0; border: 0; padding: 0; background: transparent; }
-.lp-crowd .vote-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 @media (max-width: 860px) {
-  .lp-crowd { padding: 18px; }
-  .lp-crowd .vote-options { grid-template-columns: 1fr; }
+  
+  
   .vo { grid-template-columns: 56px minmax(0, 1fr) auto; }
   .vo-open { display: none; }
 }
-.lp-note a { color: var(--text-2); }
+
 .retry-btn { position: relative; z-index: 2; font-weight: 600; font-size: 13px; }
 .vo-pair { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 100%; height: 100%; }
 .vo-pair > span { overflow: hidden; }
@@ -539,14 +498,3 @@ body:has(.landing) { background: var(--bg); }
 .vo-sub { display: block; margin: 2px 0 0; }
 .vote-owner { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 
-.lp-crowd-tabs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 20px 0 6px; }
-.lp-crowd-tab { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 14px; border: 1px solid var(--line, #2a3330); background: rgba(255, 255, 255, 0.02); color: inherit; font: inherit; text-align: left; cursor: pointer; }
-.lp-crowd-tab:hover { border-color: rgba(255, 155, 87, 0.6); }
-.lp-crowd-tab[aria-selected="true"] { border-color: var(--orange); background: rgba(255, 155, 87, 0.1); }
-.lp-crowd-tab:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-.lp-crowd-tab img, .lp-crowd-tab-blank { width: 72px; height: 45px; flex: none; border-radius: 6px; object-fit: cover; object-position: top; background: #0f1311; }
-.lp-crowd-tab-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.lp-crowd-tab-text strong { font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.lp-crowd-tab-text small { color: var(--muted, #9aa69f); font-size: 0.8rem; }
-.lp-crowd-request { margin: 14px 0 12px; color: var(--muted, #9aa69f); }
-.lp-crowd-request a { color: var(--orange); }
