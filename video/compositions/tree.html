@@ -1,5 +1,40 @@
 <template>
-  <style>#root{position:absolute;inset:0;background:#A9B6F4}</style>
-  <div id="root" data-composition-id="tree" data-width="1920" data-height="1080"></div>
-  <script>window.__timelines["tree"] = gsap.timeline({ paused: true });</script>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 200 800; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-style: italic; font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Bricolage Grotesque", sans-serif; color: #2B1B47; background: radial-gradient(120% 90% at 50% 40%, #BAC5F8 0%, #A9B6F4 50%, #8E9CEB 100%); }
+    #tr-grain { position: absolute; inset: 0; opacity: 0.28; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .1 0 0 0 0 .28 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    #tr-frame { position: absolute; left: 70px; top: 60px; width: 1200px; height: 960px; border-radius: 26px; overflow: hidden; background: #0F1311; box-shadow: 0 30px 70px rgba(30, 14, 60, 0.4); }
+    #tr-img { position: absolute; left: 0; top: 0; width: 1200px; height: auto; transform-origin: 0 0; }
+    #tr-taste { position: absolute; left: 1330px; top: 140px; width: 520px; display: flex; flex-direction: column; gap: 18px; }
+    #tr-taste h3 { font-family: "Fraunces", serif; font-style: italic; font-weight: 600; font-size: 54px; line-height: 1.05; margin-bottom: 10px; }
+    .tr-chip { align-self: flex-start; padding: 12px 22px; border-radius: 999px; background: #2B1B47; color: #C6F432; font-weight: 700; font-size: 30px; white-space: nowrap; }
+    .tr-sub { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.75; }
+    .tr-chip.avoid { background: transparent; color: #2B1B47; border: 3px solid #2B1B47; text-decoration: line-through; }
+      </style>
+  <div id="root" data-composition-id="tree" data-width="1920" data-height="1080">
+    <div id="tr-frame"><img id="tr-img" src="assets/screens/tree-gen3.png" alt="The real family tree after three generations, from the crowd family" /></div>
+    <div id="tr-taste">
+      <h3>What it learned from the crowd</h3>
+      <div class="tr-sub">likes</div>
+      <div class="tr-chip" id="tr-c1">giant guest count</div>
+      <div class="tr-chip" id="tr-c2">live countdown to dinner</div>
+      <div class="tr-chip" id="tr-c3">dark ops palette</div>
+      <div class="tr-sub" id="tr-avoid">avoids</div>
+      <div class="tr-chip avoid" id="tr-c4">bare-bones builds</div>
+    </div>
+    <div id="tr-grain"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Start close on the newest generation, then pull back across the whole tree.
+    tl.fromTo("#tr-img", { scale: 1.7, x: -604, y: -958 }, { scale: 1, x: 0, y: 0, duration: 1.6, ease: "power3.inOut" }, 0.2);
+    tl.fromTo("#tr-frame", { x: 300 }, { x: 0, duration: 0.6, ease: "power3.out" }, 0);
+    // "teaches it your taste": the crowd's real taste chips land.
+    tl.fromTo(["#tr-taste h3", ".tr-sub"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 1.75);
+    tl.fromTo(["#tr-c1", "#tr-c2", "#tr-c3", "#tr-c4"], { scale: 0, transformOrigin: "0% 50%" }, { scale: 1, duration: 0.3, stagger: 0.16, ease: "back.out(2.2)" }, 2.0);
+    // "every node on the tree is a live app": a gentle push in on the tree.
+    tl.to("#tr-img", { scale: 1.06, x: -30, y: -20, duration: 2.0, ease: "power1.inOut" }, 4.3);
+    window.__timelines["tree"] = tl;
+  </script>
 </template>

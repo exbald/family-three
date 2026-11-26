@@ -1,0 +1,4833 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": false,
+    "errorCount": 2,
+    "warningCount": 100,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 1.62-64.5s and assets/sfx/click-soft.mp3 at 7.05-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 1.62-64.5s and assets/sfx/pop.mp3 at 12-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 1.62-64.5s and assets/sfx/pop.mp3 at 21.95-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 1.62-64.5s and assets/sfx/pop.mp3 at 27.35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 1.62-64.5s and assets/sfx/click.mp3 at 35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 1.62-64.5s and assets/sfx/riser.mp3 at 31.3-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 1.62-64.5s and assets/sfx/pop.mp3 at 52.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 1.62-64.5s and assets/sfx/pop.mp3 at 58.45-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 1.85-64.5s and assets/sfx/click-soft.mp3 at 8.75-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 1.85-64.5s and assets/sfx/click.mp3 at 14.75-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 1.85-64.5s and assets/sfx/pop.mp3 at 22.27-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 1.85-64.5s and assets/sfx/pop.mp3 at 28.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 1.85-64.5s and assets/sfx/click.mp3 at 36.25-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 1.85-64.5s and assets/sfx/whoosh.mp3 at 47.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 1.85-64.5s and assets/sfx/whoosh-short.mp3 at 53.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 1.85-64.5s and assets/sfx/typing.mp3 at 59.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 4.28-64.5s and assets/sfx/whoosh.mp3 at 10.95-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 4.28-64.5s and assets/sfx/whoosh-short.mp3 at 15.2-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 4.28-64.5s and assets/sfx/pop.mp3 at 22.59-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 4.28-64.5s and assets/sfx/pop.mp3 at 30.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 4.28-64.5s and assets/sfx/pop.mp3 at 39.65-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 4.28-64.5s and assets/sfx/whoosh-short.mp3 at 50.7-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 4.28-64.5s and assets/sfx/pop.mp3 at 56.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click-soft.mp3 at 7.05-64.5s and assets/sfx/pop.mp3 at 12-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click-soft.mp3 at 7.05-64.5s and assets/sfx/pop.mp3 at 21.95-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click-soft.mp3 at 7.05-64.5s and assets/sfx/pop.mp3 at 27.35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click-soft.mp3 at 7.05-64.5s and assets/sfx/click.mp3 at 35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click-soft.mp3 at 7.05-64.5s and assets/sfx/riser.mp3 at 31.3-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click-soft.mp3 at 7.05-64.5s and assets/sfx/pop.mp3 at 52.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click-soft.mp3 at 7.05-64.5s and assets/sfx/pop.mp3 at 58.45-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 8.75-64.5s and assets/sfx/click.mp3 at 14.75-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 8.75-64.5s and assets/sfx/pop.mp3 at 22.27-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 8.75-64.5s and assets/sfx/pop.mp3 at 28.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 8.75-64.5s and assets/sfx/click.mp3 at 36.25-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 8.75-64.5s and assets/sfx/whoosh.mp3 at 47.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 8.75-64.5s and assets/sfx/whoosh-short.mp3 at 53.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click-soft.mp3 at 8.75-64.5s and assets/sfx/typing.mp3 at 59.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh.mp3 at 10.95-64.5s and assets/sfx/whoosh-short.mp3 at 15.2-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh.mp3 at 10.95-64.5s and assets/sfx/pop.mp3 at 22.59-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh.mp3 at 10.95-64.5s and assets/sfx/pop.mp3 at 30.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh.mp3 at 10.95-64.5s and assets/sfx/pop.mp3 at 39.65-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh.mp3 at 10.95-64.5s and assets/sfx/whoosh-short.mp3 at 50.7-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh.mp3 at 10.95-64.5s and assets/sfx/pop.mp3 at 56.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 12-64.5s and assets/sfx/pop.mp3 at 21.95-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 12-64.5s and assets/sfx/pop.mp3 at 27.35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 12-64.5s and assets/sfx/click.mp3 at 35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 12-64.5s and assets/sfx/riser.mp3 at 31.3-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 12-64.5s and assets/sfx/pop.mp3 at 52.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 12-64.5s and assets/sfx/pop.mp3 at 58.45-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 14.75-64.5s and assets/sfx/pop.mp3 at 22.27-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 14.75-64.5s and assets/sfx/pop.mp3 at 28.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 14.75-64.5s and assets/sfx/click.mp3 at 36.25-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 14.75-64.5s and assets/sfx/whoosh.mp3 at 47.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 14.75-64.5s and assets/sfx/whoosh-short.mp3 at 53.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 14.75-64.5s and assets/sfx/typing.mp3 at 59.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 15.2-64.5s and assets/sfx/pop.mp3 at 22.59-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 15.2-64.5s and assets/sfx/pop.mp3 at 30.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 15.2-64.5s and assets/sfx/pop.mp3 at 39.65-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 15.2-64.5s and assets/sfx/whoosh-short.mp3 at 50.7-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 15.2-64.5s and assets/sfx/pop.mp3 at 56.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 21.95-64.5s and assets/sfx/pop.mp3 at 27.35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 21.95-64.5s and assets/sfx/click.mp3 at 35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 21.95-64.5s and assets/sfx/riser.mp3 at 31.3-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 21.95-64.5s and assets/sfx/pop.mp3 at 52.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 21.95-64.5s and assets/sfx/pop.mp3 at 58.45-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 22.27-64.5s and assets/sfx/pop.mp3 at 28.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 22.27-64.5s and assets/sfx/click.mp3 at 36.25-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 22.27-64.5s and assets/sfx/whoosh.mp3 at 47.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 22.27-64.5s and assets/sfx/whoosh-short.mp3 at 53.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 22.27-64.5s and assets/sfx/typing.mp3 at 59.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 22.59-64.5s and assets/sfx/pop.mp3 at 30.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 22.59-64.5s and assets/sfx/pop.mp3 at 39.65-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 22.59-64.5s and assets/sfx/whoosh-short.mp3 at 50.7-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 22.59-64.5s and assets/sfx/pop.mp3 at 56.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 27.35-64.5s and assets/sfx/click.mp3 at 35-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 27.35-64.5s and assets/sfx/riser.mp3 at 31.3-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 27.35-64.5s and assets/sfx/pop.mp3 at 52.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 27.35-64.5s and assets/sfx/pop.mp3 at 58.45-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 28.5-64.5s and assets/sfx/click.mp3 at 36.25-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 28.5-64.5s and assets/sfx/whoosh.mp3 at 47.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 28.5-64.5s and assets/sfx/whoosh-short.mp3 at 53.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/pop.mp3 at 28.5-64.5s and assets/sfx/typing.mp3 at 59.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 30.1-64.5s and assets/sfx/pop.mp3 at 39.65-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 30.1-64.5s and assets/sfx/whoosh-short.mp3 at 50.7-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 30.1-64.5s and assets/sfx/pop.mp3 at 56.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click.mp3 at 35-64.5s and assets/sfx/riser.mp3 at 31.3-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click.mp3 at 35-64.5s and assets/sfx/pop.mp3 at 52.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/click.mp3 at 35-64.5s and assets/sfx/pop.mp3 at 58.45-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 36.25-64.5s and assets/sfx/whoosh.mp3 at 47.5-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 36.25-64.5s and assets/sfx/whoosh-short.mp3 at 53.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/click.mp3 at 36.25-64.5s and assets/sfx/typing.mp3 at 59.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 39.65-64.5s and assets/sfx/whoosh-short.mp3 at 50.7-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/pop.mp3 at 39.65-64.5s and assets/sfx/pop.mp3 at 56.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/riser.mp3 at 31.3-64.5s and assets/sfx/pop.mp3 at 52.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/riser.mp3 at 31.3-64.5s and assets/sfx/pop.mp3 at 58.45-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/whoosh.mp3 at 47.5-64.5s and assets/sfx/whoosh-short.mp3 at 53.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/whoosh.mp3 at 47.5-64.5s and assets/sfx/typing.mp3 at 59.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 12: assets/sfx/whoosh-short.mp3 at 50.7-64.5s and assets/sfx/pop.mp3 at 56.85-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 13: assets/sfx/pop.mp3 at 52.85-64.5s and assets/sfx/pop.mp3 at 58.45-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Audible clips overlap on Studio track 14: assets/sfx/whoosh-short.mp3 at 53.85-64.5s and assets/sfx/typing.mp3 at 59.1-64.5s. Both play at once whatever their track (the render mixes every audible clip; data-track-index only picks the Studio lane), and Studio draws them over each other in that lane.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "If both should sound (a whoosh into a hit), give one its own data-track-index; the mix does not change. If one is a leftover duplicate, remove it or move it so the windows do not overlap."
+      },
+      {
+        "code": "missing_local_asset",
+        "severity": "error",
+        "message": "<img> element references local file(s) not found in the project: assets/screens/adopted-phone.png, assets/screens/github-commits.png, assets/screens/kit.png. The renderer will silently skip these and produce a video with missing visuals.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/Users/exbald/projects/family-three/video/compositions/adopt.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Add the missing files to the project directory, or update the src attributes to point to existing files. Captured asset filenames are unreliable. Verify against capture/contact-sheets/ and capture/extracted/asset-descriptions.md."
+      },
+      {
+        "code": "missing_local_asset",
+        "severity": "error",
+        "message": "<img> element references local file(s) not found in the project: assets/screens/tree-gen3.png. The renderer will silently skip these and produce a video with missing visuals.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/Users/exbald/projects/family-three/video/compositions/tree.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Add \"assets/screens/tree-gen3.png\" to the project directory, or update the src attribute to point to an existing file. Common cause: captured asset filenames are unreliable (heygen-logo.svg often contains Google, nvidia-logo.svg may contain Autodesk, etc.). Open the contact sheets and verify the file actually exists at this path before referencing it."
+      }
+    ],
+    "filesScanned": 10
+  },
+  "runtime": {
+    "ok": false,
+    "errorCount": 4,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "http_error",
+        "severity": "error",
+        "message": "404 loading assets/screens/tree-gen3.png",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "64.5",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0,
+        "url": "http://127.0.0.1:56126/assets/screens/tree-gen3.png"
+      },
+      {
+        "code": "http_error",
+        "severity": "error",
+        "message": "404 loading assets/screens/adopted-phone.png",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "64.5",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0,
+        "url": "http://127.0.0.1:56126/assets/screens/adopted-phone.png"
+      },
+      {
+        "code": "http_error",
+        "severity": "error",
+        "message": "404 loading assets/screens/github-commits.png",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "64.5",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0,
+        "url": "http://127.0.0.1:56126/assets/screens/github-commits.png"
+      },
+      {
+        "code": "http_error",
+        "severity": "error",
+        "message": "404 loading assets/screens/kit.png",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "64.5",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0,
+        "url": "http://127.0.0.1:56126/assets/screens/kit.png"
+      },
+      {
+        "code": "clip_media_fit",
+        "severity": "warning",
+        "message": "Audio \"vo\" is 62.15s but its slot (data-duration) is 62.40s — the slot is shortened to the media length when rendered. Set data-duration to ~62.15s if that isn't intended.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "64.5",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0
+      }
+    ]
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 31,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "warning",
+        "time": 32.25,
+        "selector": "#v-pscreen > img:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 83.06,
+          "top": -834.53,
+          "right": 865.44,
+          "bottom": 989.5,
+          "width": 782.38,
+          "height": 1824.03
+        },
+        "containerSelector": "#v-pscreen",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 174.43,
+          "top": 72.6,
+          "right": 645.57,
+          "bottom": 987.4,
+          "width": 471.14,
+          "height": 914.81
+        },
+        "overflow": {
+          "left": 91.37,
+          "right": 219.87,
+          "top": 907.13,
+          "bottom": 2.1
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hf-media-11",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 83.06,
+          "y": -834.53,
+          "width": 782.38,
+          "height": 1824.03
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 39.417,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          32.25,
+          39.417
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "warning",
+        "time": 32.25,
+        "selector": "#v-before > img:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -1586.08,
+          "top": -251.43,
+          "right": 2112.32,
+          "bottom": 1872.62,
+          "width": 3698.4,
+          "height": 2124.05
+        },
+        "containerSelector": "#v-before",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 1062.33,
+          "top": 64.48,
+          "right": 1717.67,
+          "bottom": 959.52,
+          "width": 655.33,
+          "height": 895.03
+        },
+        "overflow": {
+          "left": 2648.41,
+          "right": 394.65,
+          "top": 315.91,
+          "bottom": 913.1
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hf-media-12",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": -1586.08,
+          "y": -251.43,
+          "width": 3698.4,
+          "height": 2124.05
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 39.417,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          32.25,
+          39.417
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "warning",
+        "time": 32.25,
+        "selector": "#v-before > img:nth-of-type(1)",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": -1586.08,
+          "top": -251.43,
+          "right": 2112.32,
+          "bottom": 1872.62,
+          "width": 3698.4,
+          "height": 2124.05
+        },
+        "containerSelector": "#v-before",
+        "text": "",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 1062.33,
+          "top": 64.48,
+          "right": 1717.67,
+          "bottom": 959.52,
+          "width": 655.33,
+          "height": 895.03
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hf-media-12",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": -1586.08,
+          "y": -251.43,
+          "width": 3698.4,
+          "height": 2124.05
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 39.417,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          32.25,
+          39.417
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 3.583,
+        "selector": "#t-cam",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -49.4,
+          "top": -26.89,
+          "right": 1950.28,
+          "bottom": 1097.93,
+          "width": 1999.68,
+          "height": 1124.82
+        },
+        "containerSelector": "#table > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 49.4,
+          "right": 30.28,
+          "top": 26.89,
+          "bottom": 17.93
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/table.html",
+        "bbox": {
+          "x": -49.4,
+          "y": -26.89,
+          "width": 1999.68,
+          "height": 1124.82
+        },
+        "firstSeen": 3.583,
+        "lastSeen": 3.583,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          3.583
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d1 > div:nth-of-type(2)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 126.8,
+          "top": -273.67,
+          "right": 244.47,
+          "bottom": -222.84,
+          "width": 117.67,
+          "height": 50.83
+        },
+        "containerSelector": "#root",
+        "text": "Playful",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 273.67
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 126.8,
+          "y": -273.67,
+          "width": 117.67,
+          "height": 50.83
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d1 > div:nth-of-type(2) > b:nth-of-type(1)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 91.17,
+          "top": -262.64,
+          "right": 118.42,
+          "bottom": -219.72,
+          "width": 27.25,
+          "height": 42.92
+        },
+        "containerSelector": "#root",
+        "text": "A",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 262.64
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 91.17,
+          "y": -262.64,
+          "width": 27.25,
+          "height": 42.92
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d2 > div:nth-of-type(2)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 729.84,
+          "top": -283,
+          "right": 817.31,
+          "bottom": -242,
+          "width": 87.47,
+          "height": 41
+        },
+        "containerSelector": "#root",
+        "text": "Quiet",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 283
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 729.84,
+          "y": -283,
+          "width": 87.47,
+          "height": 41
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d2 > div:nth-of-type(2) > b:nth-of-type(1)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 695,
+          "top": -283,
+          "right": 717.84,
+          "bottom": -242,
+          "width": 22.84,
+          "height": 41
+        },
+        "containerSelector": "#root",
+        "text": "B",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 283
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 695,
+          "y": -283,
+          "width": 22.84,
+          "height": 41
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d3 > div:nth-of-type(2)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 1331.98,
+          "top": -303.72,
+          "right": 1515.21,
+          "bottom": -247.16,
+          "width": 183.23,
+          "height": 56.56
+        },
+        "containerSelector": "#root",
+        "text": "Dashboard",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 303.72
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 1331.98,
+          "y": -303.72,
+          "width": 183.23,
+          "height": 56.56
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d3 > div:nth-of-type(2) > b:nth-of-type(1)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 1297.27,
+          "top": -306.76,
+          "right": 1323.6,
+          "bottom": -263.92,
+          "width": 26.33,
+          "height": 42.84
+        },
+        "containerSelector": "#root",
+        "text": "C",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 306.76
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 1297.27,
+          "y": -306.76,
+          "width": 26.33,
+          "height": 42.84
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-cloth",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -260,
+          "top": 1100,
+          "right": 2180,
+          "bottom": 2000,
+          "width": 2440,
+          "height": 900
+        },
+        "containerSelector": "#born > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 260,
+          "right": 260,
+          "bottom": 920
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": -260,
+          "y": 1100,
+          "width": 2440,
+          "height": 900
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-ask",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 210,
+          "top": -1036,
+          "right": 1710,
+          "bottom": -83,
+          "width": 1500,
+          "height": 953
+        },
+        "containerSelector": "#born > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 1036
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 210,
+          "y": -1036,
+          "width": 1500,
+          "height": 953
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d1",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 31.23,
+          "top": -709.41,
+          "right": 648.77,
+          "bottom": -204.59,
+          "width": 617.54,
+          "height": 504.82
+        },
+        "containerSelector": "#born > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 709.41
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 31.23,
+          "y": -709.41,
+          "width": 617.54,
+          "height": 504.82
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d2",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 670,
+          "top": -685,
+          "right": 1250,
+          "bottom": -229,
+          "width": 580,
+          "height": 456
+        },
+        "containerSelector": "#born > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 685
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 670,
+          "y": -685,
+          "width": 580,
+          "height": 456
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d3",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 1271.23,
+          "top": -709.41,
+          "right": 1888.77,
+          "bottom": -204.59,
+          "width": 617.54,
+          "height": 504.82
+        },
+        "containerSelector": "#born > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 709.41
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 1271.23,
+          "y": -709.41,
+          "width": 617.54,
+          "height": 504.82
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-cursor",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 960,
+          "top": -1100,
+          "right": 1046,
+          "bottom": -1014,
+          "width": 86,
+          "height": 86
+        },
+        "containerSelector": "#born > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "top": 1100
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 960,
+          "y": -1100,
+          "width": 86,
+          "height": 86
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-ask > img:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -845,
+          "top": -1214,
+          "right": 2816,
+          "bottom": 1074.13,
+          "width": 3661,
+          "height": 2288.13
+        },
+        "containerSelector": "#b-ask",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 210,
+          "top": -1036,
+          "right": 1710,
+          "bottom": -83,
+          "width": 1500,
+          "height": 953
+        },
+        "overflow": {
+          "left": 1055,
+          "right": 1106,
+          "top": 178,
+          "bottom": 1157.13
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hf-media-1",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": -845,
+          "y": -1214,
+          "width": 3661,
+          "height": 2288.13
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-ask > img:nth-of-type(1)",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": -845,
+          "top": -1214,
+          "right": 2816,
+          "bottom": 1074.13,
+          "width": 3661,
+          "height": 2288.13
+        },
+        "containerSelector": "#b-ask",
+        "text": "",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 210,
+          "top": -1036,
+          "right": 1710,
+          "bottom": -83,
+          "width": 1500,
+          "height": 953
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hf-media-1",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": -845,
+          "y": -1214,
+          "width": 3661,
+          "height": 2288.13
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "info",
+        "time": 17.917,
+        "selector": "#b-d2",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 670,
+          "top": -685,
+          "right": 1250,
+          "bottom": -229,
+          "width": 580,
+          "height": 456
+        },
+        "containerSelector": "#born > div:nth-of-type(1)",
+        "text": "B Quiet",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 670,
+          "y": -685,
+          "width": 580,
+          "height": 456
+        },
+        "firstSeen": 17.917,
+        "lastSeen": 17.917,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.917
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 32.25,
+        "selector": "#v-n1",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 711,
+          "top": 1114,
+          "right": 915.17,
+          "bottom": 1145,
+          "width": 204.17,
+          "height": 31
+        },
+        "containerSelector": "#root",
+        "text": "Grandma June ✓",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "bottom": 65
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 711,
+          "y": 1114,
+          "width": 204.17,
+          "height": 31
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 32.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          32.25
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 32.25,
+        "selector": "#v-n2",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 941,
+          "top": 1164,
+          "right": 1092.58,
+          "bottom": 1195,
+          "width": 151.58,
+          "height": 31
+        },
+        "containerSelector": "#root",
+        "text": "Uncle Dan ✓",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "bottom": 115
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 941,
+          "y": 1164,
+          "width": 151.58,
+          "height": 31
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 32.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          32.25
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 32.25,
+        "selector": "#v-n3",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 1781,
+          "top": 1054,
+          "right": 1871.64,
+          "bottom": 1085,
+          "width": 90.64,
+          "height": 31
+        },
+        "containerSelector": "#root",
+        "text": "Priya ✓",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "bottom": 5
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 1781,
+          "y": 1054,
+          "width": 90.64,
+          "height": 31
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 32.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          32.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 32.25,
+        "selector": "#v-n1",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 690,
+          "top": 1100,
+          "right": 936.17,
+          "bottom": 1158,
+          "width": 246.17,
+          "height": 58
+        },
+        "containerSelector": "#vote > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "bottom": 78
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 690,
+          "y": 1100,
+          "width": 246.17,
+          "height": 58
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 32.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          32.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 32.25,
+        "selector": "#v-n2",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 920,
+          "top": 1150,
+          "right": 1113.58,
+          "bottom": 1208,
+          "width": 193.58,
+          "height": 58
+        },
+        "containerSelector": "#vote > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "bottom": 128
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 920,
+          "y": 1150,
+          "width": 193.58,
+          "height": 58
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 32.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          32.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 32.25,
+        "selector": "#v-n3",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 1760,
+          "top": 1040,
+          "right": 1892.64,
+          "bottom": 1098,
+          "width": 132.64,
+          "height": 58
+        },
+        "containerSelector": "#vote > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "bottom": 18
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 1760,
+          "y": 1040,
+          "width": 132.64,
+          "height": 58
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 32.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          32.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 32.25,
+        "selector": "#v-cursor",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 1900,
+          "top": 1100,
+          "right": 1980,
+          "bottom": 1180,
+          "width": 80,
+          "height": 80
+        },
+        "containerSelector": "#vote > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 60,
+          "bottom": 100
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 1900,
+          "y": 1100,
+          "width": 80,
+          "height": 80
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 39.417,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          32.25,
+          39.417
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "info",
+        "time": 32.25,
+        "selector": "#v-n2",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 920,
+          "top": 1150,
+          "right": 1113.58,
+          "bottom": 1208,
+          "width": 193.58,
+          "height": 58
+        },
+        "containerSelector": "#vote > div:nth-of-type(1)",
+        "text": "Uncle Dan ✓",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 920,
+          "y": 1150,
+          "width": 193.58,
+          "height": 58
+        },
+        "firstSeen": 32.25,
+        "lastSeen": 32.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          32.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 39.417,
+        "selector": "#v-after > img:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -1586.08,
+          "top": -251.43,
+          "right": 2112.32,
+          "bottom": 1872.62,
+          "width": 3698.4,
+          "height": 2124.05
+        },
+        "containerSelector": "#v-after",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 1062.33,
+          "top": 64.48,
+          "right": 1717.67,
+          "bottom": 959.52,
+          "width": 655.33,
+          "height": 895.03
+        },
+        "overflow": {
+          "left": 2648.41,
+          "right": 394.65,
+          "top": 315.91,
+          "bottom": 913.1
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hf-media-13",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": -1586.08,
+          "y": -251.43,
+          "width": 3698.4,
+          "height": 2124.05
+        },
+        "firstSeen": 39.417,
+        "lastSeen": 39.417,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          39.417
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "info",
+        "time": 39.417,
+        "selector": "#v-after > img:nth-of-type(1)",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": -1586.08,
+          "top": -251.43,
+          "right": 2112.32,
+          "bottom": 1872.62,
+          "width": 3698.4,
+          "height": 2124.05
+        },
+        "containerSelector": "#v-after",
+        "text": "",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 1062.33,
+          "top": 64.48,
+          "right": 1717.67,
+          "bottom": 959.52,
+          "width": 655.33,
+          "height": 895.03
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hf-media-13",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": -1586.08,
+          "y": -251.43,
+          "width": 3698.4,
+          "height": 2124.05
+        },
+        "firstSeen": 39.417,
+        "lastSeen": 39.417,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          39.417
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 46.583,
+        "selector": "#tr-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 44.27,
+          "top": 42.84,
+          "right": 1306.07,
+          "bottom": 62.82,
+          "width": 1261.8,
+          "height": 19.98
+        },
+        "containerSelector": "#tr-frame",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 70,
+          "top": 60,
+          "right": 1270,
+          "bottom": 1020,
+          "width": 1200,
+          "height": 960
+        },
+        "overflow": {
+          "left": 25.73,
+          "right": 36.07,
+          "top": 17.16
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "tr-img",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/tree.html",
+        "bbox": {
+          "x": 44.27,
+          "y": 42.84,
+          "width": 1261.8,
+          "height": 19.98
+        },
+        "firstSeen": 46.583,
+        "lastSeen": 46.583,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          46.583
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "info",
+        "time": 46.583,
+        "selector": "#tr-img",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 44.27,
+          "top": 42.84,
+          "right": 1306.07,
+          "bottom": 62.82,
+          "width": 1261.8,
+          "height": 19.98
+        },
+        "containerSelector": "#tr-frame",
+        "text": "",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 70,
+          "top": 60,
+          "right": 1270,
+          "bottom": 1020,
+          "width": 1200,
+          "height": 960
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "tr-img",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/tree.html",
+        "bbox": {
+          "x": 44.27,
+          "y": 42.84,
+          "width": 1261.8,
+          "height": 19.98
+        },
+        "firstSeen": 46.583,
+        "lastSeen": 46.583,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          46.583
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 53.75,
+        "selector": "#ad-kit > div:nth-of-type(1) > span:nth-of-type(1)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 869.59,
+          "top": 1213.72,
+          "right": 1345.66,
+          "bottom": 1267.55,
+          "width": 476.07,
+          "height": 53.83
+        },
+        "containerSelector": "#root",
+        "text": "design.html · DESIGN.md · tokens.css",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "bottom": 187.55
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/adopt.html",
+        "bbox": {
+          "x": 869.59,
+          "y": 1213.72,
+          "width": 476.07,
+          "height": 53.83
+        },
+        "firstSeen": 53.75,
+        "lastSeen": 53.75,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          53.75
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 53.75,
+        "selector": "#ad-kit",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 721.93,
+          "top": 1171.19,
+          "right": 1878.07,
+          "bottom": 1948.81,
+          "width": 1156.15,
+          "height": 777.63
+        },
+        "containerSelector": "#adopt > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "bottom": 868.81
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/adopt.html",
+        "bbox": {
+          "x": 721.93,
+          "y": 1171.19,
+          "width": 1156.15,
+          "height": 777.63
+        },
+        "firstSeen": 53.75,
+        "lastSeen": 53.75,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          53.75
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 53.75,
+        "selector": "#ad-pscreen > img:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 149.54,
+          "top": -57.14,
+          "right": 579.94,
+          "bottom": -23.15,
+          "width": 430.4,
+          "height": 34
+        },
+        "containerSelector": "#ad-pscreen",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 153.73,
+          "top": 62.78,
+          "right": 616.27,
+          "bottom": 1017.22,
+          "width": 462.54,
+          "height": 954.43
+        },
+        "overflow": {
+          "left": 4.19,
+          "top": 119.92
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hf-media-15",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/adopt.html",
+        "bbox": {
+          "x": 149.54,
+          "y": -57.14,
+          "width": 430.4,
+          "height": 34
+        },
+        "firstSeen": 53.75,
+        "lastSeen": 53.75,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          53.75
+        ]
+      }
+    ],
+    "duration": 64.5,
+    "samples": [
+      3.583,
+      10.75,
+      17.917,
+      25.083,
+      32.25,
+      39.417,
+      46.583,
+      53.75,
+      60.917
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 34,
+    "truncated": false,
+    "faceCheck": {
+      "ran": true,
+      "candidates": 0,
+      "faces": 0
+    }
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      3.583,
+      17.917,
+      32.25,
+      46.583,
+      60.917
+    ],
+    "checked": 40,
+    "passed": 40
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 18,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"It needs a seating plan, a menu, an oven schedule…\" (10 words) is on screen 2.37 s (±0.01 s), under its 2.63 s floor: hold it about 0.5 s + 0.3 s a word (3.50 s here) before it leaves or changes; see references/motion.md.",
+        "text": "It needs a seating plan, a menu, an oven schedule…",
+        "selector": "#p-d1 > span:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 343.8,
+          "width": 926.5,
+          "height": 48
+        },
+        "time": 5.438,
+        "words": 10,
+        "seconds": 2.367,
+        "floorSeconds": 2.625,
+        "measured": [
+          {
+            "time": 5.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 5.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 5.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 5.875,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 7.375,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 7.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 7.625,
+            "opacity": 0.95,
+            "heightPx": 51
+          },
+          {
+            "time": 7.75,
+            "opacity": 0.64,
+            "heightPx": 71
+          },
+          {
+            "time": 7.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8.125,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Make it look modern but cozy. Not too busy.\" (9 words) is on screen 2.07 s (±0.01 s), under its 2.40 s floor: hold it about 0.5 s + 0.3 s a word (3.20 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Make it look modern but cozy. Not too busy.",
+        "selector": "#p-d1 > span:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 400.59,
+          "width": 804.8,
+          "height": 48
+        },
+        "time": 5.734,
+        "words": 9,
+        "seconds": 2.07,
+        "floorSeconds": 2.4,
+        "measured": [
+          {
+            "time": 5.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.75,
+            "opacity": 0.54,
+            "heightPx": 48
+          },
+          {
+            "time": 5.875,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 6,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 6.125,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 7.375,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 7.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 7.625,
+            "opacity": 0.95,
+            "heightPx": 51
+          },
+          {
+            "time": 7.75,
+            "opacity": 0.64,
+            "heightPx": 68
+          },
+          {
+            "time": 7.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8.125,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Make it a single page. Seats should be draggable.\" (9 words) is on screen 1.70 s (±0.01 s), under its 2.40 s floor: hold it about 0.5 s + 0.3 s a word (3.20 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Make it a single page. Seats should be draggable.",
+        "selector": "#p-d2 > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 287,
+          "width": 895.3899999999999,
+          "height": 48
+        },
+        "time": 7.703,
+        "words": 9,
+        "seconds": 1.703,
+        "floorSeconds": 2.4,
+        "measured": [
+          {
+            "time": 7.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 7.875,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8.125,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.125,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.25,
+            "opacity": 0.94,
+            "heightPx": 51
+          },
+          {
+            "time": 9.375,
+            "opacity": 0.56,
+            "heightPx": 76
+          },
+          {
+            "time": 9.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.75,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"The oven timeline must work backwards from 4 pm.\" (9 words) is on screen 1.54 s (±0.01 s), under its 2.40 s floor: hold it about 0.5 s + 0.3 s a word (3.20 s here) before it leaves or changes; see references/motion.md.",
+        "text": "The oven timeline must work backwards from 4 pm.",
+        "selector": "#p-d2 > span:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 343.8,
+          "width": 948.3299999999999,
+          "height": 48
+        },
+        "time": 7.867,
+        "words": 9,
+        "seconds": 1.539,
+        "floorSeconds": 2.4,
+        "measured": [
+          {
+            "time": 7.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.75,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.875,
+            "opacity": 0.94,
+            "heightPx": 48
+          },
+          {
+            "time": 8,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8.125,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8.25,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.125,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.25,
+            "opacity": 0.94,
+            "heightPx": 52
+          },
+          {
+            "time": 9.375,
+            "opacity": 0.56,
+            "heightPx": 77
+          },
+          {
+            "time": 9.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.75,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Actually make it warmer. Less like a dashboard.\" (8 words) is on screen 1.41 s (±0.01 s), under its 2.17 s floor: hold it about 0.5 s + 0.3 s a word (2.90 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Actually make it warmer. Less like a dashboard.",
+        "selector": "#p-d2 > span:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 400.59,
+          "width": 861.45,
+          "height": 48
+        },
+        "time": 8,
+        "words": 8,
+        "seconds": 1.406,
+        "floorSeconds": 2.175,
+        "measured": [
+          {
+            "time": 7.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.75,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8,
+            "opacity": 0.5,
+            "heightPx": 48
+          },
+          {
+            "time": 8.125,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8.25,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8.375,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.125,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.25,
+            "opacity": 0.94,
+            "heightPx": 51
+          },
+          {
+            "time": 9.375,
+            "opacity": 0.56,
+            "heightPx": 75
+          },
+          {
+            "time": 9.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.75,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"But keep the numbers big. And dark mode?\" (8 words) is on screen 1.23 s (±0.01 s), under its 2.17 s floor: hold it about 0.5 s + 0.3 s a word (2.90 s here) before it leaves or changes; see references/motion.md.",
+        "text": "But keep the numbers big. And dark mode?",
+        "selector": "#p-d2 > span:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 457.39,
+          "width": 785.44,
+          "height": 48
+        },
+        "time": 8.172,
+        "words": 8,
+        "seconds": 1.234,
+        "floorSeconds": 2.175,
+        "measured": [
+          {
+            "time": 7.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8.25,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8.375,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 8.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.125,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.25,
+            "opacity": 0.94,
+            "heightPx": 51
+          },
+          {
+            "time": 9.375,
+            "opacity": 0.56,
+            "heightPx": 72
+          },
+          {
+            "time": 9.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.75,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"OK, start over. Fewer colours. More whitespace.\" (7 words) is on screen 1.60 s (±0.01 s), under its 1.95 s floor: hold it about 0.5 s + 0.3 s a word (2.60 s here) before it leaves or changes; see references/motion.md.",
+        "text": "OK, start over. Fewer colours. More whitespace.",
+        "selector": "#p-d3 > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 287,
+          "width": 867.9099999999999,
+          "height": 48
+        },
+        "time": 9.305,
+        "words": 7,
+        "seconds": 1.602,
+        "floorSeconds": 1.95,
+        "measured": [
+          {
+            "time": 9,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.375,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.875,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 11,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.25,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"No, more colour, but tasteful. Grandma sits near the\" (9 words) is on screen 1.50 s (±0.01 s), under its 2.40 s floor: hold it about 0.5 s + 0.3 s a word (3.20 s here) before it leaves or changes; see references/motion.md.",
+        "text": "No, more colour, but tasteful. Grandma sits near the",
+        "selector": "#p-d3 > span:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 343.8,
+          "width": 940.4200000000001,
+          "height": 48
+        },
+        "time": 9.406,
+        "words": 9,
+        "seconds": 1.5,
+        "floorSeconds": 2.4,
+        "measured": [
+          {
+            "time": 9.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.375,
+            "opacity": 0.33,
+            "heightPx": 48
+          },
+          {
+            "time": 9.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.875,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.875,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 11,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.25,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"kitchen. Two people are vegan. The turkey is 20 lb.\" (10 words) is on screen 1.41 s (±0.01 s), under its 2.63 s floor: hold it about 0.5 s + 0.3 s a word (3.50 s here) before it leaves or changes; see references/motion.md.",
+        "text": "kitchen. Two people are vegan. The turkey is 20 lb.",
+        "selector": "#p-d3 > span:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 400.59,
+          "width": 913.8600000000001,
+          "height": 48
+        },
+        "time": 9.5,
+        "words": 10,
+        "seconds": 1.406,
+        "floorSeconds": 2.625,
+        "measured": [
+          {
+            "time": 9.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.875,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.875,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 11,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.25,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Make it pop. Not like that. Like the first one but\" (11 words) is on screen 1.30 s (±0.01 s), under its 2.85 s floor: hold it about 0.5 s + 0.3 s a word (3.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Make it pop. Not like that. Like the first one but",
+        "selector": "#p-d3 > span:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 457.39,
+          "width": 848.1599999999999,
+          "height": 48
+        },
+        "time": 9.602,
+        "words": 11,
+        "seconds": 1.305,
+        "floorSeconds": 2.85,
+        "measured": [
+          {
+            "time": 9.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.875,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 10.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.875,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 11,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.25,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"with the timeline from the second one, and also…\" (9 words) is on screen 1.20 s (±0.01 s), under its 2.40 s floor: hold it about 0.5 s + 0.3 s a word (3.20 s here) before it leaves or changes; see references/motion.md.",
+        "text": "with the timeline from the second one, and also…",
+        "selector": "#p-d3 > span:nth-of-type(5)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/prompt.html",
+        "bbox": {
+          "x": 263,
+          "y": 514.19,
+          "width": 894.44,
+          "height": 48
+        },
+        "time": 9.703,
+        "words": 9,
+        "seconds": 1.203,
+        "floorSeconds": 2.4,
+        "measured": [
+          {
+            "time": 9.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 9.875,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10,
+            "opacity": 1,
+            "heightPx": 64
+          },
+          {
+            "time": 10.125,
+            "opacity": 1,
+            "heightPx": 57
+          },
+          {
+            "time": 10.5,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.625,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.75,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 10.875,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 11,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.25,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"a personal agent on a Fly.io Sprite\" (8 words) is on screen 0.97 s (±0.01 s), under its 2.17 s floor: hold it about 0.5 s + 0.3 s a word (2.90 s here) before it leaves or changes; see references/motion.md.",
+        "text": "a personal agent on a Fly.io Sprite",
+        "selector": "#r-sub",
+        "dataAttributes": {},
+        "sourceFile": "compositions/reveal.html",
+        "bbox": {
+          "x": 569.19,
+          "y": 840,
+          "width": 781.6100000000001,
+          "height": 64
+        },
+        "time": 12.836,
+        "words": 8,
+        "seconds": 0.969,
+        "floorSeconds": 2.175,
+        "measured": [
+          {
+            "time": 12.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.75,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.875,
+            "opacity": 0.72,
+            "heightPx": 64
+          },
+          {
+            "time": 13,
+            "opacity": 1,
+            "heightPx": 64
+          },
+          {
+            "time": 13.125,
+            "opacity": 1,
+            "heightPx": 64
+          },
+          {
+            "time": 13.25,
+            "opacity": 1,
+            "heightPx": 64
+          },
+          {
+            "time": 13.375,
+            "opacity": 1,
+            "heightPx": 64
+          },
+          {
+            "time": 13.5,
+            "opacity": 1,
+            "heightPx": 64
+          },
+          {
+            "time": 13.625,
+            "opacity": 1,
+            "heightPx": 64
+          },
+          {
+            "time": 13.75,
+            "opacity": 1,
+            "heightPx": 64
+          },
+          {
+            "time": 13.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 14,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 14.125,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 8 text elements stay under it for 0.5 s or more, the smallest \"Write index.html\" at 24 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "Write index.html",
+        "selector": "#b-a1",
+        "dataAttributes": {},
+        "sourceFile": "compositions/born.html",
+        "bbox": {
+          "x": 288.8,
+          "y": 627.24,
+          "width": 230.4,
+          "height": 31
+        },
+        "time": 15.625,
+        "times": [
+          15.25,
+          15.25,
+          15.625,
+          15.625,
+          15.75,
+          15.75,
+          15.875,
+          15.875
+        ],
+        "fontPx": 24,
+        "floorPx": 28,
+        "seconds": 6.25,
+        "elements": [
+          {
+            "selector": "#b-a1",
+            "text": "Write index.html",
+            "fontPx": 24,
+            "time": 15.625,
+            "seconds": 6.25
+          },
+          {
+            "selector": "#b-a2",
+            "text": "Write index.html",
+            "fontPx": 24,
+            "time": 15.75,
+            "seconds": 6.125
+          },
+          {
+            "selector": "#b-a3",
+            "text": "Write index.html",
+            "fontPx": 24,
+            "time": 15.875,
+            "seconds": 6
+          },
+          {
+            "selector": "#b-sprite-label > i:nth-of-type(1)",
+            "text": "one Fly.io Sprite",
+            "fontPx": 26,
+            "time": 15.25,
+            "seconds": 6.5
+          },
+          {
+            "selector": "#b-sprite-label > i:nth-of-type(2)",
+            "text": "3 × Claude Code",
+            "fontPx": 26,
+            "time": 15.25,
+            "seconds": 6.5
+          },
+          {
+            "selector": "#b-g1",
+            "text": "Growing · 0 steps",
+            "fontPx": 26,
+            "time": 15.625,
+            "seconds": 6.25
+          },
+          {
+            "selector": "#b-g2",
+            "text": "Growing · 0 steps",
+            "fontPx": 26,
+            "time": 15.75,
+            "seconds": 6.125
+          },
+          {
+            "selector": "#b-g3",
+            "text": "Growing · 0 steps",
+            "fontPx": 26,
+            "time": 15.875,
+            "seconds": 6
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 3 text elements stay under it for 0.5 s or more, the smallest \"Priya ✓\" at 26 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "Priya ✓",
+        "selector": "#v-n3",
+        "dataAttributes": {},
+        "sourceFile": "compositions/vote.html",
+        "bbox": {
+          "x": 1781,
+          "y": 1054,
+          "width": 90.64,
+          "height": 26
+        },
+        "time": 31.5,
+        "times": [
+          31.5,
+          32.875,
+          33
+        ],
+        "fontPx": 26,
+        "floorPx": 28,
+        "seconds": 9.375,
+        "elements": [
+          {
+            "selector": "#v-n3",
+            "text": "Priya ✓",
+            "fontPx": 26,
+            "time": 31.5,
+            "seconds": 9.375
+          },
+          {
+            "selector": "#v-n1",
+            "text": "Grandma June ✓",
+            "fontPx": 26,
+            "time": 32.875,
+            "seconds": 8
+          },
+          {
+            "selector": "#v-n2",
+            "text": "Uncle Dan ✓",
+            "fontPx": 26,
+            "time": 33,
+            "seconds": 7.875
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"a public link\" (3 words) is on screen 0.73 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "a public link",
+        "selector": "#ad-t1",
+        "dataAttributes": {},
+        "sourceFile": "compositions/adopt.html",
+        "bbox": {
+          "x": 719.51,
+          "y": 478.02,
+          "width": 232.56999999999994,
+          "height": 58.960000000000036
+        },
+        "time": 50.039,
+        "words": 3,
+        "seconds": 0.734,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 49.75,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 49.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 50,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 50.125,
+            "opacity": 1,
+            "heightPx": 59
+          },
+          {
+            "time": 50.25,
+            "opacity": 1,
+            "heightPx": 60
+          },
+          {
+            "time": 50.375,
+            "opacity": 1,
+            "heightPx": 56
+          },
+          {
+            "time": 50.5,
+            "opacity": 1,
+            "heightPx": 56
+          },
+          {
+            "time": 50.625,
+            "opacity": 1,
+            "heightPx": 56
+          },
+          {
+            "time": 50.75,
+            "opacity": 0.69,
+            "heightPx": 56
+          },
+          {
+            "time": 50.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 51,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 51.125,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 2 text elements stay under it for 0.5 s or more, the smallest \"github.com/exbald/family-three-…/commits\" at 22 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "github.com/exbald/family-three-…/commits",
+        "selector": "#ad-gh > div:nth-of-type(1) > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/adopt.html",
+        "bbox": {
+          "x": 1852.14,
+          "y": 113.46,
+          "width": 67.86,
+          "height": 59.13
+        },
+        "time": 50.75,
+        "times": [
+          50.75,
+          54
+        ],
+        "fontPx": 22,
+        "floorPx": 28,
+        "seconds": 5.125,
+        "elements": [
+          {
+            "selector": "#ad-gh > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "github.com/exbald/family-three-…/commits",
+            "fontPx": 22,
+            "time": 50.75,
+            "seconds": 5.125
+          },
+          {
+            "selector": "#ad-kit > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "design.html · DESIGN.md · tokens.css",
+            "fontPx": 22,
+            "time": 54,
+            "seconds": 1.875
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"a cross is a merge commit\" (6 words) is on screen 0.96 s (±0.01 s), under its 1.72 s floor: hold it about 0.5 s + 0.3 s a word (2.30 s here) before it leaves or changes; see references/motion.md.",
+        "text": "a cross is a merge commit",
+        "selector": "#ad-t2",
+        "dataAttributes": {},
+        "sourceFile": "compositions/adopt.html",
+        "bbox": {
+          "x": 1224.54,
+          "y": 859.03,
+          "width": 560.1399999999999,
+          "height": 76.94000000000005
+        },
+        "time": 52.906,
+        "words": 6,
+        "seconds": 0.961,
+        "floorSeconds": 1.725,
+        "measured": [
+          {
+            "time": 52.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 52.75,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 52.875,
+            "opacity": 1,
+            "heightPx": 24
+          },
+          {
+            "time": 53,
+            "opacity": 1,
+            "heightPx": 77
+          },
+          {
+            "time": 53.125,
+            "opacity": 1,
+            "heightPx": 72
+          },
+          {
+            "time": 53.25,
+            "opacity": 1,
+            "heightPx": 70
+          },
+          {
+            "time": 53.375,
+            "opacity": 1,
+            "heightPx": 70
+          },
+          {
+            "time": 53.5,
+            "opacity": 1,
+            "heightPx": 70
+          },
+          {
+            "time": 53.625,
+            "opacity": 1,
+            "heightPx": 70
+          },
+          {
+            "time": 53.75,
+            "opacity": 1,
+            "heightPx": 70
+          },
+          {
+            "time": 53.875,
+            "opacity": 0.44,
+            "heightPx": 70
+          },
+          {
+            "time": 54,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 54.125,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 2 text elements stay under it for 0.5 s or more, the smallest \"$\" at 27 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "$",
+        "selector": "#e-cmd > i:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/endcard.html",
+        "bbox": {
+          "x": 150,
+          "y": 619.77,
+          "width": 16.2,
+          "height": 36
+        },
+        "time": 58.875,
+        "times": [
+          58.875,
+          59.25
+        ],
+        "fontPx": 27,
+        "floorPx": 28,
+        "seconds": 5.625,
+        "elements": [
+          {
+            "selector": "#e-cmd > i:nth-of-type(1)",
+            "text": "$",
+            "fontPx": 27,
+            "time": 58.875,
+            "seconds": 5.625
+          },
+          {
+            "selector": "#e-typed",
+            "text": "curl -f",
+            "fontPx": 27,
+            "time": 59.25,
+            "seconds": 5.25
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 516
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

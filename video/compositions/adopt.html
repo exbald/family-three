@@ -1,5 +1,49 @@
 <template>
-  <style>#root{position:absolute;inset:0;background:#A9B6F4}</style>
-  <div id="root" data-composition-id="adopt" data-width="1920" data-height="1080"></div>
-  <script>window.__timelines["adopt"] = gsap.timeline({ paused: true });</script>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 200 800; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-style: italic; font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Bricolage Grotesque", sans-serif; color: #2B1B47; background: radial-gradient(120% 90% at 50% 40%, #BAC5F8 0%, #A9B6F4 50%, #8E9CEB 100%); }
+    #ad-grain { position: absolute; inset: 0; opacity: 0.28; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .1 0 0 0 0 .28 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    #ad-phone { position: absolute; left: 150px; top: 50px; width: 470px; height: 980px; background: #241838; border-radius: 64px; padding: 20px; box-shadow: 0 30px 60px rgba(30, 14, 60, 0.4); }
+    #ad-pscreen { width: 430px; height: 940px; border-radius: 46px; overflow: hidden; background: #0F1311; }
+    #ad-pscreen img { width: 430px; height: auto; display: block; }
+    .ad-win { position: absolute; width: 1120px; height: 720px; border-radius: 22px; overflow: hidden; background: #fff; border: 5px solid #2B1B47; box-shadow: 14px 16px 0 #2B1B47; }
+    .ad-win .ad-bar { height: 52px; background: #2B1B47; display: flex; align-items: center; gap: 12px; padding: 0 22px; }
+    .ad-win .ad-bar i { width: 16px; height: 16px; border-radius: 50%; background: #E7A3D0; display: block; }
+    .ad-win .ad-bar span { margin-left: 18px; padding: 6px 18px; border-radius: 999px; background: #3A2B55; color: #F3EEFF; font-family: "JetBrains Mono", monospace; font-size: 28px; }
+    .ad-win img { width: 100%; height: auto; display: block; }
+    #ad-gh { left: 700px; top: 120px; }
+    #ad-kit { left: 740px; top: 200px; }
+    #ad-ring { position: absolute; left: 762px; top: 648px; width: 1050px; height: 82px; border: 8px solid #FF9B57; border-radius: 16px; }
+    .ad-tag { position: absolute; padding: 12px 24px; background: #FFF8EF; border: 3px solid #2B1B47; border-radius: 12px; box-shadow: 5px 6px 0 #2B1B47; font-weight: 800; font-size: 38px; white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="adopt" data-width="1920" data-height="1080">
+    <div id="ad-phone"><div id="ad-pscreen"><img src="assets/screens/adopted-phone.png" alt="The real adopted screen on a phone" /></div></div>
+    <div class="ad-tag" id="ad-t1" style="left: 700px; top: 470px">a public link: /a/double-down</div>
+    <div class="ad-win" id="ad-gh"><div class="ad-bar"><i></i><i></i><i></i><span>github.com/exbald/family-three-…/commits</span></div><img src="assets/screens/github-commits.png" alt="The real GitHub history, one commit per ancestor" /></div>
+    <div id="ad-ring"></div>
+    <div class="ad-tag" id="ad-t2" style="left: 1240px; top: 860px; background: #FFE3CF">a cross is a merge commit</div>
+    <div class="ad-win" id="ad-kit"><div class="ad-bar"><i></i><i></i><i></i><span>design.html · DESIGN.md · tokens.css</span></div><img src="assets/screens/kit.png" alt="The real design kit page" /></div>
+    <div id="ad-grain"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // "Keep the one you love.": the adopted screen on a phone.
+    tl.fromTo("#ad-phone", { y: 1100, rotation: 6 }, { y: 0, rotation: -2, duration: 0.6, ease: "back.out(1.3)" }, 0.1);
+    tl.fromTo("#ad-pscreen img", { y: 0 }, { y: -120, duration: 2.4, ease: "power1.inOut" }, 0.8);
+    // "It gets a public link".
+    tl.fromTo("#ad-t1", { scale: 0, rotation: -6 }, { scale: 1, rotation: -3, duration: 0.3, ease: "back.out(2.4)" }, 1.8);
+    // "a GitHub repo whose commits are its family line".
+    tl.to("#ad-t1", { opacity: 0, duration: 0.2 }, 3.55);
+    tl.fromTo("#ad-gh", { x: 1300, rotation: 4 }, { x: 0, rotation: 1, duration: 0.5, ease: "power3.out" }, 3.4);
+    tl.fromTo("#ad-ring", { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 4.1);
+    tl.fromTo("#ad-t2", { scale: 0, rotation: 6 }, { scale: 1, rotation: 3, duration: 0.3, ease: "back.out(2.4)" }, 4.25);
+    // "and a design kit to take anywhere".
+    tl.to(["#ad-ring", "#ad-t2"], { opacity: 0, duration: 0.2 }, 6.5);
+    tl.fromTo("#ad-kit", { y: 1000, rotation: -3 }, { y: 0, rotation: -1.5, duration: 0.5, ease: "power3.out" }, 6.55);
+    tl.to("#ad-kit", { y: -30, duration: 0.85, ease: "power1.inOut" }, 7.05);
+    // Clear the table before the end card.
+    tl.to(["#ad-phone", "#ad-gh", "#ad-kit"], { y: "+=1150", duration: 0.4, ease: "power3.in", stagger: 0.05 }, 7.92);
+    window.__timelines["adopt"] = tl;
+  </script>
 </template>
