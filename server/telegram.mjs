@@ -177,6 +177,12 @@ export async function startTelegram() {
       .then(() => console.log('Telegram webhook set'))
       .catch((err) => console.error('Telegram webhook not set:', err.message))
   }
+  // Rounds that opened before Telegram was switched on get their post now.
+  for (const fam of await listFamilies()) {
+    if (!fam.crowd) continue
+    const tree = await readTree(fam.id)
+    if (tree?.vote?.status === 'open' && !tree.vote.tg?.messageId) await postRound({ fid: fam.id }).catch((err) => console.error('telegram:', err.message))
+  }
   const safe = (fn) => (payload) => fn(payload).catch((err) => console.error('telegram:', err.message))
   bus.on('vote-opened', safe(postRound))
   bus.on('vote-counted', safe(refreshButtons))

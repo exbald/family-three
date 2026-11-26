@@ -235,6 +235,10 @@ async function route(req, res) {
   if (method === 'POST' && p.startsWith('/tg/')) return telegramWebhook(req, res, p.slice(4))
   if (method === 'POST' && p === '/api/vote') return api.vote(req, res)
   if (method === 'POST' && p.startsWith('/api/') && !isOwner(req)) return sendError(res, 403, 'Only the owner can raise apps here. You can still look around.')
+  if (method === 'GET' && p === '/api/debug/ip' && isOwner(req)) {
+    const h = req.headers
+    return sendJson(res, 200, { success: true, data: { flyClientIp: h['fly-client-ip'] ?? null, xForwardedFor: h['x-forwarded-for'] ?? null, xRealIp: h['x-real-ip'] ?? null, remote: req.socket.remoteAddress, used: clientIp(req) } })
+  }
   if (method === 'POST' && p === '/api/vote/pause') return api.pause(req, res)
   if (method === 'POST' && p === '/api/vote/close') return api.closeRound(req, res)
   if (method === 'GET' && p === '/api/families') return api.listFamilies(req, res)
