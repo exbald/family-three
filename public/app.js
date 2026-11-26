@@ -3,7 +3,7 @@ import { treeHtml, panelHtml, tasteHtml } from './treeview.js'
 import { drawCheckpoints, hideCheckpoints } from './checkpoints.js'
 import { adoptedHtml, wireAdopted } from './adopted.js'
 import { wireKit } from './kit.js'
-import { landingHtml, INSTALL } from './landing.js'
+import { landingHtml, crowdIntroHtml, INSTALL } from './landing.js'
 import { voteHtml, wireVote } from './vote.js'
 const view = document.getElementById('view')
 const familyHead = document.getElementById('family-head')
@@ -87,14 +87,35 @@ function wireInstallCopy(root) {
 
 async function renderVisitorHome() {
   const families = await api('/api/families').catch(() => [])
-  const featured = [...families].sort((a, b) => b.apps - a.apps)[0] ?? null
-  const crowdFam = families.find((f) => f.crowd)
+  const byApps = [...families].sort((a, b) => b.apps - a.apps)
+  // The showcase is the Thanksgiving family when there is one; otherwise the biggest family.
+  const featured = byApps.find((f) => /thanksgiving/i.test(f.request) && f.apps) ?? byApps[0] ?? null
+  const crowds = byApps.filter((f) => f.crowd && (f.apps || f.building))
+  const crowdFam = crowds.find((f) => f.vote?.status === 'open') ?? crowds[0] ?? null
   const site = await api('/api/site').catch(() => ({}))
-  view.innerHTML = landingHtml({ featured: [...families].filter((f) => !f.crowd).sort((a, b) => b.apps - a.apps)[0] ?? featured, families, esc, crowd: crowdFam, telegram: site.telegramChannel ?? '' })
+  view.innerHTML = landingHtml({ featured, families, esc, crowd: crowdFam, crowds, telegram: site.telegramChannel ?? '' })
   wireInstallCopy(view)
-  if (crowdFam) drawLandingVote(crowdFam.id)
+  wireCrowdTabs(crowds)
+  if (crowdFam) {
+    state = { ...state, landingFid: crowdFam.id }
+    drawLandingVote(crowdFam.id)
+  }
   if (families.length) renderFamilyList()
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView()
+}
+
+function wireCrowdTabs(crowds) {
+  for (const tab of document.querySelectorAll('.lp-crowd-tab')) {
+    tab.addEventListener('click', () => {
+      const fam = crowds.find((f) => f.id === tab.dataset.crowd)
+      if (!fam) return
+      for (const t of document.querySelectorAll('.lp-crowd-tab')) t.setAttribute('aria-selected', String(t === tab))
+      document.getElementById('crowd-intro').innerHTML = crowdIntroHtml(fam, esc)
+      document.getElementById('crowd-vote').innerHTML = ''
+      state = { ...state, landingFid: fam.id }
+      drawLandingVote(fam.id)
+    })
+  }
 }
 
 async function drawLandingVote(fid) {
@@ -102,11 +123,13 @@ async function drawLandingVote(fid) {
   if (!box || !document.body.contains(box)) return
   try {
     const tree = await api(`/api/families/${encodeURIComponent(fid)}`)
+    if (state.landingFid !== fid) return
     box.innerHTML = voteHtml({ tree, esc, compact: true })
     wireVote(box, { api, fid, onChange: () => drawLandingVote(fid) })
   } catch {
     box.innerHTML = ''
   }
+  if (state.landingFid !== fid) return
   clearTimeout(state.pollTimer)
   state = { ...state, pollTimer: setTimeout(() => drawLandingVote(fid), 4000) }
 }

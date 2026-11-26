@@ -134,6 +134,7 @@ export async function retryChild({ fid, cid }) {
   const child = tree.children[cid]
   const litter = tree.litters.find((l) => l.id === child.litter)
   const parents = child.parents.map((id) => tree.children[id])
+  if (!child.brief) return rebriefLitter({ fid, tree, litter, parents })
   const release = holdAwake(`retry-${cid}`)
   ;(async () => {
     if (await hasApp(fid, child.n)) await rescueChild({ fid, child })
@@ -142,6 +143,24 @@ export async function retryChild({ fid, cid }) {
     if (done.status === 'ready') emitSafe('kid-ready', { fid, kid: done })
   })()
     .catch((err) => console.error(`retry ${cid} failed:`, err))
+    .finally(release)
+}
+
+// A restart can kill a litter while the breeder is still writing briefs, leaving nameless children.
+// Write the briefs again (without counting the pick twice) and raise every child that lost its brief.
+async function rebriefLitter({ fid, tree, litter, parents }) {
+  const lost = litter.children.map((id) => tree.children[id]).filter((c) => !c.brief && c.status === 'failed')
+  // Mark them before answering, so a second click on a sibling is refused instead of starting another breeder.
+  await Promise.all(lost.map((c) => updateChild(fid, c.id, { status: 'briefing', activity: 'The breeder is writing its brief', summary: '' })))
+  const release = holdAwake(`rebrief-${fid}-${litter.id}`)
+  ;(async () => {
+    const briefs = await writeBriefs({ tree, kind: litter.kind, parents, note: litter.note ?? '', countPick: false })
+    const children = await fillBriefs(fid, lost, briefs.slice(0, lost.length))
+    await Promise.all(children.map((child) => raiseOne({ fid, request: tree.request, child, kind: litter.kind, parents })))
+    const done = await readTree(fid)
+    for (const c of children) if (done.children[c.id].status === 'ready') emitSafe('kid-ready', { fid, kid: done.children[c.id] })
+  })()
+    .catch((err) => console.error(`re-briefing ${litter.id} in ${fid} failed:`, err))
     .finally(release)
 }
 

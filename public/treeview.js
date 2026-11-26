@@ -162,7 +162,9 @@ export function adoptionHtml(tree, kid, { owner, esc }) {
       </div>`
   }
   if (a?.status === 'working') return `<p class="muted adopting"><span class="seed small" aria-hidden="true"></span>${esc(a.step ?? 'Adopting')}…</p>`
-  if (!owner || kid.status !== 'ready') return ''
+  if (kid.status !== 'ready') return ''
+  // Anyone can get a kid's design kit; only the owner can adopt.
+  if (!owner) return kitHtml(kid, { owner, esc })
   const failed = a?.status === 'failed' ? `<p class="error">Adopt failed: ${esc(a.error)}. Try again.</p>` : ''
-  return `${failed}<button class="btn btn-ghost" type="button" data-adopt="${esc(kid.id)}">Adopt: give it a public link and a repo</button>`
+  return `${failed}<button class="btn btn-ghost" type="button" data-adopt="${esc(kid.id)}">Adopt: give it a public link and a repo</button>${kitHtml(kid, { owner, esc })}`
 }

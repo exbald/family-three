@@ -10,7 +10,7 @@ import { readTaste, tastePathFor } from './taste.mjs'
 import { loadOwnerKey, isOwner, handleUnlock } from './owner.mjs'
 import { adoptChild, readAdopted, SLUG } from './adopt.mjs'
 import { listCheckpoints, restoreCheckpoint } from './checkpoints.mjs'
-import { makeKit, kitDir } from './kit.mjs'
+import { makeKit, kitDir, kitBusy } from './kit.mjs'
 import { ensureCard } from './card.mjs'
 import { castVote, VoteError, clientIp, hashIp, myVote, setPaused, resumeCrowdRounds, breedLeaderNow } from './votes.mjs'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
@@ -33,6 +33,9 @@ async function findChild(cid) {
   const child = tree?.children[cid]
   return child ? { tree, child, ...ids } : null
 }
+
+// Visitor kit starts by hashed IP, kept in memory (a restart forgets them, which is fine).
+const kitStarts = new Map()
 
 function baseUrl(req) {
   if (config.publicUrl) return config.publicUrl.replace(/\/$/, '')
@@ -149,6 +152,24 @@ const api = {
     sendJson(res, 202, { success: true, data: { child: found.child.id } })
   },
 
+  // A visitor may start a kid's design kit: once per kid, one kit at a time on the Sprite, one start per visitor every 10 minutes.
+  async visitorKit(req, res) {
+    const body = await readJson(req)
+    const found = await findChild(body.child)
+    if (!found) return sendError(res, 404, 'No child with that id.')
+    if (found.child.status !== 'ready') return sendError(res, 409, 'Only a finished child can have a design kit.')
+    if (found.child.kit?.status === 'ready') return sendJson(res, 200, { success: true, data: { child: found.child.id } })
+    if (found.child.kit?.status === 'working') return sendError(res, 409, 'Already working on it.')
+    if (kitBusy()) return sendError(res, 429, 'The agent is making another kit right now. Try again in a couple of minutes.')
+    const who = await hashIp(clientIp(req))
+    if (kitStarts.size > 5000) kitStarts.clear()
+    const last = kitStarts.get(who) ?? 0
+    if (Date.now() - last < 10 * 60 * 1000) return sendError(res, 429, 'You started a kit a few minutes ago. Try again in a little while.')
+    kitStarts.set(who, Date.now())
+    makeKit({ fid: found.fid, cid: found.child.id })
+    sendJson(res, 202, { success: true, data: { child: found.child.id } })
+  },
+
   async retry(req, res) {
     const body = await readJson(req)
     const found = await findChild(body.child)
@@ -242,6 +263,7 @@ async function route(req, res) {
   if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req) } })
   if (method === 'POST' && p.startsWith('/tg/')) return telegramWebhook(req, res, p.slice(4))
   if (method === 'POST' && p === '/api/vote') return api.vote(req, res)
+  if (method === 'POST' && p === '/api/kit' && !isOwner(req)) return api.visitorKit(req, res)
   if (method === 'POST' && p.startsWith('/api/') && !isOwner(req)) return sendError(res, 403, 'Only the owner can raise apps here. You can still look around.')
   if (method === 'GET' && p === '/api/debug/ip' && isOwner(req)) {
     const h = req.headers

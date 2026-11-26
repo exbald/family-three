@@ -111,7 +111,8 @@ function validBriefs(reply) {
 }
 
 // Returns three briefs. For a breed or cross it also updates taste.md. Never throws.
-export async function writeBriefs({ tree, kind, parents, note }) {
+// countPick is false when re-writing briefs a restart lost: the pick was already counted.
+export async function writeBriefs({ tree, kind, parents, note, countPick = true }) {
   const tastePath = tastePathFor(tree)
   const taste = await readTaste(tastePath).catch(() => ({ picks: 0, likes: [], avoid: [], learned: '' }))
   try {
@@ -119,13 +120,13 @@ export async function writeBriefs({ tree, kind, parents, note }) {
     const reply = await askJson({ system: SYSTEM, user: userPrompt({ tree, kind, parents, note, taste }) })
     const briefs = validBriefs(reply)
     if (!briefs) throw new Error('The breeder did not return three briefs.')
-    if (kind !== 'first') {
+    if (kind !== 'first' && countPick) {
       await writeTaste({ picks: taste.picks + 1, likes: reply.likes ?? taste.likes, avoid: reply.avoid ?? taste.avoid, learned: reply.learned }, tastePath)
     }
     return briefs
   } catch (err) {
     console.error('breeder fell back to built-in briefs:', err.message)
-    if (kind !== 'first') await writeTaste({ ...taste, picks: taste.picks + 1 }, tastePath).catch(() => {})
+    if (kind !== 'first' && countPick) await writeTaste({ ...taste, picks: taste.picks + 1 }, tastePath).catch(() => {})
     return builtIn(kind, note)
   }
 }

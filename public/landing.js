@@ -26,7 +26,21 @@ const UNDER_THE_HOOD = [
   'Telegram goes through the same kind of connector, so the bot token never sits on the Sprite either.',
 ]
 
-export function landingHtml({ featured, families, esc, crowd = null, telegram = '' }) {
+// One tab per crowd family, so a visitor can hop between them and vote in each.
+export function crowdTabsHtml(crowds, selectedId, esc) {
+  if (crowds.length < 2) return ''
+  return `<div class="lp-crowd-tabs" role="tablist" aria-label="Crowd families">${crowds.map((f) => {
+    const thumb = f.preview?.[0]?.id ? `<img src="/thumb/${esc(f.preview[0].id)}.png" alt="" loading="eager">` : '<span class="lp-crowd-tab-blank"></span>'
+    const open = f.vote?.status === 'open'
+    return `<button type="button" role="tab" class="lp-crowd-tab" data-crowd="${esc(f.id)}" aria-selected="${f.id === selectedId}">${thumb}<span class="lp-crowd-tab-text"><strong>${esc(f.title || f.request)}</strong><small>${f.building ? 'kids being born' : open ? `vote open · ${f.vote.total ?? 0} so far` : `${f.apps} apps`}</small></span></button>`
+  }).join('')}</div>`
+}
+
+export function crowdIntroHtml(crowd, esc) {
+  return `<p class="lp-crowd-request">Started from “${esc(crowd.request)}” · <a href="/f/${esc(crowd.id)}" data-link>see its whole tree</a></p>`
+}
+
+export function landingHtml({ featured, families, esc, crowd = null, crowds = [], telegram = '' }) {
   const card = featured
     ? `<a class="lp-card" href="/f/${esc(featured.id)}" data-link aria-label="Open the family ${esc(featured.title)}"><img onerror="this.closest('.lp-card').remove()" src="/card/${esc(featured.id)}.png" alt="Family tree for ${esc(featured.title)}: ${featured.generations} generations, ${featured.apps} live apps"></a>`
     : ''
@@ -57,13 +71,14 @@ export function landingHtml({ featured, families, esc, crowd = null, telegram = 
           <div>
             <p class="lp-kicker">Live now · raised by whoever shows up</p>
             <h2 id="crowd-title">Pick the next kid</h2>
-            <p>The crowd's family started from “${esc(crowd.request)}”. Vote for the one that breeds next. When one gets enough votes, three new kids are born from it a few minutes later.</p>
+            <p>${crowds.length > 1 ? `${crowds.length} families are raised by whoever shows up. Pick one, open its kids, and vote` : 'Open the kids and vote'} for the one that breeds next. When the clock runs out, three new kids are born from the winner a few minutes later.</p>
           </div>
           <div class="lp-ctas">
-            <a class="btn btn-ghost" href="/f/${esc(crowd.id)}" data-link>See its whole tree</a>
             ${telegram ? `<a class="btn btn-ghost" href="https://t.me/${esc(telegram.replace(/^@/, ''))}" target="_blank" rel="noopener">Watch it on Telegram</a>` : ''}
           </div>
         </div>
+        ${crowdTabsHtml(crowds, crowd.id, esc)}
+        <div id="crowd-intro">${crowdIntroHtml(crowd, esc)}</div>
         <div id="crowd-vote"></div>
       </section>` : ''}
 

@@ -28,11 +28,16 @@ function zip(dir, out) {
 }
 
 // Makes (or remakes) the kit for one child. Never throws.
+// How many kits are being made right now: visitors may only start one when none is.
+let working = 0
+export const kitBusy = () => working > 0
+
 export async function makeKit({ fid, cid }) {
   const tree = await readTree(fid)
   const kid = tree?.children[cid]
   if (!kid) return null
   await updateChild(fid, cid, { kit: { status: 'working' } })
+  working += 1
   try {
     const dir = kitDir(fid, kid.n)
     await rm(dir, { recursive: true, force: true })
@@ -58,7 +63,8 @@ export async function makeKit({ fid, cid }) {
     // A run that stopped early still leaves a usable kit; describe it from its own mood line.
     const design = await readFile(path.join(dir, 'DESIGN.md'), 'utf8').catch(() => '')
     const mood = /## Mood\s+([^\n]+)/.exec(design)?.[1]?.trim()
-    const summary = result.ok && result.summary ? result.summary : (mood ?? 'A design kit made from this app.').slice(0, 300)
+    // The kit's own mood line, not the builder's report (which talks about file paths).
+    const summary = (mood ?? 'A design kit made from this app: colours, type, spacing and components.').slice(0, 300)
     const zipped = present.length === KIT_FILES.length && config.builder !== 'stub' ? await zip(dir, kitZip(fid, kid.n)) : false
     let inRepo = false
     if (kid.adopted && kid.adoption?.repo) {
@@ -72,5 +78,7 @@ export async function makeKit({ fid, cid }) {
     console.error(`kit for ${cid} failed:`, err)
     await updateChild(fid, cid, { kit: { status: 'failed', error: err.message } })
     return null
+  } finally {
+    working -= 1
   }
 }

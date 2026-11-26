@@ -108,6 +108,8 @@ async function openRound(fid, litterId, { restingUntil = null } = {}) {
   const tree = await updateTree(fid, (t) => {
     const options = optionsFor(t, litterId)
     const usable = options.length ? options : t.vote?.options ?? []
+    // Count agent-picked generations in a row; a real vote resets it.
+    const streak = t.vote?.status === 'breeding' && t.vote.autopilot ? (t.vote.autopilotStreak ?? 0) + 1 : t.vote?.status === 'breeding' ? 0 : t.vote?.autopilotStreak ?? 0
     return {
       ...t,
       vote: {
@@ -124,7 +126,8 @@ async function openRound(fid, litterId, { restingUntil = null } = {}) {
         lastWinner: t.vote?.lastWinner ?? null,
         openedAt: new Date().toISOString(),
         closesAt: null,
-        autopilotAt: config.autopilotMinutes > 0 ? new Date(Date.now() + config.autopilotMinutes * 60000).toISOString() : null,
+        autopilotStreak: streak,
+        autopilotAt: autopilotAllowed(streak) ? new Date(Date.now() + config.autopilotMinutes * 60000).toISOString() : null,
       },
     }
   })
@@ -299,6 +302,10 @@ setInterval(async () => {
   }
 }, 15 * 1000).unref()
 
+function autopilotAllowed(streak) {
+  return config.autopilotMinutes > 0 && streak < config.autopilotMaxStreak
+}
+
 async function checkRound(fid) {
   const tree = await readTree(fid)
   const vote = tree?.vote
@@ -321,7 +328,7 @@ export async function resumeCrowdRounds() {
     if (!tree?.crowd || !tree.litters.length) continue
     const busy = Object.values(tree.children).some((k) => ['briefing', 'queued', 'building', 'thumbing'].includes(k.status))
     if (!busy && (!tree.vote || tree.vote.status === 'breeding')) await openRound(fam.id, tree.litters.at(-1).id)
-    else if (tree.vote?.status === 'open' && !tree.vote.total && !tree.vote.autopilotAt && config.autopilotMinutes > 0) {
+    else if (tree.vote?.status === 'open' && !tree.vote.total && !tree.vote.autopilotAt && autopilotAllowed(tree.vote.autopilotStreak ?? 0)) {
       await updateTree(fam.id, (t) => ({ ...t, vote: { ...t.vote, autopilotAt: new Date(Date.now() + config.autopilotMinutes * 60000).toISOString() } }))
     }
     else if (tree.vote?.status === 'open' && tree.vote.total && !tree.vote.closesAt) {

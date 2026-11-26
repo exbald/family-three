@@ -21,9 +21,13 @@ export function kitHtml(kid, { owner, esc }) {
         <span class="muted small">Drop the kit into any project and paste that line into Claude Code or Cursor.</span>
       </div>`
   }
-  if (!owner || kid.status !== 'ready') return ''
-  const failed = kit?.status === 'failed' ? `<p class="error">The kit failed: ${esc(kit.error ?? '')}</p>` : ''
-  return `<div class="kit">${failed}<button class="btn btn-ghost" type="button" data-make-kit="${esc(kid.id)}">Make its design kit</button></div>`
+  if (kid.status !== 'ready') return ''
+  const failed = kit?.status === 'failed' ? `<p class="error">${owner ? `The kit failed: ${esc(kit.error ?? '')}` : 'The last try at this kit did not work out. Try again.'}</p>` : ''
+  return `<div class="kit">${failed}
+      <span class="mono-label">Design kit · take this look anywhere</span>
+      <button class="btn btn-ghost" type="button" data-make-kit="${esc(kid.id)}">Get its design kit</button>
+      <span class="muted small">The agent reads this app's CSS and writes DESIGN.md, tokens.css, tokens.json and a preview page, in about two minutes. Then anyone can download it.</span>
+    </div>`
 }
 
 export function wireKit(root, { api, onStarted }) {
