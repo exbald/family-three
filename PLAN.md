@@ -85,6 +85,12 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 - [ ] Ollama: make a key at ollama.com/settings/keys, then Fly dashboard → Connectors → Add → **Ollama**, paste it.
 - [ ] Decide the repo name and make it public (needed for the submission).
 
+## Live (Thu Nov 26)
+
+- Public: https://ft-family-b4zbc.sprites.app (Sprite URL public), repo https://github.com/exbald/family-three public with README, Telegram @familythreecrowd live (webhook set, rounds post with vote buttons). Vote limits use the address the Sprite proxy appends to X-Forwarded-For (3rd from the right); the first entry is spoofable.
+- Crowd family: thanksgiving-dinner-b468, at generation 4 after one vote and three autopilot picks overnight. A double-breed from overlapping autopilot checks was fixed (atomic close).
+- Left: 60-second video, posts tagging @flydotio, the submission form (Google Form fields drafted in chat), Z.ai key rotation.
+
 ## Status (Tue Nov 24, evening)
 
 - Home Sprite: `ft-family` (https://ft-family-b4zbc.sprites.app, org-only URL for now). `ft-probe` stays the test box.
