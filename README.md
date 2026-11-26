@@ -23,17 +23,19 @@ Most people can't describe the app they want. They know it when they see it. So 
 3. **Pick.** Breed from the one you like, or cross two: the first gives the structure, the second the look. Each pick updates `taste.md` (what you like, what you passed over), and the next family starts from it.
 4. **Adopt.** The keeper gets a short public path on the Sprite, a public GitHub repo with one commit per ancestor (a cross is a merge commit with two parents), GitHub Pages, and a design kit: `DESIGN.md`, `tokens.css`, `tokens.json` and a preview page, taken from the app's real CSS.
 
+5. **Grow it up.** The owner can give an adopted app its own Sprite, `ft-app-<name>`. The agent turns it into a small full-stack app (a plain Node server and a SQLite database through `node:sqlite`, no packages), tests a full round trip through its API, moves it in, starts it as a Sprite service with a public URL and checks it in headless Chrome. The server code is committed to the repo under `grown-up/`. Everyone who opens it now sees and edits the same data.
+
 The Sprite saves a checkpoint after every generation and every adoption. Restore rewinds the whole computer in about eight seconds.
 
 ## The crowd's family
 
 ![The crowd's family: a Thanksgiving planner raised by votes](docs/crowd-family.png)
 
-One family has no owner at the wheel. Anyone can vote for the kid that breeds next, on the website (one vote per round per browser, no account) or with the buttons under each post in the Telegram channel (one per account). The first vote starts a 15-minute clock; when it runs out, the leader breeds. If nobody votes for two hours, the agent picks using the crowd's taste so far and says why. Voters only choose among apps the agent already made; nobody types prompts.
+Some families have no owner at the wheel (five right now, from Thanksgiving dinner to a kids'-table game). Anyone can vote for the kid that breeds next, on the website (one vote per round per browser, no account) or with the buttons under each post in the Telegram channel (one per account). The first vote starts a 15-minute clock; when it runs out, the leader breeds. If nobody votes for two hours, the agent picks using the crowd's taste so far and says why, at most twice in a row; then it waits for a real vote. Voters only choose among apps the agent already made; nobody types prompts.
 
 ## How it runs
 
-One Sprite runs everything: a plain Node server (no framework, no dependencies) serves the pages, the API and every child app, and runs as a Sprite service so it comes back after a checkpoint restore.
+Family Three has its own Fly org. One Sprite, `ft-family`, runs everything: a plain Node server (no framework, no dependencies) serves the pages, the API and every child app, and runs as a Sprite service so it comes back after a checkpoint restore.
 
 | Connector | Used for |
 |---|---|
@@ -41,7 +43,9 @@ One Sprite runs everything: a plain Node server (no framework, no dependencies) 
 | GitHub | Adopt: create the repo and write its family line. The connector may only call `POST /user/repos` and `/repos/<owner>/family-three-*`. |
 | Custom API → Telegram Bot API | The crowd channel. The bot token rides in the URL path, added by the gateway. |
 
-All three are limited to Sprites whose name starts with `ft-`. **No key ever sits on the Sprite.**
+All three are limited to Sprites whose name starts with `ft-`, so the model, GitHub and Telegram keys never sit on the Sprite.
+
+The one key on `ft-family` is for growing apps up. Fly won't let a connector call the Sprites API itself, so this one is a Sprites token, and Fly scopes it: it only works on Sprites whose name starts with `ft-app-`, at most 10 of them, and it expires. It can't touch `ft-family` or anything outside Family Three's org.
 
 Only the owner can raise, breed, cross or adopt: the owner unlocks a browser once with a private link. Everyone else can look at every family and open every app.
 
@@ -53,7 +57,8 @@ server/
   builder.mjs      one headless Claude Code run per child, with overload retries
   thumbs.mjs       headless Chrome: screenshot and script errors
   adopt.mjs        GitHub repo whose commits are the family line
-  kit.mjs          design kit from an adopted app
+  kit.mjs          design kit from any finished app
+  growup.mjs       grow it up: own Sprite, Node server, SQLite
   votes.mjs        crowd voting, the round clock, autopilot
   telegram.mjs     the crowd channel
   checkpoints.mjs  Sprite checkpoints and restore

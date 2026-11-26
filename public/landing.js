@@ -9,7 +9,8 @@ export const AGENT_LINE = 'Build this in the style of DESIGN.md: use tokens.css 
 const UNDER_THE_HOOD = [
   ['One Sprite', 'A plain Node server, every family page and every kid app run on one Fly.io Sprite. It sleeps when nobody is around and saves a checkpoint after each generation.'],
   ['Three builders at once', 'Each kid is built by its own coding agent (Claude Code running GLM through the Z.ai connector) in its own folder, with its own brief from the agent. Headless Chrome opens every new app, and a builder gets one round to fix an error before anyone sees it.'],
-  ['Keys stay off the Sprite', 'The model, GitHub and Telegram are reached through Sprites connectors, limited to Sprites named ft-. The Sprite never holds their keys.'],
+  ['Keys stay off the Sprite', 'The model, GitHub and Telegram are reached through Sprites connectors, limited to Sprites named ft-. The Sprite never holds their keys. The one key it holds is for growing apps up, and Fly scopes it to Sprites named ft-app-.'],
+  ['Grown-up apps move out', 'Grow it up gives an adopted app its own Sprite in Family Three\'s own Fly org. The agent adds a Node server and a SQLite database, tests a full round trip, moves the app in and checks it in a browser.'],
   ['The crowd, counted by plain code', 'One vote per browser per round on the web, one per account on Telegram. The first vote starts a 15-minute clock and the leader breeds. With no votes the agent picks, at most twice in a row.'],
 ]
 
@@ -71,7 +72,7 @@ function takeHomeHtml(esc) {
         <div class="lp2-take-side">
           <div>
             <h3>An adopted app, as a template</h3>
-            <p>Adopted apps live in public GitHub repos marked as templates. Fork one as the start of your own, with its family line in the history.</p>
+            <p>Adopted apps live in public GitHub repos marked as templates. Fork one as the start of your own, with its family line in the history. The owner can also grow one up: it moves onto its own Fly.io Sprite with a Node server and a SQLite database, and the server code lands in the repo too.</p>
           </div>
           <div>
             <h3>A family of your own</h3>

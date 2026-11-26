@@ -3,6 +3,7 @@ import { treeHtml, panelHtml, tasteHtml } from './treeview.js'
 import { drawCheckpoints, hideCheckpoints } from './checkpoints.js'
 import { adoptedHtml, wireAdopted } from './adopted.js'
 import { wireKit } from './kit.js'
+import { wireGrow } from './growup.js'
 import { landingHtml, INSTALL, AGENT_LINE } from './landing.js'
 import { voteHtml, wireVote } from './vote.js'
 const view = document.getElementById('view')
@@ -236,7 +237,7 @@ async function refreshFamily() {
     view.innerHTML = `<p class="empty">${esc(err.message)} <a href="/" data-link>Start a family</a></p>`
     return
   }
-  const busy = Object.values(state.tree.children).some((c) => BUSY.has(c.status) || c.adoption?.status === 'working' || c.kit?.status === 'working')
+  const busy = Object.values(state.tree.children).some((c) => BUSY.has(c.status) || c.adoption?.status === 'working' || c.kit?.status === 'working' || c.growup?.status === 'working')
   state.pollTimer = setTimeout(refreshFamily, busy ? 2000 : state.tree.crowd ? 3000 : 10000)
 }
 
@@ -316,6 +317,7 @@ function drawTreeView() {
   })
   view.querySelector('[data-adopt]')?.addEventListener('click', (e) => onAdopt(e.currentTarget))
   wireKit(view, { api, onStarted: () => refreshFamily() })
+  wireGrow(view, { api, onStarted: () => refreshFamily() })
   view.querySelector('[data-copy]')?.addEventListener('click', (e) => {
     const btn = e.currentTarget
     navigator.clipboard?.writeText(btn.dataset.copy).then(() => { btn.textContent = 'Copied' }, () => {})
@@ -484,7 +486,8 @@ async function renderAdoptedPage(fid, cid) {
     view.innerHTML = adoptedHtml({ tree, kid, taste, esc, owner })
     wireAdopted(view)
     wireKit(view, { api, onStarted: () => renderAdoptedPage(fid, cid) })
-    if (kid.adoption?.status === 'working' || kid.kit?.status === 'working') state = { ...state, pollTimer: setTimeout(() => renderAdoptedPage(fid, cid), 2000) }
+    wireGrow(view, { api, onStarted: () => renderAdoptedPage(fid, cid) })
+    if (kid.adoption?.status === 'working' || kid.kit?.status === 'working' || kid.growup?.status === 'working') state = { ...state, pollTimer: setTimeout(() => renderAdoptedPage(fid, cid), 2000) }
   } catch (err) {
     view.innerHTML = `<p class="empty">${esc(err.message)} <a href="/" data-link>Home</a></p>`
   }

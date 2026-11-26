@@ -20,8 +20,8 @@ function scriptErrors(stderr) {
 }
 
 // Returns { thumb: boolean, errors: string[] }.
-export async function snapThumb({ fid, n, url }) {
-  const out = path.join(kidDir(fid, n), 'thumb.png')
+// `out` overrides where the screenshot goes (a grown-up app's check must not replace the kid's thumbnail).
+export async function snapThumb({ fid, n, url, out = path.join(kidDir(fid, n), 'thumb.png') }) {
   const args = [
     '--no-sandbox',
     '--hide-scrollbars',

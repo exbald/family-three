@@ -86,6 +86,9 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
 .ln-repo li i { position: relative; flex: none; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 2px solid var(--lime); }
 .ln-repo li.is-merge { color: var(--text); }
 .ln-repo li.is-merge i { border-color: var(--orange); background: var(--orange); }
+.ln-repo li.is-grow i { border-color: var(--lime); background: var(--lime); }
+.ln-repo li.is-grow::after { content: 'own Sprite'; margin-left: auto; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(198, 244, 50, 0.5); color: var(--lime); font-size: 11px; }
+.ln-takeaway code, .ln-text code { font: 500 13px var(--mono); color: var(--lime); }
 .ln-repo li.is-merge::after { content: 'merge commit'; margin-left: auto; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(255, 155, 87, 0.5); color: var(--orange); font-size: 11px; }
 .ln-kit { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 16px 20px; border-radius: 16px; background: var(--panel); border: 1px solid rgba(198, 244, 50, 0.35); }
 .ln-kit-files { display: flex; flex-wrap: wrap; gap: 8px; }

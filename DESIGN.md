@@ -374,6 +374,9 @@ A Panel block with an orange 1.5px border at 45% alpha (on the landing, a 24px-r
 ### Repo History and Kit
 The adopted app's GitHub history drawn as a list: a Panel card (16px radius) with the repo name and a mono commit count, then each commit in mono 14px on a vertical Line 3 rail with a 14px lime-ringed dot. The merge commit gets a solid orange dot and an orange "merge commit" pill. The kit card beside it lists file names as small mono code tags on Card, with a lime 35% border.
 
+### Grow-up Block
+On an adopted kid (tree panel, adopted page): a card on `--card` with a `--line-2` border. Owner-only ghost button "Grow it up: its own Sprite, a server and a database"; while working, the seed spinner and the current step in muted text; when done, a lime-tinted border (`rgba(198,244,50,.45)`), the Sprite name in mono lime, and links to the grown-up app and its server code. On the landing's repo history the grow-up commit gets a filled lime dot and an "own Sprite" pill, the lime twin of the orange "merge commit" pill.
+
 ## Do's and Don'ts
 
 ### Do:

@@ -498,3 +498,9 @@ body:has(.landing) { background: var(--bg); }
 .vo-sub { display: block; margin: 2px 0 0; }
 .vote-owner { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 
+
+/* Grow-up: an adopted app on its own Sprite with a server and a database */
+.growup { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line-2); background: var(--card); }
+.growup.is-done { border-color: rgba(198, 244, 50, 0.45); }
+.growup p { margin: 0; color: var(--text-3); line-height: 1.5; }
+.growup code { font: 500 12px var(--mono); color: var(--lime); }

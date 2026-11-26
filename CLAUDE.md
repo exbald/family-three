@@ -9,6 +9,15 @@ Hackathon project for Fly.io's Hacksgiving. Deadline: midnight PST, Sunday Nov 2
 - Small, readable files still. Plain Node (ESM) on the server, plain HTML/CSS/JS in the pages. No framework unless it saves real time.
 - Commit often with `<type>: <summary>` messages. Push to `main` is fine here: it's a solo hackathon repo.
 
+## Shipping a feature means updating what describes it
+
+Nik's rule (2026-11-26): a feature isn't done until every place that tells people about it says so, in the same change.
+- The landing (`public/landing.js`, `public/lineage.js`): the story, "What you take home", "How it runs on Fly.io", and the tree or adoption rows when the feature shows there.
+- `README.md` (what it does, how it runs, install), `PRODUCT.md` (capabilities), `PLAN.md` (Live section), `DESIGN.md` when the UI gained a component or rule.
+- The About page and any in-app explanation the feature changes.
+- Shared memory: the project status note (tag `hacksgiving`).
+Then deploy, look at the live page, and say what changed where.
+
 ## Never
 
 - Never put a key in code, commits, logs or chat. Model, GitHub and Telegram calls go through Sprites connectors (`https://api.sprites.dev/v1/gateway/<provider>/<id>/<path>`); the Sprite never holds their keys. Keys the lead holds live in `~/.zshenv` (`ZAI_API_KEY`, `TELEGRAM_BOT_TOKEN`), read without printing.

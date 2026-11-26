@@ -1,5 +1,6 @@
 // The phone "adopted" screen: the app, its public link, its family line and what the pick taught.
 import { kitHtml } from './kit.js'
+import { growupHtml } from './growup.js'
 
 // The line through the bones (first parents), with the looks parent shown as "× B" before each cross.
 function familyLineChips(tree, kid, esc) {
@@ -57,7 +58,7 @@ export function adoptedHtml({ tree, kid, taste, esc, owner = false }) {
         <span class="muted small">On GitHub too: <a href="${esc(a.repo)}" target="_blank" rel="noopener">${a.commits} commits, one per ancestor ›</a>${a.pages ? ` · <a href="${esc(a.pages)}" target="_blank" rel="noopener">Pages ›</a>` : ''}</span>
         <span class="muted small">Saved as a checkpoint. The other ${others} children are still on the tree if you change your mind.</span>
       </div>
-      <div class="ad-kit">${kitHtml(kid, { owner, esc })}</div>
+      <div class="ad-kit">${growupHtml(kid, { owner, esc })}${kitHtml(kid, { owner, esc })}</div>
       ${learned}
       <a class="btn btn-ghost ad-back" href="/f/${esc(tree.id)}" data-link>Back to the family</a>
     </section>`

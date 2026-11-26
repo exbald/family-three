@@ -26,6 +26,7 @@ Apps you raise, not prompt. People can't describe the app they want, but they kn
 ## Capabilities and Constraints
 - Ask → 3 kids per generation, built at once; breed one; cross two; family tree; taste file per family; checkpoints and restore; browser check that repairs or rescues a kid.
 - Adopt (owner only): public link `/a/<slug>`, GitHub repo whose commits are the family line (a cross is a merge commit), GitHub Pages, and the design kit committed under `design/`.
+- Grow it up (owner only, adopted apps): the app moves onto its own Sprite `ft-app-<name>` with a Node server and a SQLite database, so data is shared and saved; server code goes to the repo under `grown-up/`.
 - Design kit (anyone can get one per kid): DESIGN.md, tokens.css, tokens.json and a design.html preview, as a zip. The agent writes it from the app's CSS in about two minutes.
 - Takeaway for visitors: the kit, plus adopted apps forkable as GitHub template repos (template flag: planned, not yet set on the repos).
 - Install your own: `curl -fsSL https://raw.githubusercontent.com/exbald/family-three/main/scripts/install.sh | bash` on a Sprite.

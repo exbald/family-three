@@ -103,7 +103,9 @@ export function adoptionRowHtml(tree, esc) {
   if (!kid) return ''
   const a = kid.adoption
   const line = familyLineLabels(tree, kid.id)
+  const grown = kid.growup?.status === 'done' ? kid.growup : null
   const commits = [
+    ...(grown ? [{ msg: `${kid.label} ${kid.name} grew up: its own Sprite, a server and a SQLite database`, cls: 'is-grow' }] : []),
     ...(kid.kit?.inRepo ? [{ msg: `Design kit for ${kid.label} ${kid.name}`, cls: '' }] : []),
     ...[...line.filter((k) => k.parents.length).reverse(), ...line.filter((k) => !k.parents.length)].map((k) => ({
       msg: k.parents.length === 2
@@ -118,8 +120,9 @@ export function adoptionRowHtml(tree, esc) {
       <div class="ln-text">
         <h3>Adopted: ${esc(kid.name)} left home with everything</h3>
         <p>A public link that works on a phone, a GitHub repo whose history is its family line, where the cross is a real merge commit, and a design kit written from its CSS.</p>
+        ${grown ? `<p>Then it grew up: it moved onto its own Fly.io Sprite, <code>${esc(grown.sprite)}</code>, with a Node server and a SQLite database, so everyone who opens it sees the same data.</p>` : ''}
         <div class="ln-links">
-          <a class="btn btn-lime" href="${esc(a.sprite)}" target="_blank" rel="noopener">Open ${esc(kid.name)}</a>
+          <a class="btn btn-lime" href="${esc(grown ? grown.url : a.sprite)}" target="_blank" rel="noopener">Open ${esc(kid.name)}${grown ? ' on its own Sprite' : ''}</a>
           <a class="btn btn-ghost" href="${esc(a.repo)}/generate" target="_blank" rel="noopener">Use it as a template</a>
         </div>
       </div>
