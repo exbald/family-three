@@ -420,11 +420,7 @@ body:has(.landing)::before {
   
   #install { padding: 20px; }
 }
-.about-link { color: var(--text-3); text-decoration: none; font-size: 13px; font-weight: 600; }
-.about-link:hover { color: var(--lime); }
-#new-family[hidden] ~ .about-link { margin-left: auto; }
-body:has(.lp2) #new-family[hidden] ~ .about-link { margin-left: 0; }
-@media (max-width: 860px) { .about-link { order: 1; } #new-family[hidden] ~ .about-link, body:has(.lp2) #new-family[hidden] ~ .about-link { margin-left: auto; } }
+@media (max-width: 860px) { .site-nav { order: 1; gap: 18px; } .site-nav a { font-size: 14px; } }
 
 /* Critique fixes: the glow no longer ends in a hard seam, and the hero shows only the tree half of the card. */
 body:has(.landing) { background: var(--bg); }

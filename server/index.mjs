@@ -12,6 +12,7 @@ import { adoptChild, readAdopted, SLUG } from './adopt.mjs'
 import { listCheckpoints, restoreCheckpoint } from './checkpoints.mjs'
 import { makeKit, kitDir, kitBusy } from './kit.mjs'
 import { growUp } from './growup.mjs'
+import { startSeeder, seedOnce, nextFamilyAt } from './seeder.mjs'
 import { ensureCard } from './card.mjs'
 import { castVote, VoteError, clientIp, hashIp, myVote, setPaused, resumeCrowdRounds, breedLeaderNow } from './votes.mjs'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
@@ -270,7 +271,7 @@ async function route(req, res) {
   const method = req.method
 
   if (p === '/' && handleUnlock(req, res, url)) return
-  if (method === 'GET' && p === '/api/site') return sendJson(res, 200, { success: true, data: { telegramChannel: config.telegramLive ? config.telegramChannel || null : null } })
+  if (method === 'GET' && p === '/api/site') return sendJson(res, 200, { success: true, data: { telegramChannel: config.telegramLive ? config.telegramChannel || null : null, nextFamilyAt: await nextFamilyAt().catch(() => null) } })
   if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req) } })
   if (method === 'POST' && p.startsWith('/tg/')) return telegramWebhook(req, res, p.slice(4))
   if (method === 'POST' && p === '/api/vote') return api.vote(req, res)
@@ -289,6 +290,7 @@ async function route(req, res) {
   if (method === 'POST' && p === '/api/cross') return api.cross(req, res)
   if (method === 'POST' && p === '/api/adopt') return api.adopt(req, res)
   if (method === 'POST' && p === '/api/grow') return api.grow(req, res)
+  if (method === 'POST' && p === '/api/seed') return sendJson(res, 200, { success: true, data: await seedOnce({ force: true }) })
   if (method === 'POST' && p === '/api/restore') return api.restore(req, res)
   if (method === 'POST' && p === '/api/kit') return api.kit(req, res)
   if (method === 'POST' && p === '/api/retry') return api.retry(req, res)
@@ -335,7 +337,7 @@ async function route(req, res) {
     const ids = parseChildId(thumb[1])
     if (ids && (await sendFile(res, kidDir(ids.fid, ids.n), 'thumb.png'))) return
   }
-  if (p === '/' || p === '/about' || /^\/f\/[^/]+(?:\/adopted\/[^/]+)?$/.test(p)) return serveIndex(req, res, p)
+  if (p === '/' || p === '/about' || p === '/families' || /^\/f\/[^/]+(?:\/adopted\/[^/]+)?$/.test(p)) return serveIndex(req, res, p)
   const card = /^\/card\/([^/]+)\.png$/.exec(p)
   if (card && FAMILY_ID.test(card[1])) {
     const file = await ensureCard(card[1])
@@ -374,6 +376,7 @@ const server = http.createServer((req, res) => {
 await loadOwnerKey()
 await markInterrupted()
 await resumeCrowdRounds().catch((err) => console.error('resuming crowd rounds failed:', err.message))
+startSeeder()
 server.listen(config.port, () => {
   startTelegram().catch((err) => console.error('telegram start failed:', err.message))
   console.log(`Family Three on :${config.port} (builder: ${config.builder}, home: ${config.home})`)

@@ -1,0 +1,51 @@
+/* Family cards: the /families dashboard and the landing's families section. */
+.dash { max-width: 1240px; margin: 0 auto; padding: 24px 0 40px; display: flex; flex-direction: column; gap: 28px; }
+.dash-head { display: flex; flex-direction: column; gap: 12px; }
+.dash-head h1 { margin: 0; font: 700 clamp(36px, 4.6vw, 56px)/1 var(--display); letter-spacing: -0.03em; }
+.dash-head p { margin: 0; max-width: 46rem; color: var(--text-3); line-height: 1.6; }
+.dash-head p b { font: 700 1em var(--mono); color: var(--lime); font-variant-numeric: tabular-nums; }
+.dash-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.dash-filter { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line-3); background: transparent; color: var(--text-2); font: 600 14px var(--body); cursor: pointer; }
+.dash-filter:hover { color: var(--text); border-color: var(--text-3); }
+.dash-filter[aria-selected="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+.dash-filter:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+.dash-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+.dc { display: flex; flex-direction: column; height: 100%; border-radius: 18px; border: 1px solid var(--line-2); background: var(--panel); color: var(--text); text-decoration: none; overflow: hidden; transition: border-color 0.2s, transform 0.35s cubic-bezier(.16, 1, .3, 1); }
+.dc:hover { border-color: var(--line-3); transform: translateY(-3px); }
+.dc:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+/* One big picture and two small ones, all real app screenshots */
+.dc-shots { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 4px; aspect-ratio: 16 / 8.2; padding: 4px; background: var(--bg); }
+.dc-shots.is-single { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.dc-shot { overflow: hidden; border-radius: 10px; background: var(--card); }
+.dc-shot.is-main { grid-row: 1 / span 2; }
+.dc-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.5s cubic-bezier(.16, 1, .3, 1); }
+.dc:hover .dc-shot.is-main img { transform: scale(1.03); }
+.dc-shot.is-empty { display: grid; place-content: center; justify-items: center; gap: 10px; font: 500 13px var(--mono); color: var(--muted); }
+
+.dc-body { display: flex; flex-direction: column; gap: 8px; padding: 16px 18px 18px; flex: 1; }
+.dc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.dc-tag { padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line-3); font: 600 11px var(--body); color: var(--text-3); }
+.dc-tag.is-crowd { border-color: rgba(255, 155, 87, 0.5); color: var(--orange); }
+.dc-tag.is-new { border-color: rgba(198, 244, 50, 0.5); color: var(--lime); }
+.dc-title { font: 600 17px/1.3 var(--display); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.dc-meta { font: 500 12px var(--mono); color: var(--muted); }
+.dc-pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding: 5px 11px; border-radius: 999px; font: 600 12px var(--body); }
+.dc-pill b { font: 700 12px var(--mono); font-variant-numeric: tabular-nums; }
+.dc-pill.is-vote { background: rgba(255, 155, 87, 0.12); color: var(--orange); }
+.dc-pill.is-busy { background: rgba(198, 244, 50, 0.1); color: var(--lime); }
+.dc-pill.is-adopted { background: var(--card); color: var(--text-2); }
+.dc-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: dc-blink 1.4s ease-in-out infinite; }
+@keyframes dc-blink { 50% { opacity: 0.3; } }
+
+/* The landing's families section */
+.lp2-others-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 8px; }
+.lp2-others-head > div { display: flex; flex-direction: column; gap: 10px; max-width: 44rem; }
+.lp2-others-head p { margin: 0; color: var(--text-3); line-height: 1.6; }
+
+@media (max-width: 700px) {
+  .dash-grid { grid-template-columns: minmax(0, 1fr); }
+  .dash { padding-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .dc-dot { animation: none; } .dc, .dc-shot img { transition: none; } }

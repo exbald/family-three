@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/app.css">
 <link rel="stylesheet" href="/landing.css">
+<link rel="stylesheet" href="/dashboard.css">
 </head>
 <body>
 <header class="top">
@@ -22,8 +23,11 @@
   <div id="family-head" class="family-head" hidden></div>
   <div id="checkpoint" class="checkpoint" hidden></div>
   <a id="new-family" class="btn btn-lime" href="/" hidden>New family</a>
-  <nav class="visitor-nav" aria-label="On this page"><a href="#vote">Vote</a><a href="#take-home">Take home a kit</a><a href="#install">Install</a></nav>
-  <a class="about-link" href="/about" data-link>About</a>
+  <nav class="site-nav" aria-label="Site">
+    <span class="visitor-nav"><a href="#vote">Vote</a><a href="#take-home">Take home a kit</a><a href="#install">Install</a></span>
+    <a class="families-link" href="/families" data-link>Families</a>
+    <a class="about-link" href="/about" data-link>About</a>
+  </nav>
 </header>
 <main id="view" class="view" aria-live="polite"></main>
 <div id="actionbar" class="actionbar" hidden></div>

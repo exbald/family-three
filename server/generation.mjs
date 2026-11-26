@@ -224,12 +224,13 @@ export async function startLitter({ fid, kind, parentIds = [], note = '' }) {
   return placeholders
 }
 
-export async function startFamily({ fid, request, crowd = false }) {
+export async function startFamily({ fid, request, crowd = false, seeded = false }) {
   const now = new Date().toISOString()
   await updateTree(fid, () => ({
     id: fid,
     request,
     crowd,
+    ...(seeded ? { seeded: true } : {}),
     title: request.length > 48 ? `${request.slice(0, 45)}…` : request,
     createdAt: now,
     updatedAt: now,

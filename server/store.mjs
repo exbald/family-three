@@ -96,7 +96,10 @@ function summarize(tree) {
     adopted: kids.filter((k) => k.adopted).length,
     building,
     crowd: Boolean(tree.crowd),
-    vote: tree.vote ? { status: tree.vote.status, total: tree.vote.total, threshold: tree.vote.threshold, paused: tree.vote.paused } : null,
+    seeded: Boolean(tree.seeded),
+    archived: Boolean(tree.archived),
+    createdAt: tree.createdAt,
+    vote: tree.vote ? { status: tree.vote.status, total: tree.vote.total, threshold: tree.vote.threshold, paused: tree.vote.paused, closesAt: tree.vote.closesAt ?? null } : null,
     // Up to four pictures for the list: adopted ones first, then the newest.
     preview: kids
       .filter((k) => k.status === 'ready' && k.thumb)

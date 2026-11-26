@@ -374,6 +374,15 @@ A Panel block with an orange 1.5px border at 45% alpha (on the landing, a 24px-r
 ### Repo History and Kit
 The adopted app's GitHub history drawn as a list: a Panel card (16px radius) with the repo name and a mono commit count, then each commit in mono 14px on a vertical Line 3 rail with a 14px lime-ringed dot. The merge commit gets a solid orange dot and an orange "merge commit" pill. The kit card beside it lists file names as small mono code tags on Card, with a lime 35% border.
 
+### Family Card (dashboard and landing)
+A Panel card with an 18px radius: a mosaic of real app screenshots on the page ground (one large on the left, two small stacked on the right, 4px gaps), then tags (Crowd in orange outline, Private in grey, "New · started by the agent" in lime), the family's sentence in display 17px clamped to two lines, a mono "Generation n · m apps" line, and one status pill: orange tint for an open vote (with a mono countdown), lime tint with a blinking dot while kids are being born. Lifts 3px on hover.
+
+### Ballot Card (landing vote)
+Four cards in a row (two on tablets, one on phones), each a 16:10 screenshot that opens the app, the label in mono lime and the name, one plain line on what makes it different, a vote bar and a "Vote for <name>" button. The voter's pick gets a lime border, a lime ring and a "Your vote" badge; the cross card is outlined in orange and shows the two parents with an orange × badge.
+
+### Next-breed Clock
+Under the hero's actions: an orange-outlined panel with a pulsing orange dot and "Generation n breeds in m:ss" in mono orange, plus a second line "Next new family in" with the time in mono lime.
+
 ### Grow-up Block
 On an adopted kid (tree panel, adopted page): a card on `--card` with a `--line-2` border. Owner-only ghost button "Grow it up: its own Sprite, a server and a database"; while working, the seed spinner and the current step in muted text; when done, a lime-tinted border (`rgba(198,244,50,.45)`), the Sprite name in mono lime, and links to the grown-up app and its server code. On the landing's repo history the grow-up commit gets a filled lime dot and an "own Sprite" pill, the lime twin of the orange "merge commit" pill.
 

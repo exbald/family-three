@@ -2,13 +2,16 @@
 ::selection { background: var(--lime); color: var(--bg); }
 html { scrollbar-color: var(--line-3) var(--bg); }
 .lp2-short { display: none; }
-.visitor-nav { display: none; gap: 24px; margin-left: auto; margin-right: 0; }
+.site-nav { display: flex; align-items: center; gap: 24px; margin-left: auto; }
+#new-family:not([hidden]) ~ .site-nav { margin-left: 18px; }
+.site-nav a { color: var(--text-2); text-decoration: none; font-weight: 500; font-size: 15px; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--text); }
+.site-nav .about-link { margin: 0; }
+.visitor-nav { display: none; gap: 24px; }
 body:has(.lp2) .visitor-nav { display: flex; }
 .visitor-nav a { color: var(--text-2); text-decoration: none; font-weight: 500; font-size: 15px; }
 .visitor-nav a:hover { color: var(--text); }
 /* About joins the same group, in the same style. */
-body:has(.lp2) .about-link { font-size: 15px; font-weight: 500; color: var(--text-2); }
-body:has(.lp2) .about-link:hover { color: var(--text); }
 
 .lp2 { max-width: 1240px; gap: 0; }
 .lp2 > * { animation: none; }
@@ -99,20 +102,42 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
 .lp2-vote .ln-text { padding-top: 48px; }
 .lp2-vote-panel { padding-top: 40px; min-height: 360px; }
 .lp2-vote-panel .vote-panel { margin: 0; border: 0; padding: 0; background: transparent; }
-.lp2-vote-panel .vote-options { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.lp2-vote { display: flex; flex-direction: column; }
+.lp2-vote .ln-text { padding-bottom: 8px; }
+.lp2-vote .ln-text p { max-width: 46rem; }
+.lp2-vote-panel { padding-top: 16px; min-height: 0; }
+.lp2-vote-panel .vote-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.lp2-vote-panel .vote-status { font-size: 16px; }
+
+/* The ballot: one card per option */
+.vc { position: relative; display: flex; flex-direction: column; min-width: 0; border-radius: 16px; border: 1px solid var(--line-2); background: var(--card); overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; }
+.vc.cross { border-color: rgba(255, 155, 87, 0.4); }
+.vc.mine { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(198, 244, 50, 0.22); }
+.vc-shot { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg); }
+.vc-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.4s cubic-bezier(.16, 1, .3, 1); }
+a.vc-shot:hover img { transform: scale(1.03); }
+a.vc-shot:focus-visible { outline: 2px solid var(--lime); outline-offset: -2px; }
+.vc-open { position: absolute; right: 10px; bottom: 10px; padding: 5px 11px; border-radius: 999px; background: rgba(15, 19, 17, 0.88); color: var(--text); font: 600 12px var(--body); border: 1px solid var(--line-3); }
+.vc-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; }
+.vc-pair > span { overflow: hidden; border-radius: 10px; }
+.vc-pair img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.vc-pair i { position: absolute; left: 50%; top: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px; border-radius: 50%; background: var(--orange); display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); }
+.vc-pair i svg { width: 12px; height: 12px; fill: none; stroke: var(--orange-ink); stroke-width: 2.4; stroke-linecap: round; }
+.vc-badge { position: absolute; top: 10px; left: 10px; padding: 4px 11px; border-radius: 999px; background: var(--lime); color: var(--bg); font: 700 12px var(--body); }
+.vc-body { display: flex; flex-direction: column; gap: 9px; flex: 1; padding: 14px; }
+.vc-name { font: 600 16px/1.3 var(--display); }
+.vc-name b { font: 500 12px var(--mono); color: var(--lime); margin-right: 4px; }
+.vc.cross .vc-name { color: var(--orange); }
+.vc-what { margin: 0; flex: 1; font-size: 13px; line-height: 1.45; color: var(--text-3); }
+.vc-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.vc-count { font: 500 12px var(--mono); color: var(--muted); white-space: nowrap; }
+.vc .vo-btn { min-width: 0; max-width: 72%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 1100px) { .lp2-vote-panel .vote-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* Other crowd families */
 .lp2-others, .lp2-take, .lp2-runs { display: flex; flex-direction: column; gap: 18px; padding-top: 112px; }
 .lp2-others h2, .lp2-take h2, .lp2-runs h2 { margin: 0; font: 700 clamp(28px, 3vw, 36px)/1.1 var(--display); letter-spacing: -0.02em; }
 .lp2-others > p { margin: 0 0 8px; color: var(--text-3); }
-.ln-others { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px 20px; }
-.ln-others a { display: flex; flex-direction: column; gap: 8px; color: var(--text); text-decoration: none; }
-.ln-others-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line-2); transition: border-color 0.2s, transform 0.35s cubic-bezier(.16, 1, .3, 1); }
-.ln-others-shots img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 6px; display: block; }
-.ln-others-shots .ln-kid-blank { grid-column: 1 / -1; aspect-ratio: 48 / 10; }
-.ln-others a:hover .ln-others-shots { border-color: var(--orange); transform: translateY(-2px); }
-.ln-others strong { font: 700 17px/1.25 var(--display); }
-.ln-others small { font: 500 12px var(--mono); color: var(--orange); }
 
 /* What you take home */
 .lp2-take-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 20px; }
@@ -167,12 +192,12 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
   .visitor-nav { display: none !important; }
   .lp2-vote { padding: 4px 18px 24px; }
   .lp2-vote .ln-text, .lp2-vote-panel { padding-top: 24px; }
-  .lp2-vote-panel .vote-options, .lp2-take-grid, .lp2-hood { grid-template-columns: minmax(0, 1fr); }
+  .lp2-take-grid, .lp2-hood { grid-template-columns: minmax(0, 1fr); }
+  .lp2-vote-panel .vote-options { grid-template-columns: minmax(0, 1fr); }
   .lp2-others, .lp2-take, .lp2-runs, .lp2 > .lp-section { padding-top: 72px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ln-shot, .ln-others-shots { transition: none; }
-}
+  .ln-shot, }
 
 /* The film: a button under the main actions, playing in a dialog */
 .lp2-film-btn { display: inline-flex; align-items: center; gap: 14px; align-self: flex-start; padding: 6px 16px 6px 6px; border-radius: 14px; border: 1px solid var(--line-3); background: var(--panel); color: var(--text); font: inherit; text-align: left; cursor: pointer; transition: border-color 0.2s; }
@@ -196,3 +221,14 @@ a.ln-kid:focus-visible .ln-shot { outline: 2px solid var(--lime); outline-offset
   .lp2-film-close { top: -50px; right: 0; }
 }
 .lp2-film:focus, .lp2-film:focus-visible { outline: none; }
+
+/* The next-breed clock under the hero's actions */
+.lp2-clock { display: flex; flex-direction: column; gap: 6px; align-self: flex-start; padding: 12px 16px; border-radius: 14px; border: 1px solid rgba(255, 155, 87, 0.45); background: rgba(255, 155, 87, 0.07); }
+.lp2-clock-main { display: flex; align-items: center; gap: 10px; font: 600 15px/1.35 var(--body); color: var(--text); }
+.lp2-clock-main b, .lp2-clock-next b { font: 700 15px var(--mono); color: var(--orange); font-variant-numeric: tabular-nums; }
+.lp2-clock-next { font: 500 13px var(--body); color: var(--text-3); padding-left: 20px; }
+.lp2-clock-next b { font-size: 13px; color: var(--lime); }
+.lp2-clock-dot { width: 10px; height: 10px; flex: none; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 0 rgba(255, 155, 87, 0.6); animation: lp2-pulse 1.8s ease-out infinite; }
+.lp2-clock-dot.is-busy { background: var(--lime); box-shadow: 0 0 0 0 rgba(198, 244, 50, 0.6); }
+@keyframes lp2-pulse { 70% { box-shadow: 0 0 0 9px rgba(255, 155, 87, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 155, 87, 0); } }
+@media (prefers-reduced-motion: reduce) { .lp2-clock-dot { animation: none; } }

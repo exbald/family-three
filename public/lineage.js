@@ -142,18 +142,3 @@ export function adoptionRowHtml(tree, esc) {
       </div>
     </div>`
 }
-
-// The other crowd families, each as its newest three kids and a way in.
-export function otherFamiliesHtml(crowds, featuredId, esc) {
-  const others = crowds.filter((f) => f.id !== featuredId)
-  if (!others.length) return ''
-  return `<ul class="ln-others">${others.map((f) => {
-    const shots = (f.preview ?? []).slice(0, 3)
-    const status = f.building ? 'Kids being born now' : f.vote?.status === 'open' ? `Vote open · ${f.vote.total ?? 0} so far` : `${f.apps} apps`
-    return `<li><a href="/f/${esc(f.id)}" data-link>
-      <span class="ln-others-shots">${shots.length ? shots.map((k) => `<img src="/thumb/${esc(k.id)}.png" alt="" loading="eager">`).join('') : '<span class="ln-kid-blank">being born</span>'}</span>
-      <strong>${esc(f.title || f.request)}</strong>
-      <small>${esc(status)}</small>
-    </a></li>`
-  }).join('')}</ul>`
-}

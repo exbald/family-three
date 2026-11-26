@@ -1,6 +1,7 @@
 // The visitor home page: one real family read top to bottom, ending at its open vote,
 // then the other crowd families, what you take home, how it runs, and how to raise your own.
-import { heroTreeHtml, lineageRowsHtml, adoptionRowHtml, otherFamiliesHtml } from './lineage.js'
+import { heroTreeHtml, lineageRowsHtml, adoptionRowHtml } from './lineage.js'
+import { familyCardsHtml } from './dashboard.js'
 
 export const INSTALL = 'curl -fsSL https://raw.githubusercontent.com/exbald/family-three/main/scripts/install.sh | bash'
 const REPO = 'https://github.com/exbald/family-three'
@@ -12,6 +13,7 @@ const UNDER_THE_HOOD = [
   ['Keys stay off the Sprite', 'The model, GitHub and Telegram are reached through Sprites connectors, limited to Sprites named ft-. The Sprite never holds their keys. The one key it holds is for growing apps up, and Fly scopes it to Sprites named ft-app-.'],
   ['Grown-up apps move out', 'Grow it up gives an adopted app its own Sprite in Family Three\'s own Fly org. The agent adds a Node server and a SQLite database, tests a full round trip, moves the app in and checks it in a browser.'],
   ['The crowd, counted by plain code', 'One vote per browser per round on the web, one per account on Telegram. The first vote starts a 15-minute clock and the leader breeds. With no votes the agent picks, at most twice in a row.'],
+  ['New families on a clock', 'Every two hours the agent invents a new crowd family, different from the others and right for the season, and raises it. It stops at ten active crowd families and never starts one while kids are being built.'],
 ]
 
 function telegramUrl(telegram) {
@@ -26,7 +28,18 @@ const TREE_OUTLINE = `
       <div class="ln-kids">${'<span class="ln-kid"><span class="ln-shot"></span><span class="ln-name">&nbsp;</span></span>'.repeat(3)}</div>
     </div>`
 
-function heroHtml({ tree, esc, telegram, nextGen }) {
+// What happens next, as a ticking line under the Vote button. app.js fills in the time every second.
+function clockHtml(tree, nextGen, nextFamilyAt, esc) {
+  const v = tree?.vote
+  let main = ''
+  if (v?.status === 'breeding') main = `<span class="lp2-clock-dot is-busy"></span><span>New kids are being born right now</span>`
+  else if (v?.status === 'open' && v.total && v.closesAt) main = `<span class="lp2-clock-dot"></span><span>Generation ${nextGen} breeds in <b data-countdown="${esc(v.closesAt)}">…</b></span>`
+  else if (v?.status === 'open') main = `<span class="lp2-clock-dot"></span><span>No votes yet: the first vote starts a 15-minute clock${v.autopilotAt ? `, or the agent picks in <b data-countdown="${esc(v.autopilotAt)}">…</b>` : ''}</span>`
+  const seed = nextFamilyAt ? `<span class="lp2-clock-next">Next new family in <b data-countdown="${esc(nextFamilyAt)}">…</b></span>` : ''
+  return main || seed ? `<div class="lp2-clock" role="status">${main ? `<span class="lp2-clock-main">${main}</span>` : ''}${seed}</div>` : ''
+}
+
+function heroHtml({ tree, esc, telegram, nextGen, nextFamilyAt, families = [] }) {
   const tg = telegramUrl(telegram)
   const gen = nextGen ? `generation ${nextGen}` : 'the next generation'
   const Gen = nextGen ? `Generation ${nextGen}` : 'Its next generation'
@@ -35,11 +48,12 @@ function heroHtml({ tree, esc, telegram, nextGen }) {
       <div class="ln-text lp2-hero-text">
         <h1 id="lp2-title">Apps you raise, not prompt.</h1>
         <p class="lp2-lede">You say what you want in one sentence. Three AI coding agents on a Fly.io Sprite each build a different working app. Pick the one you like and it breeds three more; cross two and it mixes them.</p>
-        <p class="lp2-lede lp2-lede-2">This page is one real family, as it happened. ${Gen} is up for a vote right now, and anyone can vote.</p>
+        <p class="lp2-lede lp2-lede-2">This page is one real family, as it happened${families.length > 1 ? `, and one of <a href="/families" data-link>${families.length} families</a> on this Sprite` : ''}. ${Gen} is up for a vote right now, and anyone can vote.</p>
         <div class="lp-ctas">
           <a class="btn btn-orange" href="#vote">Vote on ${gen}</a>
           ${tg ? `<a class="btn btn-ghost" href="${esc(tg)}" target="_blank" rel="noopener"><span class="lp2-long">Watch it on Telegram</span><span class="lp2-short">Telegram</span></a>` : ''}
         </div>
+        ${clockHtml(tree, nextGen, nextFamilyAt, esc)}
         <button class="lp2-film-btn" type="button" data-film><span class="lp2-film-thumb"><img src="/family-three-film.jpg" alt="" width="96" height="54"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><strong>Watch the 1-minute film</strong><small>64 seconds, with sound</small></span></button>
       </div>
       ${tree ? heroTreeHtml(tree, esc) : TREE_OUTLINE}
@@ -83,19 +97,24 @@ function takeHomeHtml(esc) {
     </section>`
 }
 
-export function landingHtml({ tree, families, esc, crowds = [], telegram = '', loading = false }) {
+export function landingHtml({ tree, families, esc, crowds = [], telegram = '', nextFamilyAt = null, loading = false }) {
   const nextGen = tree ? tree.litters.length + 1 : null
   return `
     <article class="landing lp2">
-      ${tree || loading ? heroHtml({ tree, esc, telegram, nextGen }) : ''}
+      ${tree || loading ? heroHtml({ tree, esc, telegram, nextGen, nextFamilyAt, families }) : ''}
       ${tree ? `<div class="ln-spine">${lineageRowsHtml(tree, esc, { from: 1 })}${adoptionRowHtml(tree, esc)}</div>` : ''}
       ${tree?.crowd ? voteSectionHtml({ tree, esc, telegram, nextGen }) : loading ? '<section id="vote" class="lp2-vote-pending" aria-hidden="true"></section>' : ''}
 
-      ${crowds.length > 1 ? `
-      <section class="lp2-others" aria-labelledby="others-title">
-        <h2 id="others-title">More families raised by whoever shows up</h2>
-        <p>Each started from one sentence. Open one, click through its kids and vote.</p>
-        ${otherFamiliesHtml(crowds, tree?.id, esc)}
+      ${families.length > 1 ? `
+      <section class="lp2-others" id="all-families" aria-labelledby="others-title">
+        <div class="lp2-others-head">
+          <div>
+            <h2 id="others-title">${families.length} families, each from one sentence</h2>
+            <p>Thanksgiving was only the start. Open any family to walk its tree, try every app and vote on the next kid. The agent starts a new crowd family every couple of hours.</p>
+          </div>
+          <a class="btn btn-lime" href="/families" data-link>See every family</a>
+        </div>
+        ${familyCardsHtml(families.filter((f) => f.id !== tree?.id).slice(0, 6), esc)}
       </section>` : ''}
 
       ${takeHomeHtml(esc)}
@@ -105,7 +124,6 @@ export function landingHtml({ tree, families, esc, crowds = [], telegram = '', l
         <dl class="lp2-hood">${UNDER_THE_HOOD.map(([t, d]) => `<div><dt>${esc(t)}</dt><dd>${esc(d)}</dd></div>`).join('')}</dl>
       </section>
 
-      ${families.length ? `<section class="lp-section" aria-labelledby="families-title"><h2 id="families-title">Raised in private by the owner</h2><div id="families"></div></section>` : ''}
 
       <section class="lp-section" id="install" aria-labelledby="own">
         <h2 id="own">Raise your own</h2>

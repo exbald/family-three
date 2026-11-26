@@ -38,6 +38,9 @@ export const config = Object.freeze({
   roundMinutes: Number(pick('FT_ROUND_MINUTES', 'roundMinutes', 15)),
   // With no votes at all, the agent picks by itself after this many minutes (0 = never).
   autopilotMinutes: Number(pick('FT_AUTOPILOT_MINUTES', 'autopilotMinutes', 120)),
+  // The agent starts a new crowd family this often (0 = never), up to this many active crowd families.
+  seedEveryMinutes: Number(pick('FT_SEED_EVERY_MINUTES', 'seedEveryMinutes', 120)),
+  maxCrowdFamilies: Number(pick('FT_MAX_CROWD_FAMILIES', 'maxCrowdFamilies', 10)),
   // Optional backup for the breeder and the autopilot: an Ollama connector's gateway URL, and the model to use.
   ollamaBaseUrl: pick('FT_OLLAMA_BASE_URL', 'ollamaBaseUrl', ''),
   ollamaModel: pick('FT_OLLAMA_MODEL', 'ollamaModel', 'glm-5.3-flash'),

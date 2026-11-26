@@ -4,6 +4,7 @@ import { drawCheckpoints, hideCheckpoints } from './checkpoints.js'
 import { adoptedHtml, wireAdopted } from './adopted.js'
 import { wireKit } from './kit.js'
 import { wireGrow } from './growup.js'
+import { dashboardHtml } from './dashboard.js'
 import { landingHtml, INSTALL, AGENT_LINE } from './landing.js'
 import { voteHtml, wireVote } from './vote.js'
 const view = document.getElementById('view')
@@ -97,7 +98,8 @@ async function renderVisitorHome() {
     api('/api/site').catch(() => ({})),
     featured ? api(`/api/families/${encodeURIComponent(featured.id)}`).catch(() => null) : null,
   ])
-  view.innerHTML = landingHtml({ tree, families, esc, crowds, telegram: site.telegramChannel ?? '' })
+  view.innerHTML = landingHtml({ tree, families, esc, crowds, telegram: site.telegramChannel ?? '', nextFamilyAt: site.nextFamilyAt ?? null })
+  startCountdowns()
   wireInstallCopy(view)
   view.querySelector('[data-copy-agent-line]')?.addEventListener('click', (e) => {
     const btn = e.currentTarget
@@ -125,6 +127,37 @@ function wireFilm(root) {
   dialog.querySelector('[data-film-close]')?.addEventListener('click', () => dialog.close())
   dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close() })
   dialog.addEventListener('close', () => video.pause())
+}
+
+// The families dashboard. It polls so new families and open votes show up on their own.
+async function renderDashboard(filter = state.dashFilter ?? 'all') {
+  state = { ...state, dashFilter: filter }
+  if (!view.querySelector('.dash')) view.innerHTML = '<p class="empty">Gathering the families…</p>'
+  const [families, site] = await Promise.all([api('/api/families').catch(() => []), api('/api/site').catch(() => ({}))])
+  if (location.pathname !== '/families') return
+  view.innerHTML = dashboardHtml({ families, filter, nextFamilyAt: site.nextFamilyAt ?? null, esc })
+  for (const b of view.querySelectorAll('[data-filter]')) b.addEventListener('click', () => renderDashboard(b.dataset.filter))
+  startCountdowns()
+  clearTimeout(state.pollTimer)
+  state = { ...state, pollTimer: setTimeout(() => location.pathname === '/families' && renderDashboard(), 20000) }
+}
+
+// Every [data-countdown] shows the time left until its ISO time, updated each second; done shows "any moment".
+let countdownTimer = null
+function startCountdowns() {
+  clearInterval(countdownTimer)
+  const tick = () => {
+    const els = document.querySelectorAll('[data-countdown]')
+    if (!els.length) return clearInterval(countdownTimer)
+    for (const el of els) {
+      const left = Math.max(0, Date.parse(el.dataset.countdown) - Date.now())
+      const s = Math.floor(left / 1000)
+      const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60
+      el.textContent = left === 0 ? 'any moment' : h ? `${h}h ${String(m).padStart(2, '0')}m` : `${m}:${String(sec).padStart(2, '0')}`
+    }
+  }
+  tick()
+  countdownTimer = setInterval(tick, 1000)
 }
 
 // Each generation's lines draw down as it scrolls into view. Without JS or with reduced motion, everything just shows.
@@ -495,6 +528,16 @@ async function renderAdoptedPage(fid, cid) {
 
 function route() {
   clearTimeout(state.pollTimer)
+  for (const a of document.querySelectorAll('.site-nav a[data-link]')) a.toggleAttribute('aria-current', a.getAttribute('href') === location.pathname)
+  if (location.pathname === '/families') {
+    state = { ...state, fid: null, tree: null, picked: [] }
+    familyHead.hidden = true
+    newFamily.hidden = !owner
+    actionbar.hidden = true
+    hideCheckpoints()
+    renderDashboard()
+    return
+  }
   if (location.pathname === '/about') {
     state = { ...state, fid: null, tree: null, picked: [] }
     familyHead.hidden = true
