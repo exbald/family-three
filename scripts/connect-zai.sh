@@ -6,6 +6,8 @@
 set -euo pipefail
 SPRITE="${1:-ft-family}"
 case "$SPRITE" in ft-*) ;; *) echo "Only ft-* Sprites" >&2; exit 1 ;; esac
+# Family Three lives in its own Fly org, apart from everything else on the account.
+ORG="${FT_ORG:-family-three}"
 [ -n "${ZAI_API_KEY:-}" ] || { echo "ZAI_API_KEY is not set (add it to ~/.zshenv)" >&2; exit 1; }
 
 body=$(jq -n '{
@@ -18,7 +20,7 @@ body=$(jq -n '{
   access_policy: { name_prefix: "ft-" }
 }')
 
-resp=$(printf '%s' "$body" | sprite api /v1/oauth/connections/custom_api -- -s -X POST -H 'content-type: application/json' --data-binary @- 2>/dev/null)
+resp=$(printf '%s' "$body" | sprite api -o "$ORG" /v1/oauth/connections/custom_api -- -s -X POST -H 'content-type: application/json' --data-binary @- 2>/dev/null)
 echo "$resp" | jq 'del(.access_token, .token, .credential) | {id, provider, name, status, gateway_base_url, access_policy}' 2>/dev/null || { echo "Unexpected reply" >&2; exit 1; }
 
 id=$(echo "$resp" | jq -r '.id // .connection.id // empty')
@@ -26,7 +28,7 @@ gw=$(echo "$resp" | jq -r '.gateway_base_url // .connection.gateway_base_url // 
 [ -n "$gw" ] || gw="https://api.sprites.dev/v1/gateway/custom_api/$id"
 [ -n "$id" ] || { echo "No connection id in the reply" >&2; exit 1; }
 
-sprite exec --no-stdin -s "$SPRITE" -- bash -c "mkdir -p ~/.ft && node -e '
+sprite exec -o "$ORG" --no-stdin -s "$SPRITE" -- bash -c "mkdir -p ~/.ft && node -e '
   const fs=require(\"fs\"),p=process.env.HOME+\"/.ft/config.json\";
   let c={}; try{c=JSON.parse(fs.readFileSync(p,\"utf8\"))}catch{}
   fs.writeFileSync(p, JSON.stringify({...c, modelBaseUrl: \"$gw\"}, null, 2));

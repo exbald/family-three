@@ -6,8 +6,8 @@ Say what you want. Three working apps come back, each on its own link. Pick the 
 
 ![A family raised over three generations: three first takes, three kids bred from the dashboard, and a cross of two of them](docs/family-tree.png)
 
-- **See it live:** https://ft-family-b4zbc.sprites.app
-- **Vote on the crowd's family** (no account): https://ft-family-b4zbc.sprites.app, or tap a button in [t.me/familythreecrowd](https://t.me/familythreecrowd)
+- **See it live:** https://ft-family-b6ykp.sprites.app
+- **Vote on the crowd's family** (no account): https://ft-family-b6ykp.sprites.app, or tap a button in [t.me/familythreecrowd](https://t.me/familythreecrowd)
 - **An adopted app and its family line:** [family-three-afterglow](https://github.com/exbald/family-three-afterglow) (a cross, so its history has a merge commit) and [family-three-streakline](https://github.com/exbald/family-three-streakline)
 
 Built in a week for Fly.io's Hacksgiving 2026. The first commit here is from November 24.

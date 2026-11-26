@@ -87,7 +87,7 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 
 ## Live (Thu Nov 26)
 
-- Public: https://ft-family-b4zbc.sprites.app (Sprite URL public), repo https://github.com/exbald/family-three public with README, Telegram @familythreecrowd live (webhook set, rounds post with vote buttons). Vote limits use the address the Sprite proxy appends to X-Forwarded-For (3rd from the right); the first entry is spoofable.
+- Public: https://ft-family-b6ykp.sprites.app, in its own Fly org `family-three` since 2026-11-26 (the old https://ft-family-b4zbc.sprites.app in `niko-lay` 308-redirects there, so the submitted links keep working), repo https://github.com/exbald/family-three public with README, Telegram @familythreecrowd live (webhook set, rounds post with vote buttons). Vote limits use the address the Sprite proxy appends to X-Forwarded-For (3rd from the right); the first entry is spoofable.
 - Landing: rebuilt with impeccable as one real family read top to bottom (the Thanksgiving tree, its adoption with the merge commit and kit, then its open vote), then the other crowd families, what you take home, how it runs, install. PRODUCT.md, DESIGN.md and `.impeccable/surfaces/public-landing-js.md` hold the brief and contract. Finish review: ship.
 - Crowd families: Thanksgiving dinner (thanksgiving-dinner-2b58, gen 3; b468 archived), leftovers, Black Friday wishlist, gratitude wall, kids' table game. Autopilot picks after 2 h with no votes, at most twice in a row, then waits for a real vote.
 - Anyone can get a kid's design kit (one per kid, one at a time, one start per visitor per 10 min). Adopted repos are GitHub templates.

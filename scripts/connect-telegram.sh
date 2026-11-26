@@ -5,6 +5,8 @@
 set -euo pipefail
 SPRITE="${1:-ft-family}"
 case "$SPRITE" in ft-*) ;; *) echo "Only ft-* Sprites" >&2; exit 1 ;; esac
+# Family Three lives in its own Fly org, apart from everything else on the account.
+ORG="${FT_ORG:-family-three}"
 [ -n "${TELEGRAM_BOT_TOKEN:-}" ] || { echo "TELEGRAM_BOT_TOKEN is not set (add it to ~/.zshenv)" >&2; exit 1; }
 [ -n "${TELEGRAM_CHANNEL:-}" ] || { echo "Set TELEGRAM_CHANNEL=@yourchannel" >&2; exit 1; }
 [ -n "${TELEGRAM_OWNER:-}" ] || { echo "Set TELEGRAM_OWNER=yourusername" >&2; exit 1; }
@@ -18,13 +20,13 @@ body=$(jq -n '{
   auth_url_path_template: "/bot{token}",
   access_policy: { name_prefix: "ft-" }
 }')
-resp=$(printf '%s' "$body" | sprite api /v1/oauth/connections/custom_api -- -s -X POST -H 'content-type: application/json' --data-binary @- 2>/dev/null)
+resp=$(printf '%s' "$body" | sprite api -o "$ORG" /v1/oauth/connections/custom_api -- -s -X POST -H 'content-type: application/json' --data-binary @- 2>/dev/null)
 id=$(echo "$resp" | jq -r '.id // .connection.id // empty')
 [ -n "$id" ] || { echo "Unexpected reply from the connector API" >&2; echo "$resp" | jq 'del(.access_token)' >&2 || true; exit 1; }
 gw="https://api.sprites.dev/v1/gateway/custom_api/$id"
 echo "Telegram connector: $id"
 
-sprite exec --no-stdin -s "$SPRITE" -- env GW="$gw" CH="$TELEGRAM_CHANNEL" OW="${TELEGRAM_OWNER#@}" bash -c 'node -e "
+sprite exec -o "$ORG" --no-stdin -s "$SPRITE" -- env GW="$gw" CH="$TELEGRAM_CHANNEL" OW="${TELEGRAM_OWNER#@}" bash -c 'node -e "
   const fs=require(\"fs\"),p=process.env.HOME+\"/.ft/config.json\";
   let c={}; try{c=JSON.parse(fs.readFileSync(p,\"utf8\"))}catch{}
   fs.writeFileSync(p, JSON.stringify({...c, telegramBaseUrl: process.env.GW, telegramChannel: process.env.CH, telegramOwner: process.env.OW}, null, 2));
