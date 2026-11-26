@@ -1,0 +1,75 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 200 800; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-style: italic; font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Bricolage Grotesque", sans-serif; color: #2B1B47; background: radial-gradient(120% 90% at 50% 40%, #BAC5F8 0%, #A9B6F4 50%, #8E9CEB 100%); }
+    #c-grain { position: absolute; inset: 0; opacity: 0.28; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .1 0 0 0 0 .28 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .c-card { position: absolute; border-radius: 14px; overflow: hidden; border: 5px solid #2B1B47; box-shadow: 8px 10px 0 #2B1B47; background: #fff; }
+    .c-card img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+    .c-parent { top: 44px; width: 430px; height: 269px; }
+    .c-kid { top: 520px; width: 500px; height: 313px; }
+    .c-ring { position: absolute; border-radius: 22px; border: 10px solid transparent; }
+    .c-tag { position: absolute; padding: 8px 20px; border-radius: 12px; font-weight: 800; font-size: 34px; border: 3px solid #2B1B47; box-shadow: 4px 5px 0 #2B1B47; background: #FFF8EF; white-space: nowrap; }
+    .c-tag b { font-family: "JetBrains Mono", monospace; margin-right: 10px; }
+    .c-name { position: absolute; top: 855px; font-weight: 800; font-size: 36px; }
+    .c-name b { font-family: "JetBrains Mono", monospace; color: #FF6E5A; margin-right: 10px; }
+    #c-lines { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
+    #c-x { position: absolute; left: 932px; top: 404px; width: 56px; height: 56px; border-radius: 50%; background: #FF9B57; border: 4px solid #2B1B47; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 34px; color: #2B1B47; }
+    .c-ghost { position: absolute; top: 380px; width: 120px; height: 76px; border-radius: 10px; border: 4px dashed #2B1B47; background: rgba(198, 244, 50, 0.45); }
+  </style>
+  <div id="root" data-composition-id="cross" data-width="1920" data-height="1080">
+    <svg id="c-lines" viewBox="0 0 1920 1080" aria-hidden="true">
+      <path id="c-breedline" d="M445 330 V 372 M310 372 H 580 M310 372 V 380 M445 372 V 380 M580 372 V 380" stroke="#2B1B47" stroke-width="6" fill="none" stroke-linecap="round" />
+      <path id="c-lineA" d="M445 330 V 432 H 960" stroke="#C6F432" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path id="c-lineC" d="M1475 330 V 432 H 960" stroke="#FF9B57" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path id="c-legs" d="M960 432 V 500 M425 470 H 1495 M425 470 V 515 M960 470 V 515 M1495 470 V 515" stroke="#2B1B47" stroke-width="8" fill="none" stroke-linecap="round" />
+    </svg>
+
+    <div class="c-ring" id="c-ringA" style="left: 220px; top: 29px; width: 460px; height: 299px; border-color: #C6F432"></div>
+    <div class="c-ring" id="c-ringC" style="left: 1250px; top: 29px; width: 460px; height: 299px; border-color: #FF9B57"></div>
+    <div class="c-card c-parent" id="c-pA" style="left: 230px"><img src="assets/screens/app-1.png" alt="A Playful" /></div>
+    <div class="c-card c-parent" id="c-pB" style="left: 745px"><img src="assets/screens/app-2.png" alt="B Quiet" /></div>
+    <div class="c-card c-parent" id="c-pC" style="left: 1260px"><img src="assets/screens/app-3.png" alt="C Dashboard" /></div>
+
+    <div class="c-ghost" id="c-g1" style="left: 250px"></div>
+    <div class="c-ghost" id="c-g2" style="left: 385px"></div>
+    <div class="c-ghost" id="c-g3" style="left: 520px"></div>
+
+    <div id="c-x">×</div>
+
+    <div class="c-card c-kid" id="c-k1" style="left: 175px"><img src="assets/screens/app-4.png" alt="X·1 Blend" /></div>
+    <div class="c-card c-kid" id="c-k2" style="left: 710px"><img src="assets/screens/app-5.png" alt="X·2 Graft" /></div>
+    <div class="c-card c-kid" id="c-k3" style="left: 1245px"><img src="assets/screens/app-6.png" alt="X·3 Hybrid" /></div>
+    <div class="c-name" id="c-n1" style="left: 187px"><b>X·1</b>Blend</div>
+    <div class="c-name" id="c-n2" style="left: 722px"><b>X·2</b>Graft</div>
+    <div class="c-name" id="c-n3" style="left: 1257px"><b>X·3</b>Hybrid</div>
+
+    <div class="c-tag" id="c-bones" style="left: 60px; top: 230px"><b>A</b>the bones</div>
+    <div class="c-tag" id="c-looks" style="left: 1560px; top: 230px; background: #FFE3CF"><b>C</b>the looks</div>
+    <div id="c-grain"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // The three parents carry over from the table.
+    tl.fromTo(["#c-pA", "#c-pB", "#c-pC"], { y: 200, scale: 1.3, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power3.out" }, 0);
+    // "Like one?": A is picked. "Breed it.": three seeds drop from it.
+    tl.fromTo("#c-ringA", { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 0.4);
+    tl.fromTo("#c-breedline", { strokeDasharray: 600, strokeDashoffset: 600 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 1.0);
+    tl.fromTo(["#c-g1", "#c-g2", "#c-g3"], { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, stagger: 0.06, ease: "back.out(2)" }, 1.15);
+    tl.to(["#c-g1", "#c-g2", "#c-g3", "#c-breedline"], { opacity: 0, duration: 0.25 }, 1.8);
+    // "Like two?": C joins A; B steps back.
+    tl.to("#c-pB", { opacity: 0.35, scale: 0.94, duration: 0.3 }, 1.9);
+    tl.fromTo("#c-ringC", { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 2.1);
+    // "Cross them": the lime and orange lines meet at the cross.
+    tl.fromTo(["#c-lineA", "#c-lineC"], { strokeDasharray: 1300, strokeDashoffset: 1300 }, { strokeDashoffset: 0, duration: 0.45, ease: "power2.inOut" }, 2.75);
+    tl.fromTo("#c-x", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2.8)" }, 3.15);
+    tl.fromTo("#c-legs", { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 3.3);
+    // The three real cross children land.
+    ["#c-k1", "#c-k2", "#c-k3"].forEach((id, i) => tl.fromTo(id, { y: -260, opacity: 0, rotation: (i - 1) * 3 }, { y: 0, opacity: 1, rotation: (i - 1) * 0.8, duration: 0.45, ease: "back.out(1.5)" }, 3.5 + i * 0.22));
+    tl.fromTo(["#c-n1", "#c-n2", "#c-n3"], { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.22 }, 3.9);
+    // "one brings the bones" / "the other the looks".
+    tl.fromTo("#c-bones", { scale: 0, rotation: -8 }, { scale: 1, rotation: -4, duration: 0.3, ease: "back.out(2.4)" }, 4.3);
+    tl.fromTo("#c-looks", { scale: 0, rotation: 8 }, { scale: 1, rotation: 4, duration: 0.3, ease: "back.out(2.4)" }, 5.9);
+    window.__timelines["cross"] = tl;
+  </script>
+</template>

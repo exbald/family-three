@@ -1,0 +1,57 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 200 800; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-style: italic; font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Bricolage Grotesque", sans-serif; color: #2B1B47; background: radial-gradient(120% 90% at 50% 40%, #BAC5F8 0%, #A9B6F4 50%, #8E9CEB 100%); }
+    #e-grain { position: absolute; inset: 0; opacity: 0.28; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .1 0 0 0 0 .28 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    #e-claim { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-weight: 800; font-size: 150px; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; }
+    #e-claim span { display: inline-block; margin: 0 14px; }
+    #e-raise { font-family: "Fraunces", serif; font-style: italic; font-weight: 600; font-size: 168px; position: relative; }
+    #e-ul { position: absolute; left: 0; top: 150px; width: 100%; height: 40px; overflow: visible; }
+    #e-lock { position: absolute; left: 0; right: 0; top: 150px; display: flex; justify-content: center; align-items: center; gap: 30px; }
+    #e-mark { width: 120px; height: 120px; }
+    #e-word { font-weight: 800; font-size: 96px; letter-spacing: -0.03em; }
+    #e-cmd { position: absolute; left: 110px; width: 1700px; top: 560px; padding: 34px 40px; background: #0F1311; border-radius: 22px; box-shadow: 0 24px 60px rgba(30, 14, 60, 0.4); font-family: "JetBrains Mono", monospace; font-size: 27px; color: #C6F432; white-space: nowrap; overflow: hidden; }
+    #e-cmd i { color: #9AA69F; font-style: normal; margin-right: 16px; }
+    #e-links { position: absolute; left: 0; right: 0; top: 770px; display: flex; justify-content: center; gap: 70px; font-weight: 700; font-size: 40px; }
+    #e-links span b { color: #FF6E5A; }
+    #e-built { position: absolute; left: 0; right: 0; top: 880px; text-align: center; font-family: "Fraunces", serif; font-style: italic; font-weight: 600; font-size: 44px; }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1920" data-height="1080">
+    <div id="e-claim"><span id="e-w1">Apps you</span><span id="e-raise">raise,<svg id="e-ul" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true"><path id="e-ul-path" d="M4 22 C 80 10, 180 32, 296 16" fill="none" stroke="#FF6E5A" stroke-width="9" stroke-linecap="round" /></svg></span><span id="e-w3">not prompt.</span></div>
+
+    <div id="e-lock">
+      <svg id="e-mark" viewBox="0 0 400 400" aria-hidden="true">
+        <path d="M200 86 V 200 M64 200 H 336 M64 200 V 300 M200 200 V 300 M336 200 V 300" stroke="#2B1B47" stroke-width="18" stroke-linecap="round" fill="none" />
+        <circle cx="200" cy="56" r="42" fill="#2B1B47" />
+        <circle cx="64" cy="336" r="42" fill="#C6F432" stroke="#2B1B47" stroke-width="13" />
+        <circle cx="200" cy="336" r="42" fill="#C6F432" stroke="#2B1B47" stroke-width="13" />
+        <circle cx="336" cy="336" r="42" fill="#C6F432" stroke="#2B1B47" stroke-width="13" />
+      </svg>
+      <span id="e-word">Family Three</span>
+    </div>
+    <div id="e-cmd"><i>$</i><span id="e-typed"></span></div>
+    <div id="e-links"><span id="e-l1"><b>›</b> ft-family-b4zbc.sprites.app</span><span id="e-l2"><b>›</b> github.com/exbald/family-three</span></div>
+    <div id="e-built">Built on Fly.io Sprites for Hacksgiving 2026</div>
+    <div id="e-grain"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // "Apps you raise, not prompt." lands on the voice.
+    tl.fromTo("#e-w1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, 0.4);
+    tl.fromTo("#e-raise", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.2)" }, 1.05);
+    tl.fromTo("#e-ul-path", { strokeDasharray: 340, strokeDashoffset: 340 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, 1.3);
+    tl.fromTo("#e-w3", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, 1.4);
+    // The claim rises; the mark and the name are carried in.
+    tl.to("#e-claim", { y: -40, scale: 0.5, duration: 0.5, ease: "power3.inOut" }, 2.55);
+    tl.fromTo("#e-lock", { y: -300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "back.out(1.4)" }, 2.65);
+    // "Raise your own on a Sprite, in one command.": the real install command types out.
+    tl.fromTo("#e-cmd", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 3.0);
+    const cmd = "curl -fsSL https://raw.githubusercontent.com/exbald/family-three/main/scripts/install.sh | bash";
+    const o = { n: 0 };
+    tl.to(o, { n: cmd.length, duration: 1.9, ease: "none", onUpdate: () => { document.querySelector("#e-typed").textContent = cmd.slice(0, Math.round(o.n)); } }, 3.3);
+    tl.fromTo(["#e-l1", "#e-l2"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.15, ease: "power3.out" }, 5.3);
+    tl.fromTo("#e-built", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.8);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

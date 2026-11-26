@@ -1,0 +1,74 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 200 800; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-style: italic; font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Bricolage Grotesque", sans-serif; color: #2B1B47; background: radial-gradient(120% 90% at 50% 40%, #BAC5F8 0%, #A9B6F4 50%, #8E9CEB 100%); }
+    #v-grain { position: absolute; inset: 0; opacity: 0.28; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .1 0 0 0 0 .28 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    #v-phone { position: absolute; left: 170px; top: 60px; width: 480px; height: 940px; background: #241838; border-radius: 64px; padding: 20px; box-shadow: 0 30px 60px rgba(30, 14, 60, 0.4); }
+    #v-pscreen { position: relative; width: 440px; height: 900px; border-radius: 46px; overflow: hidden; background: #8FB27E; }
+    #v-pscreen img { position: absolute; left: -60px; top: -900px; width: 720px; height: auto; }
+    #v-tap { position: absolute; left: 411px; top: 782px; width: 100px; height: 100px; border-radius: 50%; border: 8px solid #FFFDF8; }
+    #v-plus { position: absolute; left: 540px; top: 740px; font-weight: 800; font-size: 64px; color: #FFFDF8; text-shadow: 0 4px 0 #2B1B47; }
+    #v-label-tg { position: absolute; left: 170px; top: 1010px; width: 480px; text-align: center; font-weight: 800; font-size: 32px; }
+    #v-web { position: absolute; left: 1060px; top: 60px; width: 660px; height: 904px; padding: 10px; background: #0F1311; border-radius: 30px; box-shadow: 0 30px 60px rgba(30, 14, 60, 0.4); }
+    .v-panel { position: absolute; left: 10px; top: 10px; width: 640px; height: 884px; border-radius: 22px; overflow: hidden; }
+    .v-panel img { position: absolute; left: -2633px; top: -270px; width: 3663px; height: auto; }
+    #v-label-web { position: absolute; left: 1060px; top: 1010px; width: 660px; text-align: center; font-weight: 800; font-size: 32px; }
+    #v-cursor { position: absolute; left: 0; top: 0; width: 80px; height: 80px; }
+    #v-clock { position: absolute; left: 760px; top: 330px; width: 260px; height: 260px; }
+    #v-clocktext { position: absolute; left: 760px; top: 425px; width: 260px; text-align: center; font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 56px; color: #2B1B47; }
+    #v-win { position: absolute; left: 718px; top: 640px; padding: 12px 26px; background: #C6F432; border: 4px solid #2B1B47; border-radius: 14px; box-shadow: 5px 6px 0 #2B1B47; font-weight: 800; font-size: 42px; white-space: nowrap; }
+    .v-card { position: absolute; top: 960px; padding: 10px 18px; background: #FFF8EF; border: 3px solid #2B1B47; border-radius: 10px; font-weight: 700; font-size: 26px; box-shadow: 3px 4px 0 #2B1B47; white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="vote" data-width="1920" data-height="1080">
+    <div id="v-phone"><div id="v-pscreen"><img src="assets/screens/telegram.png" alt="The real Telegram post with vote buttons" /></div></div>
+    <div id="v-tap"></div>
+    <div id="v-plus">+1</div>
+    <div id="v-label-tg">in Telegram</div>
+
+    <div id="v-web">
+      <div class="v-panel" id="v-before"><img src="assets/screens/vote-before.png" alt="The web vote panel before the vote" /></div>
+      <div class="v-panel" id="v-after"><img src="assets/screens/vote-after.png" alt="The web vote panel after the vote, with the clock running" /></div>
+    </div>
+    <div id="v-label-web">on the web</div>
+
+    <svg id="v-clock" viewBox="0 0 260 260" aria-hidden="true">
+      <circle cx="130" cy="130" r="112" fill="#FFF8EF" stroke="#2B1B47" stroke-width="10" />
+      <circle id="v-ring" cx="130" cy="130" r="92" fill="none" stroke="#FF6E5A" stroke-width="22" stroke-dasharray="578" stroke-dashoffset="0" transform="rotate(-90 130 130)" />
+    </svg>
+    <div id="v-clocktext">15:00</div>
+    <div id="v-win">X·3 breeds</div>
+
+    <div class="v-card" id="v-n1" style="left: 690px">Grandma June ✓</div>
+    <div class="v-card" id="v-n2" style="left: 920px; top: 1010px">Uncle Dan ✓</div>
+    <div class="v-card" id="v-n3" style="left: 1760px; top: 900px">Priya ✓</div>
+
+    <svg id="v-cursor" viewBox="0 0 86 86" aria-hidden="true"><path d="M8 4 L8 66 L26 50 L38 78 L50 72 L38 46 L62 46 Z" fill="#2B1B47" stroke="#FFFDF8" stroke-width="5" stroke-linejoin="round" /></svg>
+    <div id="v-grain"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // "Or let the whole table decide": the phone and the laptop come to the table; guests tick their votes.
+    tl.fromTo("#v-phone", { x: -700, rotation: -6 }, { x: 0, rotation: -2, duration: 0.55, ease: "power3.out" }, 0);
+    tl.fromTo("#v-web", { x: 900, rotation: 4 }, { x: 0, rotation: 1, duration: 0.55, ease: "power3.out" }, 0.1);
+    tl.fromTo(["#v-label-tg", "#v-label-web"], { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.6);
+    tl.fromTo(["#v-n1", "#v-n2", "#v-n3"], { y: 140, rotation: 0 }, { y: 0, rotation: (i) => [-4, 3, -3][i], duration: 0.4, stagger: 0.12, ease: "back.out(1.8)" }, 1.4);
+    // "Anyone can vote": a tap on X·3 in Telegram.
+    tl.fromTo("#v-tap", { scale: 0.3, opacity: 1 }, { scale: 1.6, opacity: 0, duration: 0.45, ease: "power2.out" }, 3.6);
+    tl.fromTo("#v-plus", { y: 20, opacity: 0, scale: 0.6 }, { y: -40, opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 3.65);
+    tl.to("#v-plus", { opacity: 0, duration: 0.25 }, 4.4);
+    // "on the web": the cursor votes and the real panel updates.
+    tl.fromTo("#v-cursor", { x: 1900, y: 1100 }, { x: 1560, y: 630, duration: 0.5, ease: "power3.out" }, 4.3);
+    tl.to("#v-cursor", { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1, transformOrigin: "10% 10%" }, 4.85);
+    tl.fromTo("#v-after", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 4.92);
+    tl.to("#v-cursor", { x: 1960, y: 1150, duration: 0.4, ease: "power2.in" }, 5.6);
+    // "When the clock runs out": a fifteen-minute clock runs down.
+    tl.fromTo(["#v-clock", "#v-clocktext"], { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 6.9);
+    const c = { s: 900 };
+    tl.to(c, { s: 0, duration: 1.1, ease: "power2.in", onUpdate: () => { const s = Math.round(c.s); document.querySelector("#v-clocktext").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; } }, 7.1);
+    tl.fromTo("#v-ring", { strokeDashoffset: 0 }, { strokeDashoffset: 578, duration: 1.1, ease: "power2.in" }, 7.1);
+    // "the winner breeds".
+    tl.fromTo("#v-win", { scale: 0, rotation: -8 }, { scale: 1, rotation: -3, duration: 0.35, ease: "back.out(2.6)" }, 8.25);
+    window.__timelines["vote"] = tl;
+  </script>
+</template>

@@ -4,3 +4,7 @@ node_modules/
 .DS_Store
 families/
 .dev/
+video/renders/
+video/voice-samples/
+video/assets/audio/music-full.mp3
+video/node_modules/

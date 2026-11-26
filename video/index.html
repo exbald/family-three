@@ -1,0 +1,47 @@
+<!doctype html>
+<html
+  lang="en"
+  data-resolution="landscape"
+  data-composition-variables='[
+    {"id":"color-ground","type":"color","label":"Lavender ground","default":"#A9B6F4"},
+    {"id":"color-ground-deep","type":"color","label":"Lavender edge","default":"#8E9CEB"},
+    {"id":"color-plum","type":"color","label":"Plum ink","default":"#2B1B47"},
+    {"id":"color-pie","type":"color","label":"Pie pink","default":"#E7A3D0"},
+    {"id":"color-coral","type":"color","label":"Coral (call to action)","default":"#FF6E5A"},
+    {"id":"color-lime","type":"color","label":"Lime (the kept line)","default":"#C6F432"},
+    {"id":"color-orange","type":"color","label":"Orange (a cross)","default":"#FF9B57"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #A9B6F4; }
+      #root { width: 100%; height: 100%; position: relative; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="64.5" data-width="1920" data-height="1080">
+      <!-- Scenes, timed to the voice-over (assets/audio/voiceover.mp3) -->
+      <div id="table" data-composition-id="table" data-composition-src="compositions/table.html" data-start="0" data-duration="4.3" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="prompt" data-composition-id="prompt" data-composition-src="compositions/prompt.html" data-start="4.3" data-duration="6.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="reveal" data-composition-id="reveal" data-composition-src="compositions/reveal.html" data-start="10.9" data-duration="2.9" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="born" data-composition-id="born" data-composition-src="compositions/born.html" data-start="13.8" data-duration="10.4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="cross" data-composition-id="cross" data-composition-src="compositions/cross.html" data-start="24.2" data-duration="7.2" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="vote" data-composition-id="vote" data-composition-src="compositions/vote.html" data-start="31.4" data-duration="9.4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="tree" data-composition-id="tree" data-composition-src="compositions/tree.html" data-start="40.8" data-duration="6.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="adopt" data-composition-id="adopt" data-composition-src="compositions/adopt.html" data-start="47.4" data-duration="8.4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="endcard" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="55.8" data-duration="8.7" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+
+      <!-- Sound: the voice is the clock; music sits under it -->
+      <audio id="vo" class="clip" src="assets/audio/voiceover.mp3" data-start="0.2" data-duration="62.4" data-track-index="10" data-volume="1"></audio>
+      <audio id="music" class="clip" src="assets/audio/music-bed.mp3" data-start="0" data-duration="64.5" data-track-index="11" data-volume="0.16" data-fade-out="1.6"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

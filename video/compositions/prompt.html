@@ -1,0 +1,70 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 200 800; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-style: italic; font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Bricolage Grotesque", sans-serif; color: #2B1B47; background: radial-gradient(120% 90% at 50% 40%, #BAC5F8 0%, #A9B6F4 50%, #8E9CEB 100%); }
+    #p-grain { position: absolute; inset: 0; opacity: 0.28; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .1 0 0 0 0 .28 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    #p-box { position: absolute; left: 210px; top: 150px; width: 1500px; height: 780px; background: #FFFDF8; border: 5px solid #2B1B47; border-radius: 30px; box-shadow: 14px 16px 0 #2B1B47; overflow: hidden; }
+    #p-head { position: absolute; left: 0; right: 0; top: 0; height: 92px; border-bottom: 4px solid #2B1B47; display: flex; align-items: center; justify-content: space-between; padding: 0 44px; font-weight: 800; font-size: 38px; }
+    #p-ver { font-family: "Fraunces", serif; font-style: italic; font-size: 44px; color: #FF6E5A; }
+    .p-draft { position: absolute; left: 48px; right: 48px; top: 128px; font-weight: 500; font-size: 40px; line-height: 1.42; }
+    .p-draft span { display: block; }
+    .p-strike { position: absolute; left: 34px; height: 10px; background: #FF6E5A; border-radius: 6px; transform-origin: 0 50%; }
+    #p-send { position: absolute; right: 44px; bottom: 36px; padding: 18px 34px; background: #2B1B47; color: #FFFDF8; border-radius: 16px; font-weight: 800; font-size: 34px; }
+  </style>
+  <div id="root" data-composition-id="prompt" data-width="1920" data-height="1080">
+    <div id="p-box">
+      <div id="p-head"><span>dinner-app-spec.txt</span><span id="p-ver">draft 1</span></div>
+      <div class="p-draft" id="p-d1">
+        <span>Build a Thanksgiving dinner app for 8 people.</span>
+        <span>It needs a seating plan, a menu, an oven schedule…</span>
+        <span>Make it look modern but cozy. Not too busy.</span>
+      </div>
+      <div class="p-draft" id="p-d2">
+        <span>Make it a single page. Seats should be draggable.</span>
+        <span>The oven timeline must work backwards from 4 pm.</span>
+        <span>Actually make it warmer. Less like a dashboard.</span>
+        <span>But keep the numbers big. And dark mode?</span>
+      </div>
+      <div class="p-draft" id="p-d3">
+        <span>OK, start over. Fewer colours. More whitespace.</span>
+        <span>No, more colour, but tasteful. Grandma sits near the</span>
+        <span>kitchen. Two people are vegan. The turkey is 20 lb.</span>
+        <span>Make it pop. Not like that. Like the first one but</span>
+        <span>with the timeline from the second one, and also…</span>
+        <span>also…</span>
+      </div>
+      <div class="p-strike" id="p-s1" style="top: 150px; width: 1420px"></div>
+      <div class="p-strike" id="p-s1b" style="top: 206px; width: 1300px"></div>
+      <div class="p-strike" id="p-s1c" style="top: 263px; width: 1240px"></div>
+      <div class="p-strike" id="p-s2" style="top: 150px; width: 1380px"></div>
+      <div class="p-strike" id="p-s2b" style="top: 206px; width: 1340px"></div>
+      <div class="p-strike" id="p-s2c" style="top: 263px; width: 1360px"></div>
+      <div class="p-strike" id="p-s2d" style="top: 320px; width: 1200px"></div>
+      <div id="p-send">Send</div>
+    </div>
+    <div id="p-grain"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // The laptop screen from the table grows into the prompt box.
+    tl.fromTo("#p-box", { x: 430, y: -128, scale: 0.52 }, { x: 0, y: 0, scale: 1, duration: 0.55, ease: "power3.inOut" }, 0);
+    const lines = (id) => gsap.utils.toArray(`${id} span`);
+    // Draft 1 appears line by line (on "perfect prompt").
+    tl.fromTo(lines("#p-d1"), { opacity: 0 }, { opacity: 1, duration: 0.08, stagger: 0.32, ease: "none" }, 0.75);
+    // "Then rewrite it.": strike through draft 1, it drops away, draft 2 arrives.
+    tl.fromTo(["#p-s1", "#p-s1b", "#p-s1c"], { scaleX: 0 }, { scaleX: 1, duration: 0.18, stagger: 0.06, ease: "power2.out" }, 2.75);
+    tl.to(["#p-d1", "#p-s1", "#p-s1b", "#p-s1c"], { y: 700, rotation: 4, opacity: 0, duration: 0.4, ease: "power2.in" }, 3.15);
+    tl.set("#p-ver", { textContent: "draft 2" }, 3.2);
+    tl.fromTo(lines("#p-d2"), { opacity: 0 }, { opacity: 1, duration: 0.06, stagger: 0.16, ease: "none" }, 3.35);
+    // "And rewrite it again.": strike draft 2, then draft 14 overflows the box.
+    tl.fromTo(["#p-s2", "#p-s2b", "#p-s2c", "#p-s2d"], { scaleX: 0 }, { scaleX: 1, duration: 0.16, stagger: 0.05, ease: "power2.out" }, 4.45);
+    tl.to(["#p-d2", "#p-s2", "#p-s2b", "#p-s2c", "#p-s2d"], { y: 700, rotation: -4, opacity: 0, duration: 0.35, ease: "power2.in" }, 4.8);
+    tl.set("#p-ver", { textContent: "draft 14" }, 4.85);
+    tl.fromTo(lines("#p-d3"), { opacity: 0 }, { opacity: 1, duration: 0.05, stagger: 0.1, ease: "none" }, 4.95);
+    // The box strains under it: a quick shudder, then everything slumps.
+    tl.fromTo("#p-box", { rotation: 0 }, { rotation: -1.2, duration: 0.08, repeat: 5, yoyo: true, ease: "sine.inOut" }, 5.6);
+    tl.to("#p-box", { scale: 0.96, y: 30, duration: 0.3, ease: "power2.in" }, 6.25);
+    window.__timelines["prompt"] = tl;
+  </script>
+</template>

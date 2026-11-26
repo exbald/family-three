@@ -1,0 +1,46 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 200 800; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-style: italic; font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Bricolage Grotesque", sans-serif; color: #2B1B47; background: radial-gradient(120% 90% at 50% 40%, #BAC5F8 0%, #A9B6F4 50%, #8E9CEB 100%); }
+    #r-grain { position: absolute; inset: 0; opacity: 0.28; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .1 0 0 0 0 .28 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    #r-box { position: absolute; left: 210px; top: 150px; width: 1500px; height: 780px; background: #FFFDF8; border: 5px solid #2B1B47; border-radius: 30px; box-shadow: 14px 16px 0 #2B1B47; }
+    #r-mark { position: absolute; left: 760px; top: 170px; width: 400px; height: 400px; overflow: visible; }
+    #r-name { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-weight: 800; font-size: 170px; letter-spacing: -0.035em; line-height: 1; }
+    #r-sub { position: absolute; left: 0; right: 0; top: 840px; text-align: center; font-family: "Fraunces", serif; font-style: italic; font-weight: 600; font-size: 52px; }
+  </style>
+  <div id="root" data-composition-id="reveal" data-width="1920" data-height="1080">
+    <div id="r-box"></div>
+    <svg id="r-mark" viewBox="0 0 400 400" aria-hidden="true">
+      <path id="r-trunk" d="M200 86 V 200" stroke="#2B1B47" stroke-width="16" stroke-linecap="round" fill="none" />
+      <path id="r-bar" d="M64 200 H 336" stroke="#2B1B47" stroke-width="16" stroke-linecap="round" fill="none" />
+      <path id="r-leg1" d="M64 200 V 300" stroke="#2B1B47" stroke-width="16" stroke-linecap="round" fill="none" />
+      <path id="r-leg2" d="M200 200 V 300" stroke="#2B1B47" stroke-width="16" stroke-linecap="round" fill="none" />
+      <path id="r-leg3" d="M336 200 V 300" stroke="#2B1B47" stroke-width="16" stroke-linecap="round" fill="none" />
+      <circle id="r-parent" cx="200" cy="56" r="40" fill="#2B1B47" />
+      <circle id="r-k1" cx="64" cy="336" r="40" fill="#C6F432" stroke="#2B1B47" stroke-width="12" />
+      <circle id="r-k2" cx="200" cy="336" r="40" fill="#C6F432" stroke="#2B1B47" stroke-width="12" />
+      <circle id="r-k3" cx="336" cy="336" r="40" fill="#C6F432" stroke="#2B1B47" stroke-width="12" />
+    </svg>
+    <div id="r-name">Family Three</div>
+    <div id="r-sub">a personal agent on a Fly.io Sprite</div>
+    <div id="r-grain"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // The overloaded prompt box (as the last scene left it) collapses into one dot.
+    tl.fromTo("#r-box", { scale: 0.96, y: 30, borderRadius: 30, opacity: 1 }, { scale: 0.05, y: -340, borderRadius: 400, duration: 0.42, ease: "power3.in" }, 0);
+    tl.to("#r-box", { opacity: 0, duration: 0.05 }, 0.42);
+    tl.fromTo("#r-parent", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 0.4);
+    // The family grows: trunk, bar, three legs, three children.
+    const draw = (sel, at, d = 0.22) => tl.fromTo(sel, { strokeDasharray: 400, strokeDashoffset: 400 }, { strokeDashoffset: 0, duration: d, ease: "power2.out" }, at);
+    draw("#r-trunk", 0.6);
+    draw("#r-bar", 0.78);
+    draw(["#r-leg1", "#r-leg2", "#r-leg3"], 0.95, 0.18);
+    tl.fromTo(["#r-k1", "#r-k2", "#r-k3"], { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, ease: "back.out(2.6)", stagger: 0.08 }, 1.1);
+    // The name lands on "raise".
+    tl.fromTo("#r-name", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 1.4);
+    tl.fromTo("#r-sub", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 1.85);
+    window.__timelines["reveal"] = tl;
+  </script>
+</template>
