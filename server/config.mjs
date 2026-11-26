@@ -47,6 +47,8 @@ export const config = Object.freeze({
   // After this many agent-picked generations in a row, a family waits for a real vote (keeps idle families from building all night).
   autopilotMaxStreak: Number(pick('FT_AUTOPILOT_MAX_STREAK', 'autopilotMaxStreak', 2)),
   // Telegram stays off until the site is public (the channel would show private links otherwise).
+  // The Mini App's direct link name from BotFather (/newapp), e.g. "app" for t.me/<bot>/app. Optional.
+  telegramAppName: pick('FT_TELEGRAM_APP_NAME', 'telegramAppName', ''),
   telegramLive: ['1', 'true', true].includes(pick('FT_TELEGRAM_LIVE', 'telegramLive', false)),
   buildTimeoutMs: Number(pick('FT_BUILD_TIMEOUT_MS', 'buildTimeoutMs', 12 * 60 * 1000)),
   chromePath: pick('FT_CHROME', 'chromePath', path.join(home, '.browsers', 'chrome')),

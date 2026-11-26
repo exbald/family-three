@@ -121,7 +121,7 @@ export function voteHtml({ tree, esc, owner = false, compact = false }) {
     </section>`
 }
 
-export function wireVote(root, { api, fid, onChange }) {
+export function wireVote(root, { api, fid, onChange, onVoted = () => {} }) {
   root.querySelectorAll('[data-vote]').forEach((btn) =>
     btn.addEventListener('click', async () => {
       const panel = btn.closest('.vote-panel')
@@ -130,6 +130,7 @@ export function wireVote(root, { api, fid, onChange }) {
       btn.textContent = 'Voting…'
       try {
         await api('/api/vote', { method: 'POST', body: JSON.stringify({ family: fid, option: btn.dataset.vote }) })
+        onVoted()
       } catch (err) {
         error.textContent = err.message
         error.hidden = false

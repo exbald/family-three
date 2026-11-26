@@ -13,6 +13,7 @@ import { listCheckpoints, restoreCheckpoint } from './checkpoints.mjs'
 import { makeKit, kitDir, kitBusy } from './kit.mjs'
 import { growUp } from './growup.mjs'
 import { startSeeder, seedOnce, nextFamilyAt } from './seeder.mjs'
+import { telegramVoter } from './tgwebapp.mjs'
 import { ensureCard } from './card.mjs'
 import { castVote, VoteError, clientIp, hashIp, myVote, setPaused, resumeCrowdRounds, breedLeaderNow } from './votes.mjs'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
@@ -63,7 +64,9 @@ const api = {
   async getFamily(req, res, fid) {
     const tree = await readTree(fid)
     if (!tree) return sendError(res, 404, 'No family with that id.')
-    const mine = tree.crowd ? await myVote(fid, voterId(req) && `web:${voterId(req)}`) : null
+    // Inside the Telegram Mini App the voter is the Telegram account, the same one the channel buttons use.
+    const tg = tree.crowd ? await telegramVoter(req) : null
+    const mine = tree.crowd ? await myVote(fid, tg ? `tg:${tg.userId}` : voterId(req) && `web:${voterId(req)}`) : null
     sendJson(res, 200, { success: true, data: { ...tree, myVote: mine } })
   },
 
@@ -71,6 +74,16 @@ const api = {
     const body = await readJson(req)
     const fid = String(body.family ?? '')
     if (!FAMILY_ID.test(fid)) return sendError(res, 400, 'Bad family id.')
+    const tg = await telegramVoter(req)
+    if (tg) {
+      try {
+        const data = await castVote({ fid, option: String(body.option ?? ''), voterKey: `tg:${tg.userId}`, ipHash: null })
+        return sendJson(res, 200, { success: true, data })
+      } catch (err) {
+        if (err instanceof VoteError) return sendError(res, err.status, err.message)
+        throw err
+      }
+    }
     let id = voterId(req)
     if (!id) {
       id = randomBytes(18).toString('base64url')
@@ -272,7 +285,7 @@ async function route(req, res) {
 
   if (p === '/' && handleUnlock(req, res, url)) return
   if (method === 'GET' && p === '/api/site') return sendJson(res, 200, { success: true, data: { telegramChannel: config.telegramLive ? config.telegramChannel || null : null, nextFamilyAt: await nextFamilyAt().catch(() => null) } })
-  if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req) } })
+  if (method === 'GET' && p === '/api/me') return sendJson(res, 200, { success: true, data: { owner: isOwner(req), telegram: await telegramVoter(req).then((t) => (t ? { firstName: t.firstName } : null)) } })
   if (method === 'POST' && p.startsWith('/tg/')) return telegramWebhook(req, res, p.slice(4))
   if (method === 'POST' && p === '/api/vote') return api.vote(req, res)
   if (method === 'POST' && p === '/api/kit' && !isOwner(req)) return api.visitorKit(req, res)

@@ -49,3 +49,8 @@
   .dash { padding-top: 8px; }
 }
 @media (prefers-reduced-motion: reduce) { .dc-dot { animation: none; } .dc, .dc-shot img { transition: none; } }
+
+/* Inside the Telegram Mini App: Telegram draws its own header, so ours stays compact */
+body.in-telegram .visitor-nav { display: none !important; }
+body.in-telegram .top { padding-top: 10px; padding-bottom: 10px; }
+body.in-telegram .dash { padding-top: 4px; }

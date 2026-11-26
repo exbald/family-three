@@ -5,6 +5,7 @@ import { adoptedHtml, wireAdopted } from './adopted.js'
 import { wireKit } from './kit.js'
 import { wireGrow } from './growup.js'
 import { dashboardHtml } from './dashboard.js'
+import { inTelegram, telegramInitData, startTelegram, syncBackButton, haptic } from './tgapp.js'
 import { landingHtml, INSTALL, AGENT_LINE } from './landing.js'
 import { voteHtml, wireVote } from './vote.js'
 const view = document.getElementById('view')
@@ -25,7 +26,7 @@ const esc = (value) =>
 async function api(path, options = {}) {
   const res = await fetch(path, {
     ...options,
-    headers: { 'content-type': 'application/json', ...(options.headers ?? {}) },
+    headers: { 'content-type': 'application/json', ...(telegramInitData() ? { 'x-telegram-init-data': telegramInitData() } : {}), ...(options.headers ?? {}) },
   })
   const body = await res.json().catch(() => ({ success: false, error: 'The Sprite sent an unreadable reply.' }))
   if (!res.ok || !body.success) throw new Error(body.error ?? `Request failed (${res.status})`)
@@ -280,7 +281,8 @@ function visitorBanner() {
 }
 
 function crowdPanel() {
-  return state.tree?.crowd ? voteHtml({ tree: state.tree, esc, owner }) : ''
+  // Inside Telegram the family page leads with the big-card ballot, like the landing.
+  return state.tree?.crowd ? voteHtml({ tree: state.tree, esc, owner, compact: inTelegram() }) : ''
 }
 
 function drawFamily() {
@@ -298,7 +300,7 @@ function drawFamily() {
     view.innerHTML = visitorBanner() + crowdPanel() + tree.litters.map((litter) => litterSection(litter, tree)).reverse().join('') + tasteHtml(state.taste, esc)
     view.querySelectorAll('[data-pick]').forEach((btn) => btn.addEventListener('click', () => togglePick(btn.dataset.pick)))
   }
-  if (tree.crowd) wireVote(view, { api, fid: tree.id, onChange: () => refreshFamily() })
+  if (tree.crowd) wireVote(view, { api, fid: tree.id, onChange: () => refreshFamily(), onVoted: () => haptic('success') })
   view.querySelectorAll('[data-retry]').forEach((btn) =>
     btn.addEventListener('click', async () => {
       btn.disabled = true
@@ -528,6 +530,7 @@ async function renderAdoptedPage(fid, cid) {
 
 function route() {
   clearTimeout(state.pollTimer)
+  if (inTelegram()) syncBackButton(navigate)
   for (const a of document.querySelectorAll('.site-nav a[data-link]')) a.toggleAttribute('aria-current', a.getAttribute('href') === location.pathname)
   if (location.pathname === '/families') {
     state = { ...state, fid: null, tree: null, picked: [] }
@@ -566,4 +569,9 @@ document.addEventListener('click', (e) => {
 window.addEventListener('popstate', route)
 owner = await api('/api/me').then((me) => me.owner, () => false)
 wide.addEventListener('change', () => state.tree && drawFamily())
+// Opened as a Telegram Mini App: start on the dashboard, or on the family the launch link names.
+if (inTelegram()) {
+  const start = await startTelegram().catch(() => null)
+  if (start && (location.pathname === '/' || location.pathname === '/families')) history.replaceState({}, '', start)
+}
 route()

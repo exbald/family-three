@@ -42,6 +42,10 @@ export async function webhookSecret() {
 }
 
 const pageUrl = (fid) => `${config.publicUrl}/f/${fid}`
+// The Mini App: a direct link (when BotFather gave it a name) opens Telegram's in-app view on one family.
+let botUsername = ''
+const appLink = (fid) => (config.telegramAppName && botUsername ? `https://t.me/${botUsername}/${config.telegramAppName}?startapp=${fid}` : '')
+const appUrl = () => `${config.publicUrl}/families`
 const thumbUrl = (kid) => `${config.publicUrl}/thumb/${kid.id}.png?v=${encodeURIComponent(kid.finishedAt ?? '')}`
 
 function keyboard(tree) {
@@ -51,7 +55,8 @@ function keyboard(tree) {
     text: `${o.kind === 'cross' ? '×' : o.label} ${o.name} · ${vote.counts[o.key] ?? 0}`,
     callback_data: open ? `v:${i}` : 'closed',
   }])
-  rows.push([{ text: 'Open the tree', url: pageUrl(tree.id) }])
+  const app = appLink(tree.id)
+  rows.push(app ? [{ text: 'Open in the app', url: app }, { text: 'Open the tree', url: pageUrl(tree.id) }] : [{ text: 'Open the tree', url: pageUrl(tree.id) }])
   return { inline_keyboard: rows }
 }
 
@@ -184,6 +189,11 @@ export async function handleUpdate(update) {
   if (update.callback_query) return onCallback(update.callback_query)
   const msg = update.message
   if (msg?.chat?.type === 'private') {
+    if (/^\/start\b/.test(msg.text ?? '')) return tg('sendMessage', {
+      chat_id: msg.chat.id,
+      text: 'Family Three raises apps instead of taking prompts: one sentence becomes three different working apps, and whoever shows up votes on which one breeds next. Open it here, browse every family, try the apps and vote.',
+      reply_markup: { inline_keyboard: [[{ text: 'Open Family Three', web_app: { url: appUrl() } }]] },
+    })
     if (isOwner(msg.from)) return onOwnerCommand(msg)
     return tg('sendMessage', { chat_id: msg.chat.id, text: `Hi! Votes happen in ${config.telegramChannel}. Tap a button under the newest post.` })
   }
@@ -200,11 +210,17 @@ export async function startTelegram() {
       .then(() => console.log('Telegram webhook set'))
       .catch((err) => console.error('Telegram webhook not set:', err.message))
   }
+  // The Mini App: the bot's menu button opens it in every private chat.
+  botUsername = await tg('getMe', {}).then((me) => me?.username ?? '').catch(() => '')
+  await tg('setChatMenuButton', { menu_button: { type: 'web_app', text: 'Open', web_app: { url: appUrl() } } })
+    .catch((err) => console.error('Telegram menu button not set:', err.message))
   // Rounds that opened before Telegram was switched on get their post now.
   for (const fam of await listFamilies()) {
     if (!fam.crowd) continue
     const tree = await readTree(fam.id)
     if (tree?.vote?.status === 'open' && !tree.vote.tg?.messageId) await postRound({ fid: fam.id }).catch((err) => console.error('telegram:', err.message))
+    // Posts already in the channel pick up the current buttons (e.g. the Mini App link).
+    else if (tree?.vote?.status === 'open' && tree.vote.tg?.messageId) await refreshButtons({ fid: fam.id }).catch((err) => console.error('telegram:', err.message))
   }
   const safe = (fn) => (payload) => fn(payload).catch((err) => console.error('telegram:', err.message))
   bus.on('vote-opened', safe(postRound))
