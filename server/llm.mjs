@@ -21,7 +21,8 @@ export function askJson({ system, user }) {
   const fallback = config.fallbackModel && config.fallbackModel !== model ? ['--fallback-model', config.fallbackModel] : []
   const args = ['-p', user, '--system-prompt', system, '--tools', '', '--output-format', 'json', ...(model ? ['--model', model] : []), ...fallback]
   return new Promise((resolve, reject) => {
-    const proc = spawn(config.claudeBin, args, { cwd: os.tmpdir(), env: claudeEnv(), stdio: ['ignore', 'pipe', 'pipe'] })
+    // Short answers don't need long thinking; without a cap the breeder can think past its time limit.
+    const proc = spawn(config.claudeBin, args, { cwd: os.tmpdir(), env: { ...claudeEnv(), MAX_THINKING_TOKENS: '0' }, stdio: ['ignore', 'pipe', 'pipe'] })
     let out = ''
     let err = ''
     proc.stdout.on('data', (c) => (out += c))
