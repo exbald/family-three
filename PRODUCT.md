@@ -30,6 +30,7 @@ Apps you raise, not prompt. People can't describe the app they want, but they kn
 - Design kit (anyone can get one per kid): DESIGN.md, tokens.css, tokens.json and a design.html preview, as a zip. The agent writes it from the app's CSS in about two minutes.
 - Takeaway for visitors: the kit, plus adopted apps forkable as GitHub template repos (template flag: planned, not yet set on the repos).
 - Install your own: `curl -fsSL https://raw.githubusercontent.com/exbald/family-three/main/scripts/install.sh | bash` on a Sprite.
+- Optional Ollama connector: Ollama Cloud backs up the breeder and the autopilot pick when the main model fails (needs Ollama credits). The owner's live Sprite runs on GLM only.
 - No public generation from strangers' prompts (the Z.ai coding plan forbids multi-user use). Visitors choose among finished apps; they never type a request.
 - Plain Node server, plain HTML/CSS/JS pages, no framework. Pages are rendered by `public/*.js` modules.
 

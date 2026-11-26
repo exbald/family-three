@@ -117,7 +117,7 @@ export function landingHtml({ tree, families, esc, crowds = [], telegram = '', l
           </li>
           <li>Open the link it prints, once, to unlock your browser. Then ask for your first app.</li>
         </ol>
-        <p class="muted">Want Adopt to make GitHub repos? Add a GitHub connector for your Sprites in the Fly dashboard first. The installer finds it.</p>
+        <p class="muted">Want Adopt to make GitHub repos? Add a GitHub connector for your Sprites in the Fly dashboard first. Have Ollama credits? Add an Ollama connector too, and the breeder falls back to Ollama Cloud when the main model is busy. The installer finds both.</p>
       </section>
 
       <dialog class="lp2-film" aria-label="The Family Three film">

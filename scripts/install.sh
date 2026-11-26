@@ -67,15 +67,24 @@ github_url="$(curl -fsS https://api.sprites.dev/v1/gateway/list 2>/dev/null | no
   })' || true)"
 [ -n "$github_url" ] && say "GitHub connector found: Adopt will make repos." || say "No GitHub connector: Adopt still gives a public link, just no repo."
 
+ollama_url="$(curl -fsS https://api.sprites.dev/v1/gateway/list 2>/dev/null | node -e '
+  let s = ""; process.stdin.on("data", (d) => (s += d)).on("end", () => {
+    const found = []
+    const walk = (v) => { if (v && typeof v === "object") { if (v.provider === "ollama" && v.gateway_base_url) found.push(v.gateway_base_url); Object.values(v).forEach(walk) } }
+    try { walk(JSON.parse(s)) } catch {}
+    process.stdout.write(found[0] ?? "")
+  })' || true)"
+[ -n "$ollama_url" ] && say "Ollama connector found: the breeder falls back to Ollama Cloud when the main model fails (needs Ollama credits)."
+
 public_url="$(sprite-env info 2>/dev/null | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{process.stdout.write(JSON.parse(s).sprite_url||"")}catch{}})')"
 
 mkdir -p "$HOME/.ft"
-FT_MODEL_URL="$model_url" FT_MODEL_NAME="$model" FT_GH="$github_url" FT_PUB="$public_url" node -e '
+FT_MODEL_URL="$model_url" FT_MODEL_NAME="$model" FT_GH="$github_url" FT_OLLAMA="$ollama_url" FT_PUB="$public_url" node -e '
   const fs = require("fs"); const p = process.env.HOME + "/.ft/config.json"
   let c = {}; try { c = JSON.parse(fs.readFileSync(p, "utf8")) } catch {}
   const set = (k, v) => { if (v) c[k] = v }
   set("modelBaseUrl", process.env.FT_MODEL_URL); set("model", process.env.FT_MODEL_NAME)
-  set("githubBaseUrl", process.env.FT_GH); set("publicUrl", process.env.FT_PUB)
+  set("githubBaseUrl", process.env.FT_GH); set("publicUrl", process.env.FT_PUB); set("ollamaBaseUrl", process.env.FT_OLLAMA)
   c.builder = "claude"
   fs.writeFileSync(p, JSON.stringify(c, null, 2))'
 

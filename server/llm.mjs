@@ -1,5 +1,7 @@
-// One-shot JSON answers from GLM. The call runs through Claude Code (a tool the Z.ai coding plan
-// supports) with no tools enabled, using the same model setup as the builders.
+// One-shot JSON answers (the breeder's briefs, the autopilot's pick). The main path runs through Claude Code
+// with no tools enabled, using the same model setup as the builders. If the Sprite has an Ollama connector
+// (ollamaBaseUrl), Ollama Cloud is the backup when that call fails. The builders always use Claude Code:
+// the Ollama connector doesn't offer the Claude-style endpoint they need.
 import { spawn } from 'node:child_process'
 import os from 'node:os'
 import { config } from './config.mjs'
@@ -16,7 +18,30 @@ function extractJson(text) {
   return JSON.parse(body.slice(start, end + 1))
 }
 
-export function askJson({ system, user }) {
+export async function askJson({ system, user }) {
+  try {
+    return await askViaClaude({ system, user })
+  } catch (err) {
+    if (!config.ollamaBaseUrl) throw err
+    console.error(`main model failed (${err.message.slice(0, 120)}); asking Ollama instead`)
+    return askViaOllama({ system, user })
+  }
+}
+
+// Ollama's native chat API through the Sprites connector (the gateway adds the key). Needs Ollama credits.
+export async function askViaOllama({ system, user, baseUrl = config.ollamaBaseUrl, model = config.ollamaModel }) {
+  const res = await fetch(`${baseUrl.replace(/\/$/, '')}/api/chat`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ model, stream: false, format: 'json', messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  })
+  const body = await res.text()
+  if (!res.ok) throw new Error(`Ollama answered ${res.status}: ${body.slice(0, 160)}`)
+  return extractJson(JSON.parse(body).message?.content ?? '')
+}
+
+function askViaClaude({ system, user }) {
   const model = config.breederModel || config.model
   const fallback = config.fallbackModel && config.fallbackModel !== model ? ['--fallback-model', config.fallbackModel] : []
   const args = ['-p', user, '--system-prompt', system, '--tools', '', '--output-format', 'json', ...(model ? ['--model', model] : []), ...fallback]
