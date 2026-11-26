@@ -88,8 +88,12 @@ Cut first if short: voice requests, then Pushover, then GitHub Pages, then cross
 ## Live (Thu Nov 26)
 
 - Public: https://ft-family-b4zbc.sprites.app (Sprite URL public), repo https://github.com/exbald/family-three public with README, Telegram @familythreecrowd live (webhook set, rounds post with vote buttons). Vote limits use the address the Sprite proxy appends to X-Forwarded-For (3rd from the right); the first entry is spoofable.
-- Crowd family: thanksgiving-dinner-b468, at generation 4 after one vote and three autopilot picks overnight. A double-breed from overlapping autopilot checks was fixed (atomic close).
-- Left: 60-second video, posts tagging @flydotio, the submission form (Google Form fields drafted in chat), Z.ai key rotation.
+- Landing: rebuilt with impeccable as one real family read top to bottom (the Thanksgiving tree, its adoption with the merge commit and kit, then its open vote), then the other crowd families, what you take home, how it runs, install. PRODUCT.md, DESIGN.md and `.impeccable/surfaces/public-landing-js.md` hold the brief and contract. Finish review: ship.
+- Crowd families: Thanksgiving dinner (thanksgiving-dinner-2b58, gen 3; b468 archived), leftovers, Black Friday wishlist, gratitude wall, kids' table game. Autopilot picks after 2 h with no votes, at most twice in a row, then waits for a real vote.
+- Anyone can get a kid's design kit (one per kid, one at a time, one start per visitor per 10 min). Adopted repos are GitHub templates.
+- Deploys refuse to restart while kids are building (FORCE=1 overrides): a restart mid-brief is what emptied "Where my money leaks". Try again now re-writes lost briefs.
+- Film: `video/` (HyperFrames), rendered to `video/renders/family-three-hacksgiving-final.mp4` (64.5 s, -14.6 LUFS).
+- Left: posts tagging @flydotio (Nik posts), the submission form (Nik submits; answers drafted in chat), Z.ai key rotation.
 
 ## Status (Tue Nov 24, evening)
 
