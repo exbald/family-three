@@ -19,7 +19,7 @@ Apps you raise, not prompt. People can't describe the app they want, but they kn
 
 ## Operating Context
 - Runs on one Fly.io Sprite (`ft-family` in its own Fly org `family-three`, https://ft-family-b6ykp.sprites.app, public). Builders are headless Claude Code (GLM models via the Z.ai connector).
-- Crowd families: anyone votes on which kid breeds next, on the web (no account, one vote per round per browser) or with buttons in the public Telegram channel t.me/familythreecrowd. The first vote starts a 15-minute clock; the leader breeds by itself. With no votes the agent picks after 2 hours, at most twice in a row.
+- Crowd families: anyone votes on which kid breeds next, on the web (no account) or on Telegram (channel buttons or the Mini App): one vote per family each round, switchable until the clock runs out. The first vote starts a 15-minute clock; the leader breeds by itself. With no votes the agent picks after 2 hours, at most twice in a row.
 - Current crowd families (Nov 26): Thanksgiving dinner for 8 (3 generations, the showcase), Thanksgiving leftovers, Black Friday wishlist, a family gratitude wall, a kids'-table game.
 - The owner (Nik) raises private families, adopts, and makes kits; visitors look, vote and get kits.
 

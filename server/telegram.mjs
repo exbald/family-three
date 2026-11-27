@@ -68,7 +68,7 @@ function roundText(tree) {
     '',
     ...vote.options.filter((o) => o.kind === 'breed').map((o) => `${o.label} ${o.name}: ${config.publicUrl}/n/${o.key}/`),
     '',
-    `Vote for the one that breeds next. The first vote starts a ${config.roundMinutes}-minute clock; when it runs out, the leader breeds (or sooner, if one gets ${vote.threshold} votes and leads by 2).`,
+    `Vote for the one that breeds next. The first vote starts a ${config.roundMinutes}-minute clock; when it runs out, the leader breeds (or sooner, if one gets ${vote.threshold} votes and leads by 2). Changed your mind? Tap another kid to switch.`,
   ]
   return lines.join('\n')
 }
@@ -142,8 +142,9 @@ async function onCallback(q) {
   const option = tree?.vote?.options[Number(m[1])]
   if (!option) return answer('This round has moved on. Look for the newest post.')
   try {
-    await castVote({ fid: tree.id, option: option.key, voterKey: `tg:${q.from.id}`, ipHash: null })
-    return answer(`Counted: ${option.kind === 'cross' ? 'cross the top two' : `${option.label} ${option.name}`}`)
+    const res = await castVote({ fid: tree.id, option: option.key, voterKey: `tg:${q.from.id}`, ipHash: null })
+    const name = option.kind === 'cross' ? 'cross the top two' : `${option.label} ${option.name}`
+    return answer(res.switchedFrom ? `Switched to ${name}. You can switch until the clock runs out.` : `Counted: ${name}`)
   } catch (err) {
     return answer(err instanceof VoteError ? err.message : 'That did not work. Try again in a moment.')
   }

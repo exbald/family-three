@@ -12,7 +12,7 @@ const UNDER_THE_HOOD = [
   ['Three builders at once', 'Each kid is built by its own coding agent (Claude Code running GLM through the Z.ai connector) in its own folder, with its own brief from the agent. Headless Chrome opens every new app, and a builder gets one round to fix an error before anyone sees it.'],
   ['Keys stay off the Sprite', 'The model, GitHub and Telegram are reached through Sprites connectors, limited to Sprites named ft-. The Sprite never holds their keys. The one key it holds is for growing apps up, and Fly scopes it to Sprites named ft-app-.'],
   ['Grown-up apps move out', 'Grow it up gives an adopted app its own Sprite in Family Three\'s own Fly org. The agent adds a Node server and a SQLite database, tests a full round trip, moves the app in and checks it in a browser.'],
-  ['The crowd, counted by plain code', 'One vote per browser per round on the web, one per account on Telegram, in the channel or the Telegram app (Telegram signs who you are; the bot token never sits on the Sprite). The first vote starts a 15-minute clock and the leader breeds. With no votes the agent picks, at most twice in a row.'],
+  ['The crowd, counted by plain code', 'One vote per family each round: per browser on the web, per account on Telegram, in the channel or the Telegram app. You can switch until the clock runs out (Telegram signs who you are; the bot token never sits on the Sprite). The first vote starts a 15-minute clock and the leader breeds. With no votes the agent picks, at most twice in a row.'],
   ['New families on a clock', 'Every two hours the agent invents a new crowd family, different from the others and right for the season, and raises it. It stops at ten active crowd families and never starts one while kids are being built.'],
 ]
 
@@ -66,7 +66,7 @@ function voteSectionHtml({ tree, esc, telegram, nextGen }) {
     <section class="ln-row lp2-vote" id="vote" aria-labelledby="vote-title">
       <div class="ln-text">
         <h2 id="vote-title">Pick who breeds generation ${nextGen}</h2>
-        <p>Open the kids, then vote for one, or for crossing the top two. No account. The first vote starts a 15-minute clock; when it runs out, the leader breeds and three new apps are born a few minutes later.</p>
+        <p>Open the kids, then vote for one, or for crossing the top two. No account. You get one vote in every family each round, and you can switch until the clock runs out. The first vote starts a 15-minute clock; when it runs out, the leader breeds and three new apps are born a few minutes later.</p>
         ${tg ? `<p>Or do it all inside Telegram: open Family Three as a Telegram app to browse every family, try the apps and vote with your Telegram account, or tap the buttons in the channel, where every new generation is posted.</p><div class="lp-ctas"><a class="btn btn-ghost" href="https://t.me/FamilyThreeCrowdBot/app" target="_blank" rel="noopener">Open in Telegram</a><a class="btn btn-ghost" href="${esc(tg)}" target="_blank" rel="noopener">Open the channel</a></div>` : ''}
       </div>
       <div id="crowd-vote" class="lp2-vote-panel" data-family="${esc(tree.id)}"></div>

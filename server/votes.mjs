@@ -189,23 +189,31 @@ export async function castVote({ fid, option, voterKey, ipHash }) {
   if (vote.status !== 'open') throw new VoteError(409, 'Voting reopens when the kids are born.')
   if (!vote.options.some((o) => o.key === option)) throw new VoteError(400, 'That is not one of the options.')
   const now = Date.now()
-  if (ipHash && now - (lastByIp.get(ipHash) ?? 0) < IP_GAP_MS) throw new VoteError(429, 'One moment, then try again.')
-  if (ipHash) lastByIp.set(ipHash, now)
+  // A short pause between taps from one network, per family: voting in several families stays quick.
+  const gapKey = ipHash ? `${fid}:${ipHash}` : null
+  if (gapKey && now - (lastByIp.get(gapKey) ?? 0) < IP_GAP_MS) throw new VoteError(429, 'One moment, then try again.')
+  if (gapKey) lastByIp.set(gapKey, now)
+  if (lastByIp.size > 20000) lastByIp.clear()
 
+  let previous = null
   const result = await withLock(fid, async () => {
     const data = await readVoters(fid)
     const voters = data.round === vote.round ? data : { round: vote.round, voters: {}, ips: {} }
-    if (voters.voters[voterKey]) throw new VoteError(409, 'You already voted this round.')
-    if (ipHash && (voters.ips[ipHash] ?? 0) >= PER_IP) throw new VoteError(429, 'This network has used its votes for this round.')
+    previous = voters.voters[voterKey] ?? null
+    if (previous === option) return vote // the same vote again: nothing to change
+    // A first vote uses one of the network's votes; switching to another option doesn't.
+    if (!previous && ipHash && (voters.ips[ipHash] ?? 0) >= PER_IP) throw new VoteError(429, 'This network has used its votes for this round.')
     await writeVoters(fid, {
       round: vote.round,
       voters: { ...voters.voters, [voterKey]: option },
-      ips: ipHash ? { ...voters.ips, [ipHash]: (voters.ips[ipHash] ?? 0) + 1 } : voters.ips,
+      ips: ipHash && !previous ? { ...voters.ips, [ipHash]: (voters.ips[ipHash] ?? 0) + 1 } : voters.ips,
     })
     const updated = await updateTree(fid, (t) => {
       if (t.vote?.round !== vote.round || t.vote.status !== 'open') return t
       const closesAt = t.vote.closesAt ?? new Date(Date.now() + ROUND_MS()).toISOString()
-      return { ...t, vote: { ...t.vote, closesAt, counts: { ...t.vote.counts, [option]: (t.vote.counts[option] ?? 0) + 1 }, total: t.vote.total + 1 } }
+      const counts = { ...t.vote.counts, [option]: (t.vote.counts[option] ?? 0) + 1 }
+      if (previous) counts[previous] = Math.max(0, (counts[previous] ?? 0) - 1)
+      return { ...t, vote: { ...t.vote, closesAt, counts, total: previous ? t.vote.total : t.vote.total + 1 } }
     })
     return updated.vote
   })
@@ -213,7 +221,7 @@ export async function castVote({ fid, option, voterKey, ipHash }) {
   emitSafe('vote-counted', { fid })
   const winner = result.status === 'open' ? winnerOf(result) : null
   if (winner) await closeAndBreed(fid, winner)
-  return { counts: result.counts, total: result.total, threshold: result.threshold, myVote: option }
+  return { counts: result.counts, total: result.total, threshold: result.threshold, myVote: option, switchedFrom: previous && previous !== option ? previous : null }
 }
 
 // Owner override: close the round now and breed whoever leads (needs at least one vote).

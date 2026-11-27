@@ -276,7 +276,7 @@ async function refreshFamily() {
 }
 
 function visitorBanner() {
-  if (state.tree?.crowd) return `<p class="visitor-note crowd-note">This family is raised by whoever shows up. Vote for the kid that breeds next: no account, one vote per round. The winner breeds by itself.</p>`
+  if (state.tree?.crowd) return `<p class="visitor-note crowd-note">This family is raised by whoever shows up. Vote for the kid that breeds next: no account, one vote per family each round, and you can switch until the clock runs out. The winner breeds by itself.</p>`
   return owner ? '' : `<p class="visitor-note">You’re looking at someone’s family. Every app is live. <a href="/" data-link>Raise your own in one command ›</a></p>`
 }
 

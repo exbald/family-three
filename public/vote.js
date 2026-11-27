@@ -47,7 +47,7 @@ function ballotCard({ o, kid, n, pct, picked, open, mine, pair, thumb, esc }) {
   const shot = cross
     ? `<span class="vc-shot vc-pair">${pair.map((k) => `<span>${thumb(k)}</span>`).join('')}<i aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg></i></span>`
     : `<a class="vc-shot" href="/n/${esc(kid.id)}/" target="_blank" rel="noopener" aria-label="Open ${esc(o.label)} ${esc(o.name)} in a new tab">${thumb(kid)}<span class="vc-open">Open the app ↗</span></a>`
-  const label = picked ? 'Your vote' : cross ? 'Vote to cross' : `Vote for ${esc(o.name)}`
+  const label = picked ? 'Your vote' : mine ? (cross ? 'Switch to cross' : `Switch to ${esc(o.name)}`) : cross ? 'Vote to cross' : `Vote for ${esc(o.name)}`
   return `
     <div class="vc${picked ? ' mine' : ''}${cross ? ' cross' : ''}">
       ${shot}
@@ -58,7 +58,7 @@ function ballotCard({ o, kid, n, pct, picked, open, mine, pair, thumb, esc }) {
         <span class="vo-bar"><span style="width:${pct}%"></span></span>
         <div class="vc-foot">
           <span class="vc-count">${n} vote${n === 1 ? '' : 's'}</span>
-          <button class="btn ${cross ? 'btn-outline-x' : 'btn-lime'} vo-btn" type="button" data-vote="${esc(o.key)}" ${open && !mine ? '' : 'disabled'}>${label}</button>
+          <button class="btn ${cross ? 'btn-outline-x' : mine && !picked ? 'btn-ghost' : 'btn-lime'} vo-btn" type="button" data-vote="${esc(o.key)}" ${open && !picked ? '' : 'disabled'}>${label}</button>
         </div>
       </div>
     </div>`
@@ -100,7 +100,7 @@ export function voteHtml({ tree, esc, owner = false, compact = false }) {
             <span class="vo-count">${n} vote${n === 1 ? '' : 's'}${picked ? ' · yours' : ''}</span>
           </span>
           ${kid ? `<a class="vo-open" href="/n/${esc(kid.id)}/" target="_blank" rel="noopener" aria-label="Open ${esc(o.label)} ${esc(o.name)}">Open</a>` : ''}
-          <button class="btn ${o.kind === 'cross' ? 'btn-outline-x' : 'btn-lime'} vo-btn" type="button" data-vote="${esc(o.key)}" ${open && !mine ? '' : 'disabled'}>${picked ? 'Voted' : 'Vote'}</button>
+          <button class="btn ${o.kind === 'cross' ? 'btn-outline-x' : mine && !picked ? 'btn-ghost' : 'btn-lime'} vo-btn" type="button" data-vote="${esc(o.key)}" ${open && !picked ? '' : 'disabled'}>${picked ? 'Voted' : mine ? 'Switch' : 'Vote'}</button>
         </div>`
     })
     .join('')
@@ -112,7 +112,7 @@ export function voteHtml({ tree, esc, owner = false, compact = false }) {
       </div>
       <p class="vote-status">${esc(statusLine(vote))}</p>
       <div class="vote-options">${options}</div>
-      <p class="muted small vote-rule">${mine ? `Thanks. You voted for ${esc(mineName)} this round.` : 'No account needed. One vote per round.'}</p>
+      <p class="muted small vote-rule">${mine ? `Thanks. You voted for ${esc(mineName)} this round. Changed your mind? Switch until the clock runs out.` : 'No account needed. One vote per family each round, and you can switch until the clock runs out.'}</p>
       <p class="error vote-error" hidden></p>
       ${owner && vote ? `<div class="vote-owner">
         ${vote.status === 'open' && vote.total ? '<button class="btn btn-ghost" type="button" data-close-round>Breed the leader now</button>' : ''}
